@@ -1,0 +1,373 @@
+\section{Metrics}
+
+	\subsection{Low-Level Communication}
+
+		\begin{frame}[fragile]{Inter-Cluster Communication Interface}
+
+			\begin{itemize}
+				\item \textbf{Three communication abstractions}
+				\begin{itemize}
+					\item Sync
+					\item Mailbox
+					\item Portal
+				\end{itemize}
+				\item More precise
+				\item Easy-to-use
+				\item Scalable
+				\item Easily portable
+			\end{itemize}
+
+			% A Interface de Comunicação entre Clusters proposta provê 3 abstrações, sync, mailbox e portal.
+			% Essas abstrações buscam ser mais precisas, mais fáceis de usar, escalonáveis e facilmente portáveis.
+
+			% %%%%%% Sobre elas é possível desenvolver serviços mais complexos.
+		\end{frame}
+
+		% \pholder[Interrup System and DMA mediator]{MPPA-256 Hardware Resources}
+		\begin{frame}[fragile]{MPPA-256 Hardware Features}
+			\begin{itemize}
+				\item \textbf{Hardware independence} in resource identification
+				\begin{itemize}
+					\item NoC interfaces (Physical to Logical)
+					\item NoC resources (Partitioned by abstraction)
+				\end{itemize}
+			\end{itemize}
+
+			\begin{itemize}
+				\item Low-level communication depends on \textbf{two features}
+				\begin{itemize}
+					\item Interrupt System
+					\item DMA
+				\end{itemize}
+			\end{itemize}
+
+			\begin{itemize}
+				\item \textbf{Work limitations}
+				\begin{itemize}
+					\item Poor documentation and examples
+					\item Reverse engineering
+					\item Hardware bugs
+					\item \textbf{No asynchronous sends}
+				\end{itemize}
+			\end{itemize}
+
+			% A comunicação da HAL no MPPA-256 depende de duas características.
+			% O sistema de interrupções no qual é essencial para a configuração de interrupções provenientes da comunicação.
+			% Onde o mestre, ao ser notificado de uma interrupção, deve trata-la e identificar manualmente o recurso que a gerou.
+			% E a DMA, realiza o papel de mediador das comunicações. Entretanto, deviado a falta de documentação e exemplos, o uso da DMA é limitado a apenas realizar recebimento de forma assíncrona.
+		\end{frame}
+
+		% \pholder[Lazy transfer and Interface convention]{General Concepts of Comm. Abstrations}
+		\begin{frame}[fragile]{General Concepts of Comm. Abstrations}
+			\begin{itemize}
+				\item \textbf{Naming Convention} (suffixes)
+				\begin{itemize}
+					\item Sender: \texttt{open}/\texttt{close}/\texttt{awrite/signal}/\texttt{wait}.
+					\item Receiver: \texttt{create}/\texttt{unlink}/\texttt{aread}/\texttt{wait}
+				\end{itemize}
+			\end{itemize}
+
+			\begin{itemize}
+				\item Interfaces export \textbf{only asynchronous calls}
+				\item Master core \textbf{cannot be blocked}
+			\end{itemize}
+
+			\only<1>{
+				\addfig[][width=.9\linewidth]{lazy-transfer-1.pdf}
+				\vspace{-0.7cm}
+				\begin{center}
+					\textbf{Lazy transfer} behavior
+				\end{center}
+			}
+			\only<2>{
+				\addfig[][width=.9\linewidth]{lazy-transfer-2.pdf}
+				\vspace{-0.7cm}
+				\begin{center}
+					\textbf{Master} without sending permission \textbf{keeps the parameters}
+				\end{center}
+			}
+			\only<3>{
+				\addfig[][width=.9\linewidth]{lazy-transfer-3.pdf}
+				\vspace{-0.7cm}
+				\begin{center}
+					\textbf{Master sends data upon allow} and releases slave
+				\end{center}
+			}
+
+
+			% Como bloquear o mestre introduziria um grande problema de performance no nível do microkernel.
+			% Todas as interfaces exportam apenas operações assíncronas.
+			% Porém, deviado a limitação no uso da DMA, foi introduzido o conceito de envio preguiçoso.
+			% Onde caso o mestre não possua autorização para enviar os dados, ele guarda os parâmetros da operação nas estruturas do SO e continua atendendo requisitações.
+			% Ao ser notificado da permissão, ele transfere, de fato os dados.
+
+			% Outro ponto comum das abstrações, é a padronização dos papeis de emissor e receptor.
+			% Onde o emissor utiliza funções nomeados com open, close, entre outras.
+			% E o receptor utiliza create/unlink, etc.
+			% Apenas o wait é compartilhado.
+
+		\end{frame}
+
+		% \pholder[Concept]{Sync Abstration Concept}
+		\begin{frame}[fragile]{Sync Abstration}
+			\begin{overprint}
+			\only<1>{
+				\begin{itemize}
+					\item Provides cluster synchronization across \textbf{distributed barriers}
+					\item Similarly to \textbf{POSIX Signals}
+					\item Two modes
+					\begin{itemize}
+						\item \textbf{ALL\_TO\_ONE}
+						\item ONE\_TO\_ALL
+					\end{itemize}
+				\end{itemize}
+				\addfig[][width=.6\linewidth]{sync-all-to-one.pdf}
+			}
+			\only<2>{
+				\begin{itemize}
+					\item Provides cluster synchronization across \textbf{distributed barriers}
+					\item Similarly to \textbf{POSIX Signals}
+					\item Two modes
+					\begin{itemize}
+						\item ALL\_TO\_ONE
+						\item \textbf{ONE\_TO\_ALL}
+					\end{itemize}
+				\end{itemize}
+				\addfig[][width=.6\linewidth]{sync-one-to-all.pdf}
+			}
+		\end{overprint}
+
+			% A abstração de sincronização provê a criação de barreiras distribuídas.
+			% Ela é analoga a POSIX Signals e possui dois modos de operação.
+			% O primeiro, ALL_TO_ONE, define que o mestre da operação deve aguardar N notificações de N escravos.
+			% De forma contrária, ONE_TO_ALL, é o mestre que emite N notificações, liberando cada um dos escravos.
+		\end{frame}
+
+		% \pholder[Implementation]{Sync Abstration Implementation}
+		\begin{frame}[fragile]{Sync Abstration Implementation}
+			\begin{itemize}
+				\item Uses only \textbf{C-NoC} Resources
+				\item \textbf{Node list} of involved Logic IDs
+				\item Master node must always be the first
+				\item RX resources \textbf{related to the Master ID}
+			\end{itemize}
+
+			% \addfig[][width=.6\linewidth]{sync-all-to-one.pdf}
+
+			% Os parametros para criar ou abrir um sync são os mesmos para ambos os papéis.
+			% No qual a lista de nós envolvidos deve sempre conter o mestre da operação na primeira posição.
+			% Na DMA, é alocado o recurso associado ao identificador do mestre e configurado com os nós da lista.
+		\end{frame}
+
+		% \pholder[Concept]{Mailbox Abstration Concept}
+		\begin{frame}[fragile]{Mailbox Abstration}
+			\begin{itemize}
+				\item Allows exchange \textbf{fixed-length message}
+				\item Similarly to \textbf{POSIX Message Queue}
+				\item Receiver allocates space to N messages
+				\item Sender transfer to predefined location
+			\end{itemize}
+
+			\addfig[][width=.4\linewidth]{mailbox-concept.pdf}		
+	
+			% A mailbox permite que clusters troquem mensagens de tamanho fixo.
+			% Ela é similar ao POSIX Message Queue, onde o receptor aloca espaço suficiente para receber N mensagens.
+			% Já os emissores, sempre transferem para uma localização pré-determinada.
+		\end{frame}
+
+		% \pholder[Implementation]{Mailbox Abstration Implementation}
+		\begin{frame}[fragile]{Mailbox Abstration Implementation}
+			\begin{itemize}
+				\item Merges the use of \textbf{D-NoC and C-NoC}
+				\item Message queue allocated within the kernel space
+				\item \textbf{Quality of Service}
+				\begin{itemize}
+					\item \textbf{One message} per NoC Node
+				\end{itemize}
+				% \item Parameters required
+				% \begin{itemize}
+				% 	\item \textit{Create}: Local ID
+				% 	\item \textit{Open}: Target ID
+				% 	\item \textit{Read/Write}: Pointer and size of the buffer
+				% \end{itemize}
+			\end{itemize}
+
+			\addfig[][width=.65\linewidth]{mailbox-flow.pdf}
+
+			% A fila de mensagens é alocada dentro do kernel para que o usuário não precise configurar um buffer previamente.
+			% A mailbox também provê um controle de fluxo, permitindo que cada nós só envie uma mensagem de cada vez.
+			
+			% Os parâmetros necessário envolvem identificar a interface da qual desejam ler ou enviar dados.
+			% %%%%%A leitura e envio ocorrem através da passagem do buffer contendo a mensagem.
+		\end{frame}
+
+		% \pholder[Concept]{Portal Abstration Concept}
+		\begin{frame}[fragile]{Portal Abstration}
+			\begin{itemize}
+				\item Allows exchange \textbf{arbitrary amounts of data} % between two nodes
+				\item Similarly to \textbf{POSIX Pipes}
+				\item \textbf{One-way} channel for data transfer
+			\end{itemize}
+
+			\addfig[][width=.4\linewidth]{portal-concept.pdf}
+
+			% O portal permite a troca de quantidade arbitrárias de dados entre 2 nós.
+			% Similar ao POSIX pipes, a comunicação é unidirecional, ou seja, apenas um envia e o outro lê.
+		\end{frame}
+
+		% \pholder[Implementation]{Portal Abstration Implementation}
+		\begin{frame}[fragile]{Portal Abstration Implementation}
+			\begin{itemize}
+				\item Merges the use of \textbf{D-NoC and C-NoC}
+				\item No intermediate copies
+				\item \textbf{Quality of Service}
+				\begin{itemize}
+					\item \textit{Receiver notifies sender} that it is able to receive
+				\end{itemize}
+				% \item Parameters required
+				% \begin{itemize}
+				% 	\item \textit{Create}: Local ID, \textit{Allow}: Target ID
+				% 	\item \textit{Open}: Local and target ID
+				% 	\item \textit{Read/Write}: Pointer and size of the buffer
+				% \end{itemize}
+			\end{itemize}
+
+			\addfig[][width=.65\linewidth]{portal-flow.pdf}
+
+			% A configuração das comunicações do portal não necessitam de copias intermediárias.
+			% Ou seja, os dados são lidas/escritos diretamente da memória do usuário.
+			% Isto é possível por causa do controle de fluxo do portal.
+			% O qual o receptor precisa notificar o emissor que está apto a receber os dados.
+			% Os parâmetros são similares aos visto no mailbox, com diferença da função Allow da interface do receptor.
+		\end{frame}
+
+	\subsection{User-Level Communication}
+
+		\begin{frame}[fragile]{Integration with Nanvix Microkernel}
+
+			\begin{itemize}
+				\item \textbf{Rich resource management} is forwarded to the microkernel
+			\end{itemize}
+
+			\begin{itemize}
+				\item Nanvix Microkernel seek \textbf{to provide}:
+				\begin{itemize}
+					\item Protection
+					\item Management
+					\item Multiplexing
+				\end{itemize}
+			\end{itemize}
+
+			\begin{itemize}
+				\item \textbf{Impacts of the Master-Slave OS Model}
+				\begin{itemize}
+					\item Only master changes the internal structures of the OS
+					\item Slaves allowed to read lock addresses to wait for async calls
+				\end{itemize}
+			\end{itemize}
+
+			% Agora, como a HAL não exporta um gerenciamento rico das abstrações de comunicação.
+			% É responsabilidade do microkernel prover a proteção, gerenciamento e manipulação desses recursos.
+		\end{frame}
+
+		% % \pholder{Impacts of the Master-Slave Model}
+		% \begin{frame}[fragile]{}
+			
+
+		% 	% Devido ao modelo Mestre-Escravo, apenas o núcleo mestre manipula as estruturas das abstrações.
+		% 	% Existe apenas uma excessão, que é o bloqueio do núcleo escravo.
+		% 	% Para não exportar os endereços dos locks internos do kernel, é permitido que o escravo apenas consulte as estruturas para que possam aguardar a conlusão das operações.
+		% 	% As chamadas de sistema exportadas seguem o seguinte padrão.
+		% 	% Chamadas com kernel_ na frente sempre são executadas pelo mestre, com excessão do wait.
+		% 	% E chamadas com kabstração sempre ocorrem do lado do escravo.
+		% \end{frame}
+
+		% \pholder[Protection and Management, Multiplexing, Validation and Correctness Tests]{Details}
+		\begin{frame}[fragile]{Microkernel}{Protection, Management and Multiplexing}
+			\begin{itemize}
+				\item \textbf{Protection} and \textbf{management} involve two phases
+				\begin{itemize}
+					\item \textbf{Slave phase}
+					\begin{itemize}
+						\item valid file descriptors
+						\item non-null buffer pointers
+						\item buffer sizes within the stipulated limit
+					\end{itemize}
+					\item \textbf{Master phase}
+					\begin{itemize}
+						\item conflicting operations
+						\item measures communication parameters
+						\item interacts with Nanvix HAL detecting errors
+					\end{itemize}
+				\end{itemize}
+			\end{itemize}
+
+			\begin{itemize}
+				\item \textbf{Multiplexing}
+				\begin{itemize}
+					\item Identifies creations/openings with \textbf{same arguments}
+					\item Structures keep a \textbf{reference counter}
+					\item Operations of read/write set resources \textbf{to busy}
+					\item Forces \textbf{serialization} of the operations
+				\end{itemize}
+			\end{itemize}
+
+			% As operações de proteção e gerênciamento ocorrem em duas fases.
+			% A fase do lado do escravo busca identificar erros o mais cedo possível nos argumentos das operações.
+			% Com isso, não perturbamos o mestre com operações falhas.
+			% A fase do mestre também envolve a verificação da corretude das operações e da manipulação dos recursos da HAL.
+		\end{frame}
+
+		% \begin{frame}[fragile]{Multiplexing}
+		% 	\begin{itemize}
+		% 		\item Identifies creations/openings with \textbf{same arguments}
+		% 		\item Structures keep a \textbf{reference counter}
+		% 		\item Operations of read/write set resources \textbf{to busy}
+		% 		\item Forces \textbf{serialization} of the operations
+		% 	\end{itemize}
+
+		% 	% A princípio, a multiplexação implementada foi bem simples.
+		% 	% O mestre apenas identifica aberturas de abstrações que possuem os mesmos argumentos, guardando um contador de referências.
+		% 	% Quando uma operação complexa ocorre, por exemplo uma leitura, o recurso é marcado como ocupado.
+		% 	% Isso força uma serialização das multiplexações das abstrações.
+		% \end{frame}
+
+		\begin{frame}[fragile]{Validation and Correctness Tests}
+
+			\begin{itemize}
+				\item Extra effort in \textbf{ensuring semantics} of implementations \textbf{across multiple architectures}
+			\end{itemize}
+
+			\begin{itemize}
+				\item \textbf{API tests}
+				\begin{itemize}
+					\item Arguments within valid value ranges
+					\item Operations with valid semantic
+				\end{itemize}
+			\end{itemize}
+
+			\begin{itemize}
+				\item \textbf{FAULT tests}
+				\begin{itemize}
+					\item Arguments outside domain range
+					\item Operations with invalid semantic
+					\item Expected error value
+				\end{itemize}
+			\end{itemize}
+
+			% Por fim, a validação e corretude da implementação foi avaliada através de dois conjuntos de testes unitários.
+			% O primeiro, realiza as operações ideais, com argumentos e semânticas válidas.
+			% O segundo, utiliza parametros invalidos, mescla operações conflitantes e confere valores esperados de erro.
+		\end{frame}
+
+% LocalWords:  template cls standalone GitHub Overleaf bugfixes SVGs
+% LocalWords:  Re-empacotamento fontsize Makefile pdflatex imgs PDFs
+% LocalWords:  shell-escape frames SVG brazil english lapesd-slides
+% LocalWords:  disabletodonotes todonotes TODO's backup showbackup
+% LocalWords:  hidebackup abntexcite abntex natbib nobib titleframe
+% LocalWords:  frame showsections sidebar stopcountingframes default
+% LocalWords:  thanksframe Thank You Questions referencesframe titulo
+% LocalWords:  bibfiles pholder todonote placeholder inline addfig
+% LocalWords:  opts graphicx addfiglw width Citations dijkstra Direct
+% LocalWords:  Closure Parallel dynamic scheduling DoImportantStuff
+% LocalWords:  lccp merged cell svg pdf

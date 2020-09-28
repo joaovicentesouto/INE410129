@@ -1,0 +1,72 @@
+% Ao menos uma linguagem (brazil ou english) deveria sempre ser fornecida
+\documentclass[english]{lapesd-slides}
+
+\usepackage{pgfgantt}
+\usepackage{subfigure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Metadados
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title[Process Migration for Lightweight Manycore Processors in a Distributed
+Operating System]{
+	Process Migration for LW Processors in a Distributed OS
+}
+% \subtitle{}
+\author[J. V. Souto]{
+	\large João Vicente Souto\\
+	{\small \texttt{joao.vicente.souto@posgrad.ufsc.br}}
+}
+
+\institute{
+	\fontsize{10.5}{12.6}\selectfont 
+	Parallel Computing - Computer Science\\
+	INE/UFSC, Florianópolis\\
+}
+
+\date{\today}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Slides
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\titleframe
+
+% Você não é obrigado a colocar um sumário!
+\begin{frame}{Presentation Outline}
+  \tableofcontents
+\end{frame}
+
+% Desse ponto em diante serão inseridos slides de pausa a cada \section
+\showsections
+
+\input{steps/0-introduction.tex}
+\input{steps/1-virtualization.tex}
+\input{steps/2-migration.tex}
+\input{steps/3-metrics.tex}
+\input{steps/4-lws.tex}
+\input{steps/5-motivation.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Finalização
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\thanksframe
+
+\referencesframe{references}
+
+\end{document}
+
+% LocalWords:  template cls standalone GitHub Overleaf bugfixes SVGs
+% LocalWords:  Re-empacotamento fontsize Makefile pdflatex imgs PDFs
+% LocalWords:  shell-escape frames SVG brazil english lapesd-slides
+% LocalWords:  disabletodonotes todonotes TODO's backup showbackup
+% LocalWords:  hidebackup abntexcite abntex natbib nobib titleframe
+% LocalWords:  frame showsections sidebar stopcountingframes default
+% LocalWords:  thanksframe Thank You Questions referencesframe titulo
+% LocalWords:  bibfiles pholder todonote placeholder inline addfig
+% LocalWords:  opts graphicx addfiglw width Citations dijkstra Direct
+% LocalWords:  Closure Parallel dynamic scheduling DoImportantStuff
+% LocalWords:  lccp merged cell svg pdf
