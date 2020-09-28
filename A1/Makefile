@@ -16,7 +16,7 @@ GNUPLOT=gnuplot
 
 srcs=$(wildcard *.tex) $(wildcard *.bib)
 svgs=$(wildcard imgs/svgs/*.svg)
-frames=$(foreach k,1 2 3 4 5,imgs/processor-trend-$k.pdf) $(foreach k,1 2 3,imgs/lazy-transfer-$k.pdf)
+frames=$(foreach k,1 2 3 4 5,imgs/processor-trend-$k.pdf) $(foreach k,1 2 3,imgs/lazy-transfer-$k.pdf) $(foreach k,1 2 3 4 5,imgs/pre-copy-$k.pdf) $(foreach k,1 2 3 4,imgs/post-copy-$k.pdf)
 pdfs=$(svgs:.svg=.pdf) 
 others=$(wildcard imgs/others/*.pdf) $(wildcard imgs/others/*.jpg) $(wildcard imgs/others/*.png)
 
@@ -88,6 +88,27 @@ imgs/lazy-transfer-2.pdf: imgs/svgs/lazy-transfer.svg
 	$(call svg2pdf,imgs/svgs/lazy-transfer,gSlide2,imgs/lazy-transfer-2)
 imgs/lazy-transfer-3.pdf: imgs/svgs/lazy-transfer.svg
 	$(call svg2pdf,imgs/svgs/lazy-transfer,gSlide3,imgs/lazy-transfer-3)
+
+imgs/pre-copy-1.pdf: imgs/svgs/pre-copy.svg
+	$(call svg2pdf,imgs/svgs/pre-copy,gSlide1,imgs/pre-copy-1)
+imgs/pre-copy-2.pdf: imgs/svgs/pre-copy.svg
+	$(call svg2pdf,imgs/svgs/pre-copy,gSlide2,imgs/pre-copy-2)
+imgs/pre-copy-3.pdf: imgs/svgs/pre-copy.svg
+	$(call svg2pdf,imgs/svgs/pre-copy,gSlide3,imgs/pre-copy-3)
+imgs/pre-copy-4.pdf: imgs/svgs/pre-copy.svg
+	$(call svg2pdf,imgs/svgs/pre-copy,gSlide4,imgs/pre-copy-4)
+imgs/pre-copy-5.pdf: imgs/svgs/pre-copy.svg
+	$(call svg2pdf,imgs/svgs/pre-copy,gSlide5,imgs/pre-copy-5)
+
+imgs/post-copy-1.pdf: imgs/svgs/post-copy.svg
+	$(call svg2pdf,imgs/svgs/post-copy,gSlide1,imgs/post-copy-1)
+imgs/post-copy-2.pdf: imgs/svgs/post-copy.svg
+	$(call svg2pdf,imgs/svgs/post-copy,gSlide2,imgs/post-copy-2)
+imgs/post-copy-3.pdf: imgs/svgs/post-copy.svg
+	$(call svg2pdf,imgs/svgs/post-copy,gSlide3,imgs/post-copy-3)
+imgs/post-copy-4.pdf: imgs/svgs/post-copy.svg
+	$(call svg2pdf,imgs/svgs/post-copy,gSlide4,imgs/post-copy-4)
+
 
 ###################################################
 # main targets                                    #

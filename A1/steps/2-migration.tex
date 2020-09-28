@@ -16,7 +16,7 @@
 				\item Migration techniques 
 				\begin{itemize}
 					\setlength \itemsep{0.3em}
-					\item Stop-and-Sopy
+					\item Stop-and-Copy
 					\item \textit{Pre-Copy}
 					\item \textit{Post-Copy}
 					\item Hybrid 
@@ -29,9 +29,9 @@
 				\item Generally, there are three stages of memory transfer:
 				\begin{itemize}
 					\setlength \itemsep{0.3em}
-					\item Push copy (iteration copy) stage
-					\item Stop-and-copy stage
-					\item Pull copy (On-demand copy) stage
+					\item Push Copy (iteration copy) stage
+					\item Stop-and-Copy stage
+					\item Pull Copy (On-demand copy) stage
 				\end{itemize}
 
 			\item \textbf{Migration techniques}:
@@ -49,15 +49,102 @@
 
 	\subsection{Pre-Copy Migration}
 
-		\begin{frame}[fragile]{Pre-Copy Migration}
-			\addfig[][width=.9\linewidth]{lazy-transfer-1.pdf}
-		\end{frame}
+	\begin{frame}[t]{Pre-Copy Migration}
+		\begin{overprint}
+			\only<1>{
+				\vspace{1cm}
+				\addfig[][width=1\linewidth]{pre-copy-1.pdf}
+				\begin{center}
+					\textbf{Pre-Copy} Scenario
+
+					\textcolor{white}{dummy}
+
+					\textcolor{white}{dummy}
+				\end{center}
+			}
+			\only<2>{
+				\vspace{1cm}
+				\addfig[][width=1\linewidth]{pre-copy-2.pdf}
+				\begin{center}
+					Resource reservation and \textbf{transfer preparation}
+
+					\textcolor{white}{dummy}
+				\end{center}
+			}
+			\only<3>{
+				\vspace{1cm}
+				\addfig[][width=1\linewidth]{pre-copy-3.pdf}
+				\begin{center}
+					\textbf{Sending the memory pages} before the execution context
+
+					\textcolor{white}{dummy}
+
+					\textbf{Push Copy Stage}
+				\end{center}
+			}
+			\only<4>{
+				\vspace{1cm}
+				\addfig[][width=1\linewidth]{pre-copy-4.pdf}
+				\begin{center}
+					When enough memory has been transferred, send the execution context
+
+					\textbf{Stop-and-Copy Stage}
+				\end{center}
+			}
+			\only<5>{
+				\vspace{1cm}
+				\addfig[][width=1\linewidth]{pre-copy-5.pdf}
+				\begin{center}
+					\textbf{Resume stopped execution context} in the destination
+
+					\textcolor{white}{dummy}
+
+					\textcolor{white}{dummy}
+				\end{center}
+			}
+		\end{overprint}
+
+	\end{frame}
 
 	\subsection{Post-Copy Migration}
 
-		\begin{frame}[fragile]{Post-Copy Migration}
-			\addfig[][width=.9\linewidth]{lazy-transfer-1.pdf}
-		\end{frame}
+	\begin{frame}[t]{Post-Copy Migration}
+		\begin{overprint}
+			\only<1>{
+				\addfig[][width=.9\linewidth]{post-copy-1.pdf}
+				\begin{center}
+					\textbf{Post-Copy} Scenario
+				\end{center}
+			}
+			\only<2>{
+				\addfig[][width=.9\linewidth]{post-copy-2.pdf}
+				\begin{center}
+					\textbf{Sends execution context before memory pages}
+
+					\textcolor{white}{dummy}
+
+					\textbf{Stop-and-Copy Stage}
+				\end{center}
+			}
+			\only<3>{
+				\addfig[][width=.9\linewidth]{post-copy-3.pdf}
+				\begin{center}
+					Merges \textbf{pull rest of memory pages} and any page that
+					generate \textbf{page faults}
+
+					\textbf{Pull Copy Stage}
+				\end{center}
+			}
+			\only<4>{
+				\addfig[][width=.9\linewidth]{post-copy-4.pdf}
+				\begin{center}
+					Continues to run normally
+				\end{center}
+			}
+		\end{overprint}
+
+	\end{frame}
+
 
 % LocalWords:  template cls standalone GitHub Overleaf bugfixes SVGs
 % LocalWords:  Re-empacotamento fontsize Makefile pdflatex imgs PDFs
