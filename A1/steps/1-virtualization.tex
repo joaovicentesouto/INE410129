@@ -1,5 +1,186 @@
 \section{Virtualization}
 
+	\begin{frame}[fragile]{Virtualization}
+
+		\only<1>{
+			\begin{itemize}
+				\setlength \itemsep{0.7em}
+				\item Create a \textbf{Virtual Version} of Computing Resources
+				\begin{itemize}
+					\setlength \itemsep{0.3em}
+					\item CPU
+					\item Memory
+					\item Storage device
+					\item Network device
+				\end{itemize}
+
+				\item Features
+				\begin{itemize}
+					\setlength \itemsep{0.3em}
+					\item Improved previous features 
+					\item Power management 
+					\item Isolation 
+					\item Security 
+				\end{itemize}
+
+				\item Two types
+				\begin{itemize}
+					\setlength \itemsep{0.3em}
+					\item Virtual Machines (VM) 
+					\item Containers 
+				\end{itemize}
+			\end{itemize}
+		}
+		\only<2>{
+			\begin{itemize}
+				\setlength \itemsep{0.7em}
+				\item Create a Virtual Version of Computing Resources
+				\begin{itemize}
+					\setlength \itemsep{0.3em}
+					\item CPU
+					\item Memory
+					\item Storage device
+					\item Network device
+				\end{itemize}
+
+				\item \textbf{Features}
+				\begin{itemize}
+					\setlength \itemsep{0.3em}
+					\item Improved previous features 
+					\item Power management 
+					\item Isolation 
+					\item Security 
+				\end{itemize}
+
+				\item Two types
+				\begin{itemize}
+					\setlength \itemsep{0.3em}
+					\item Virtual Machines (VM) 
+					\item Containers 
+				\end{itemize}
+			\end{itemize}
+		}
+		\only<3>{
+			\begin{itemize}
+				\setlength \itemsep{0.7em}
+				\item Create a Virtual Version of Computing Resources
+				\begin{itemize}
+					\setlength \itemsep{0.3em}
+					\item CPU
+					\item Memory
+					\item Storage device
+					\item Network device
+				\end{itemize}
+
+				\item Features
+				\begin{itemize}
+					\setlength \itemsep{0.3em}
+					\item Improved previous features 
+					\item Power management 
+					\item Isolation 
+					\item Security 
+				\end{itemize}
+
+				\item \textbf{Two types}
+				\begin{itemize}
+					\setlength \itemsep{0.3em}
+					\item Virtual Machines (VM) 
+					\item Containers 
+				\end{itemize}
+			\end{itemize}
+		}
+	\end{frame}
+
+	\begin{frame}[fragile]{Virtual Machines (VM)}
+
+		\begin{itemize}
+			\setlength \itemsep{0.7em}
+			\item Encapsulates a whole operating system
+			\item Depends on a Hypervisor to provide the hardware resources
+			\begin{itemize}
+				\setlength \itemsep{0.3em}
+				\item Full virtualization 
+				\item Paravirtualization 
+			\end{itemize}
+		\end{itemize}
+
+		\addfig[][width=.9\linewidth]{lazy-transfer-1.pdf}
+	\end{frame}
+
+	\begin{frame}[fragile]{Migration of VMs}
+
+		\only<1>{
+			\begin{itemize}
+				\setlength \itemsep{0.7em}
+				\item \textbf{Memory content}
+				\begin{itemize}
+					\setlength \itemsep{0.3em}
+					\item Hypervisor allocate memory 
+					\item Guest OS  allocate memory 
+					\item Application requested memory 
+				\end{itemize}
+				\item Disk content
+				\begin{itemize}
+					\setlength \itemsep{0.3em}
+					\item Hypervisor allocate blocks 
+					\item Guest OS and Application used blocks
+				\end{itemize}
+			\end{itemize}
+		}
+		\only<2>{
+			\begin{itemize}
+				\setlength \itemsep{0.7em}
+				\item \textbf{Memory content}
+				\begin{itemize}
+					\setlength \itemsep{0.3em}
+					\item Hypervisor allocate memory 
+					\item Guest OS  allocate memory 
+					\item Application requested memory 
+				\end{itemize}
+				\item Disk content
+				\begin{itemize}
+					\setlength \itemsep{0.3em}
+					\item Hypervisor allocate blocks 
+					\item Guest OS and Application used blocks
+				\end{itemize}
+			\end{itemize}
+		}
+
+	\end{frame}
+
+	\begin{frame}[fragile]{Containers}
+
+		\begin{itemize}
+			\setlength \itemsep{0.7em}
+			\item OS-level virtualization
+			\item Multiple isolated user space instances (Shared OS)
+			\item Lightweight compared to VMs
+			\begin{itemize}
+				\setlength \itemsep{0.3em}
+				\item Linux Containers 
+				\item Docker 
+			\end{itemize}
+			\item Example: Use \textit{cgroups} and \textit{chroot} to isolate
+a group of process and restrict their resource access.
+		\end{itemize}
+
+		\addfig[][width=.9\linewidth]{lazy-transfer-1.pdf}
+	\end{frame}
+
+	\begin{frame}[fragile]{Migration of Containers}
+
+		\begin{itemize}
+			\setlength \itemsep{0.7em}
+			\item Transfer the file system of the container
+			\item Save the state of the container into a file (all processes
+and their resources)
+			\item Transfer the container file
+			\item Restart the container
+		\end{itemize}
+
+		\addfig[][width=.9\linewidth]{lazy-transfer-1.pdf}
+	\end{frame}
+
 % LocalWords:  template cls standalone GitHub Overleaf bugfixes SVGs
 % LocalWords:  Re-empacotamento fontsize Makefile pdflatex imgs PDFs
 % LocalWords:  shell-escape frames SVG brazil english lapesd-slides

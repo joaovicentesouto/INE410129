@@ -3,28 +3,106 @@
 \section{Introduction}
 
 	\begin{frame}[fragile]{Process Migration}
-		\begin{itemize}
-			\item \textbf{Work context}
+
+		\only<1>{
 			\begin{itemize}
-				\setlength \itemsep{0.3em}
+				\setlength \itemsep{0.7em}
+				\item Arising of \textbf{distributed systems}
+				\item Solutions established:
+				\begin{itemize}
+					\setlength \itemsep{0.3em}
+					\item MOSIX (1985) 
+					\item V (1988) 
+					\item OSF/1 AD TNC (1995) 
+				\end{itemize}
+				\item Transferring a process between machines
+				\item Proposed for:
+				\begin{itemize}
+					\setlength \itemsep{0.3em}
+					\item Load balancing 
+					\item Fault tolerance 
+					\item System administration
+					\item Data access locality
+				\end{itemize}
 
-				\item Challenges arising from \textbf{runtimes} and \textbf{OSs}
-				\item OSs for \textbf{next-generation} for lightweight manycores
-				\item \textbf{Nanvix OS}
 			\end{itemize}
-		\end{itemize}
-
-		\begin{itemize}
-			\item \textbf{Goals}
+		}
+		\only<2>{
 			\begin{itemize}
-				\setlength \itemsep{0.3em}
+				\setlength \itemsep{0.7em}
+				\item Arising of distributed systems
+				\item Solutions established:
+				\begin{itemize}
+					\setlength \itemsep{0.3em}
+					\item MOSIX (1985) 
+					\item V (1988) 
+					\item OSF/1 AD TNC (1995) 
+				\end{itemize}
+			\item \textbf{Transferring a process between machines}
+				\item Proposed for:
+				\begin{itemize}
+					\setlength \itemsep{0.3em}
+					\item Dynamic load distribution 
+					\item Fault resilience
+					\item Improved system administration
+					\item Data access locality
+				\end{itemize}
 
-				\item Definition and proposal of an \textbf{Inter-Cluster Communication Interface} for lightweight manycores
-				\item Implementation in the \textbf{Nanvix HAL} on Kalray MPPA-256 Lightweight Manycore Processor
-				\item Integration with the \textbf{Nanvix Microkernel}
-				\item Performance evaluation using synthetic micro-benchmarks with \textbf{collective communication routines}
 			\end{itemize}
-		\end{itemize}
+		}
+	\end{frame}
+
+	\begin{frame}[fragile]{Process Migration}
+
+		\only<1>{
+			\begin{itemize}
+				\setlength \itemsep{0.7em}
+				\item Despite the research efforts, \textbf{migration has not achieved widespread use}
+				\item Treating residual dependency is a difficult task:
+				\begin{itemize}
+					\setlength \itemsep{0.3em}
+					\item Opened files stored in the source node
+					\item Opened communicators with other processes
+					\item Shared resources
+					\item Internal kernel state.
+				\end{itemize}
+
+				\item Solution: Virtualization
+			\end{itemize}
+		}
+		\only<2>{
+			\begin{itemize}
+				\setlength \itemsep{0.7em}
+				\item Despite the research efforts, migration has not achieved widespread use
+
+				\item \textbf{Treating residual dependency is a difficult task}:
+				\begin{itemize}
+					\setlength \itemsep{0.3em}
+					\item Opened files stored in the source node
+					\item Opened communicators with other processes
+					\item Shared resources
+					\item Internal kernel state.
+				\end{itemize}
+
+				\item Solution: Virtualization
+			\end{itemize}
+		}
+		\only<3>{
+			\begin{itemize}
+				\setlength \itemsep{0.7em}
+				\item Despite the research efforts, migration has not achieved widespread use
+				\item Treating residual dependency is a difficult task:
+				\begin{itemize}
+					\setlength \itemsep{0.3em}
+					\item Opened files stored in the source node
+					\item Opened communicators with other processes
+					\item Shared resources
+					\item Internal kernel state.
+				\end{itemize}
+
+				\item Solution: \textbf{Virtualization}
+			\end{itemize}
+		}
 
 	\end{frame}
 
