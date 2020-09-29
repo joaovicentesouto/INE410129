@@ -1,3 +1,81 @@
+@article{dejan:process-migration,
+	author = {Miloji\v{c}i\'{c}, Dejan S. and Douglis, Fred and Paindaveine, Yves and Wheeler, Richard and Zhou, Songnian},
+	title = {Process Migration},
+	year = {2000},
+	issue_date = {Sept. 2000},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	volume = {32},
+	number = {3},
+	issn = {0360-0300},
+	url = {https://doi.org/10.1145/367701.367728},
+	doi = {10.1145/367701.367728},
+	abstract = {Process migration is the act of transferring a process between two machines. It enables dynamic load distribution, fault resilience, eased system administration, and data access locality. Despite these goals and ongoing research efforts, migration has not achieved widespread use. With the increasing deployment of distributed systems in general, and distributed operating systems in particular, process migration is again receiving more attention in both research and product development. As high-performance facilities shift from supercomputers to networks of workstations, and with the ever-increasing role of the World Wide Web, we expect migration to play a more important role and eventually to be widely adopted.This survey reviews the field of process migration by summarizing the key concepts and giving an overview of the most important implementations. Design and implementation issues of process migration are analyzed in general, and then revisited for each of the case studies described: MOSIX, Sprite, Mach, and Load Sharing Facility. The benefits and drawbacks of process migration depend on the details of implementation and, therefore, this paper focuses on practical matters. This survey will help in understanding the potentials of process migration and why it has not caught on.},
+	journal = {ACM Comput. Surv.},
+	month = sep,
+	pages = {241–299},
+	numpages = {59},
+	keywords = {distributed operating systems, process migration, load distribution, distributed systems}
+}
+
+@inproceedings{clark:vm-live-migration,
+	author = {Clark, Christopher and Fraser, Keir and Hand, Steven and Hansen, Jacob Gorm and Jul, Eric and Limpach, Christian and Pratt, Ian and Warfield, Andrew},
+	title = {Live Migration of Virtual Machines},
+	year = {2005},
+	publisher = {USENIX Association},
+	address = {USA},
+	abstract = {Migrating operating system instances across distinct physical hosts is a useful tool for administrators of data centers and clusters: It allows a clean separation between hard-ware and software, and facilitates fault management, load balancing, and low-level system maintenance.By carrying out the majority of migration while OSes continue to run, we achieve impressive performance with minimal service downtimes; we demonstrate the migration of entire OS instances on a commodity cluster, recording service downtimes as low as 60ms. We show that that our performance is sufficient to make live migration a practical tool even for servers running interactive loads.In this paper we consider the design options for migrating OSes running services with liveness constraints, focusing on data center and cluster environments. We introduce and analyze the concept of writable working set, and present the design, implementation and evaluation of high-performance OS migration built on top of the Xen VMM.},
+	booktitle = {Proceedings of the 2nd Conference on Symposium on Networked Systems Design &amp; Implementation - Volume 2},
+	pages = {273–286},
+	numpages = {14},
+	series = {NSDI'05}
+}
+
+@article{choudhary:vm-survey-migration,
+	abstract = {Virtualization techniques effectively handle the growing demand for computing, storage, and communication resources in large-scale Cloud Data Centers (CDC). It helps to achieve different resource management objectives like load balancing, online system maintenance, proactive fault tolerance, power management, and resource sharing through Virtual Machine (VM) migration. VM migration is a resource-intensive procedure as VM's continuously demand appropriate CPU cycles, cache memory, memory capacity, and communication bandwidth. Therefore, this process degrades the performance of running applications and adversely affects efficiency of the data centers, particularly when Service Level Agreements (SLA) and critical business objectives are to be met. Live VM migration is frequently used because it allows the availability of application service, while migration is performed. In this paper, we make an exhaustive survey of the literature on live VM migration and analyze the various proposed mechanisms. We first classify the types of Live VM migration (single, multiple and hybrid). Next, we categorize VM migration techniques based on duplication mechanisms (replication, de-duplication, redundancy, and compression) and awareness of context (dependency, soft page, dirty page, and page fault) and evaluate the various Live VM migration techniques. We discuss various performance metrics like application service downtime, total migration time and amount of data transferred. CPU, memory and storage data is transferred during the process of VM migration and we identify the category of data that needs to be transferred in each case. We present a brief discussion on security threats in live VM migration and categories them in three different classes (control plane, data plane, and migration module). We also explain the security requirements and existing solutions to mitigate possible attacks. Specific gaps are identified and the research challenges in improving the performance of live VM migration are highlighted. The significance of this work is that it presents the background of live VM migration techniques and an in depth review which will be helpful for cloud professionals and researchers to further explore the challenges and provide optimal solutions.},
+	author = {Choudhary, Anita and Govil, Mahesh Chandra and Singh, Girdhari and Awasthi, Lalit K and Pilli, Emmanuel S and Kapil, Divya},
+	doi = {10.1186/s13677-017-0092-1},
+	issn = {2192-113X},
+	journal = {Journal of Cloud Computing},
+	number = {1},
+	pages = {23},
+	title = {{A critical survey of live virtual machine migration techniques}},
+	url = {https://doi.org/10.1186/s13677-017-0092-1},
+	volume = {6},
+	year = {2017}
+}
+
+@ARTICLE{tao:vm-survey-management,  author={Z. {Tao} and Q. {Xia} and Z. {Hao} and C. {Li} and L. {Ma} and S. {Yi} and Q. {Li}},  journal={Proceedings of the IEEE},   title={A Survey of Virtual Machine Management in Edge Computing},   year={2019},  volume={107},  number={8},  pages={1482-1499},}
+
+@article{hosseini:vm-survey-migration,
+	title = "A survey study on virtual machine migration and server consolidation techniques in DVFS-enabled cloud datacenter: Taxonomy and challenges",
+	journal = "Journal of King Saud University - Computer and Information Sciences",
+	volume = "32",
+	number = "3",
+	pages = "267 - 286",
+	year = "2020",
+	issn = "1319-1578",
+	doi = "https://doi.org/10.1016/j.jksuci.2018.07.001",
+	url = "http://www.sciencedirect.com/science/article/pii/S1319157818302842",
+	author = "Mirsaeid {Hosseini Shirvani} and Amir Masoud Rahmani and Amir Sahafi",
+	keywords = "Cloud computing, VM migration, Server consolidation, DVFS, Load balancing, Power management",
+	abstract = "Cloud Computing is a promising paradigm in comparison with traditional information technology approaches, in which organizations and enterprises adopt elastic cloud services on a pay-per-use model in order to reduce costs. Virtualization is a technique pervasively applied in modern datacenters (DCs) to maximize resource utilization, reduce greenhouse gas emissions, and lower overall cost. Virtual machine (VM) migration is widely exploited within and across DCs to meet a variety of needs of the virtualized cloud environment. For instance, server consolidation needs VM migration for power management. Also, load balancing, fault tolerance, system maintenance, and minimizing the service-level agreement (SLA) violation rate require live VM migration. The VM migration process is very resource intensive and requires intelligent approaches to avoid saturating network bandwidth and to keep server downtime to a minimum. In addition, in Dynamic Voltage Frequency Scaling (DVFS) in cluster servers in intrinsically heterogeneous DCs the voltage-frequency is varied based on workload to reduce power consumption, which is a large part of the overall cost. Although miscellaneous cloud computing studies have been presented in the literature concerning economic, privacy, and security issues, etc., there is a clear lack of survey studies on VM migration, server consolidation, and DVFS techniques. To fill this gap, we present different schemes to classify commonalities and discrepancies between the perspectives of researchers, based on metrics derived from the literature. Finally, open issues, challenges, and future directions are discussed for improving existing schemes and approaches."
+}
+
+@article{wang:vm-migration,
+	title = "Ada-Things: An adaptive virtual machine monitoring and migration strategy for internet of things applications",
+	journal = "Journal of Parallel and Distributed Computing",
+	volume = "132",
+	pages = "164 - 176",
+	year = "2019",
+	issn = "0743-7315",
+	doi = "https://doi.org/10.1016/j.jpdc.2018.06.009",
+	url = "http://www.sciencedirect.com/science/article/pii/S0743731518304404",
+	author = "Zhong Wang and Daniel Sun and Guangtao Xue and Shiyou Qian and Guoqiang Li and Minglu Li",
+	keywords = "Internet of things, Cloud computing, Live migration, Virtual machine, Memory copy strategy",
+	abstract = "Internet of Things (IoT) applications running on mobile devices are subject to the low storage capacity and short battery lifetime. Edge clouds (EC) provide an approach to offload computation tasks and reduce network latency for these applications. The main challenge in such ecosystems is how to efficiently monitor and allocate VM resources to realize load balancing among edge clouds. In this paper, we propose Ada-Things, an adaptive VM monitoring and live migration Strategy for IoT applications in edge cloud architecture. The basic idea of Ada-Things is that the migration method of a VM should be determined by its workload characteristics. Specifically, based on the variation of current memory dirty page rate in IoT applications, Ada-Things can adaptively select the most appropriate migration method to copy memory pages, thus addressing the two limitations (application generality and performance imbalance) of existing VM migration methods in edge cloud. Evaluation results show, compared with traditional methods, Ada-Things can significantly reduce the total migration time by 21%, the VM downtime by 38% and the amount of pages transferred by 29% in average."
+}
+
 @misc{url:mpitutorial,
 	author = {Kendall, Wes and Nath, Dwaraka and Bland, Wesley},
 	title = {A Comprehensive MPI Tutorial Resource},

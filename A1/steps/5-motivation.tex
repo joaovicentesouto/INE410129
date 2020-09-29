@@ -1,54 +1,181 @@
-\section{Motivation And Justify}
+\section{Motivation and Justification}
 
-	% \pholder[Quais foram as conclusões?]{Conclusions}
-	\begin{frame}[fragile]{Conclusions}
-		\begin{itemize}
-			\item \textbf{Motivation}
+	\begin{frame}[t]{Motivation}
+
+		\only<1>{
+			\vspace{0.75cm}
 			\begin{itemize}
-				\item Historical evolution from single-cores to Lightweight Manycores
+				\item Bring the \textbf{benefits of migration and process
+					virtualization to lightweight manycores}
 			\end{itemize}
-		\end{itemize}
 
-		\begin{itemize}
-			\item \textbf{Contribution}
 			\begin{itemize}
-				\item A Inter-Cluster Communication Facility for LW Processors
+				\item Load balancing
+				\item Fault tolerance
+				\item System administration
+				\item Data locality
+				\item Power management
+				\item Security
 			\end{itemize}
-		\end{itemize}
-
-		\begin{itemize}
-			\item \textbf{Results}
+		}
+		\only<2>{
+			\vspace{0.75cm}
 			\begin{itemize}
-				\item \textbf{Optimal sizes} for large data transfers
-				\item Well-known \textbf{distributed algorithms can be efficiently supported} by Nanvix OS
+				\item Bring the benefits of migration and process
+					virtualization to lightweight manycores
 			\end{itemize}
-		\end{itemize}
 
-
-		\begin{itemize}
-			\item \textbf{Future Works on Nanvix OS}
 			\begin{itemize}
-				\item Remove limitation on asynchronous send
-				\item MPI port (BSc dissertation)
-				\item Shared Memory Service (MSc dissertation)
-				\item \textbf{Distributed Process Scheduling (MSc dissertation)}
+				\item \textbf{Load balancing}
+				\begin{itemize}
+					\item Better work distribution
+				\end{itemize}
+				\item Fault tolerance
+				\item System administration
+				\item Data locality
+				\item Power management
+				\item Security
 			\end{itemize}
-		\end{itemize}
+		}
+		\only<3>{
+			\vspace{0.75cm}
+			\begin{itemize}
+				\item Bring the benefits of migration and process
+					virtualization to lightweight manycores
+			\end{itemize}
 
-		
-		% Este trabalho apresentou a evolução dos processadores monocores até os manycores atuais.
-		% Expôs a crescente preocupação da relação entre poder de processamento e consumo de energia.
-		% O que levou o surgimento dos Lightweight Manycores.
-		% O desenvolvimento envolveu o projeto de mecanismos de comunicação e, através de experimentos, mostrou-se como algoritmos distribuídos conhecidos podem ser eficientemente suportados pelo Nanvix OS. 		
+			\begin{itemize}
+				\item Load balancing
+				\item \textbf{Fault tolerance}
+				\begin{itemize}
+					\item Save/restore processes state
+				\end{itemize}
+				\item System administration
+				\item Data locality
+				\item Power management
+				\item Security
+			\end{itemize}
+		}
+		\only<4>{
+			\vspace{0.75cm}
+			\begin{itemize}
+				\item Bring the benefits of migration and process
+					virtualization to lightweight manycores
+			\end{itemize}
+
+			\begin{itemize}
+				\item Load balancing
+				\item Fault tolerance
+				\item \textbf{System administration}
+				\begin{itemize}
+					\item Allow multiuser execution and management
+				\end{itemize}
+				\item Data locality
+				\item Power management
+				\item Security
+			\end{itemize}
+		}
+		\only<5>{
+			\vspace{0.75cm}
+			\begin{itemize}
+				\item Bring the benefits of migration and process
+					virtualization to lightweight manycores
+			\end{itemize}
+
+			\begin{itemize}
+				\item Load balancing
+				\item Fault tolerance
+				\item System administration
+				\item \textbf{Data locality}
+				\begin{itemize}
+					\item Move processes to closer to the data source
+				\end{itemize}
+				\item Power management
+				\item Security
+			\end{itemize}
+		}
+		\only<6>{
+			\vspace{0.75cm}
+			\begin{itemize}
+				\item Bring the benefits of migration and process
+					virtualization to lightweight manycores
+			\end{itemize}
+
+			\begin{itemize}
+				\item Load balancing
+				\item Fault tolerance
+				\item System administration
+				\item {Data locality}
+				\item \textbf{Power management}
+				\begin{itemize}
+					\item Separate CPU-bound processes to improve heat dissipation
+				\end{itemize}
+				\item Security
+			\end{itemize}
+		}
+		\only<7>{
+			\vspace{0.75cm}
+			\begin{itemize}
+				\item Bring the benefits of migration and process
+					virtualization to lightweight manycores
+			\end{itemize}
+
+			\begin{itemize}
+				\item Load balancing
+				\item Fault tolerance
+				\item System administration
+				\item {Data locality}
+				\item {Power management}
+				\item \textbf{Security}
+				\begin{itemize}
+					\item Better isolation and kill suspicious processes
+				\end{itemize}
+			\end{itemize}
+		}
+
 	\end{frame}
 
-	% \begin{frame}[fragile]{Future Works}
-	% 	\begin{itemize}
-	% 		\item Eliminates DMA limitation
-	% 		\item Enhancements Ping-Pong performace
-	% 		\item Implements MPI
-	% 	\end{itemize}
-	% \end{frame}
+	\begin{frame}[fragile]{Justification}
+
+		\only<1>{
+			\begin{itemize}
+				\item \textbf{Parallel and distributed nature} of lightweight manycores
+				\item Memory restrictions do not support a complete virtual environment like VMs
+				\item Explore lighter forms of virtualization as at the OS level
+				\item Integrate virtualization into a distributed OS designed
+					for lightweight manycores
+			\end{itemize}
+		}
+		\only<2>{
+			\begin{itemize}
+				\item Parallel and distributed nature of lightweight manycores
+				\item \textbf{Memory restrictions} do not support a complete virtual environment like VMs
+				\item Explore lighter forms of virtualization as at the OS level
+				\item Integrate virtualization into a distributed OS designed
+					for lightweight manycores
+			\end{itemize}
+		}
+		\only<3>{
+			\begin{itemize}
+				\item Parallel and distributed nature of lightweight manycores
+				\item Memory restrictions do not support a complete virtual environment like VMs
+				\item Explore \textbf{lighter forms of virtualization}, e.g., OS-level
+				\item Integrate virtualization into a distributed OS designed
+					for lightweight manycores
+			\end{itemize}
+		}
+		\only<4>{
+			\begin{itemize}
+				\item Parallel and distributed nature of lightweight manycores
+				\item Memory restrictions do not support a complete virtual environment like VMs
+				\item Explore lighter forms of virtualization, e.g., OS-level
+				\item Integrate virtualization into a \textbf{distributed OS designed
+					for lightweight manycores}
+			\end{itemize}
+		}
+
+	\end{frame}
+
 
 % LocalWords:  template cls standalone GitHub Overleaf bugfixes SVGs
 % LocalWords:  Re-empacotamento fontsize Makefile pdflatex imgs PDFs
