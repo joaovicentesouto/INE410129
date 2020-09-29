@@ -104,7 +104,7 @@
 			\end{itemize}
 		\end{itemize}
 
-		\addfig[][width=.9\linewidth]{lazy-transfer-1.pdf}
+		\addfig[][width=.45\linewidth]{vm.pdf}
 	\end{frame}
 
 	\begin{frame}[fragile]{Migration of VMs}
@@ -130,14 +130,14 @@
 		\only<2>{
 			\begin{itemize}
 				\setlength \itemsep{0.7em}
-				\item \textbf{Memory content}
+				\item Memory content
 				\begin{itemize}
 					\setlength \itemsep{0.3em}
 					\item Hypervisor allocate memory 
 					\item Guest OS  allocate memory 
 					\item Application requested memory 
 				\end{itemize}
-				\item Disk content
+				\item \textbf{Disk content}
 				\begin{itemize}
 					\setlength \itemsep{0.3em}
 					\item Hypervisor allocate blocks 
@@ -160,11 +160,9 @@
 				\item Linux Containers 
 				\item Docker 
 			\end{itemize}
-			\item Example: Use \textit{cgroups} and \textit{chroot} to isolate
-a group of process and restrict their resource access.
 		\end{itemize}
 
-		\addfig[][width=.9\linewidth]{lazy-transfer-1.pdf}
+		\addfig[][width=.45\linewidth]{container.pdf}
 	\end{frame}
 
 	\begin{frame}[fragile]{Migration of Containers}
@@ -172,13 +170,10 @@ a group of process and restrict their resource access.
 		\begin{itemize}
 			\setlength \itemsep{0.7em}
 			\item Transfer the file system of the container
-			\item Save the state of the container into a file (all processes
-and their resources)
+			\item Save the state of the container into a file (all processes and their resources)
 			\item Transfer the container file
 			\item Restart the container
 		\end{itemize}
-
-		\addfig[][width=.9\linewidth]{lazy-transfer-1.pdf}
 	\end{frame}
 
 % LocalWords:  template cls standalone GitHub Overleaf bugfixes SVGs
