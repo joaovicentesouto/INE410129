@@ -178,7 +178,7 @@ function run_tasks
 
 			for ntasks in {1..29};
 			do
-				addons_new="-D__NTASKS=$ntasks -D__NITERATIONS=50 -D__NSKIP=10"
+				addons_new=" -D__NTASKS=$ntasks -D__NITERATIONS=50 -D__NSKIP=10"
 				switchAddons $DIR_SOURCE "$addons_new" "$addons_old"
 
 				outdir=$OUTDIR-$exp-$ntasks
