@@ -1,0 +1,122 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage[portuges]{babel}
+
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+
+\usepackage[]{siunitx}
+
+\bibliographystyle{IEEEtran}
+
+% Enumerations
+\usepackage[inline]{enumitem}
+\renewcommand*\descriptionlabel[1]{\hspace\labelsep\itshape #1}
+
+% Spacing
+\usepackage{xspace}
+
+% Tables
+\usepackage{booktabs}
+\usepackage{multirow}
+\newcommand{\specialcell}[3][c]
+{\begin{tabular}[#1]{@{}#2@{}}#3\end{tabular}}
+
+% Acronyms
+\usepackage[acronym,nowarn]{glossaries}
+\glsdisablehyper
+\input{aux/acronyms}
+\makeglossaries
+
+% Bookmarks.
+\usepackage{xcolor}
+\usepackage[bookmarks,bookmarksopen,bookmarksdepth=2,colorlinks=true]{hyperref}
+\hypersetup{
+	citecolor   = blue,
+	linkcolor   = blue,
+	urlcolor    = blue,
+    pdftitle    = { On the performance and Isolation of Asymmetric
+	                Microkernel Design for Lightweight Manycores },
+    pdfauthor   = {Pedro Henrique Penna},
+    pdfcreator  = {Pedro Henrique Penna},
+    pdfproducer = {Pedro Henrique Penna},
+    pdfsubject  = {Operating Systems},
+}
+
+\linespread{0.99}
+
+% Images
+\usepackage{graphicx}
+\graphicspath{{img/}}
+\DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+
+% Review
+\usepackage{todonotes}
+\usepackage{lipsum}
+
+\hyphenation{Kal-ray}
+\hyphenation{light-weight}
+\hyphenation{as-sess-es}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{
+	Mecanismos de Comunicação entre \textit{Clusters} \\
+	para \text{Lightweight Manycores} no Nanvix OS
+\thanks{%
+	Agradecimentos ao CNPq e a CAPES pelo auxílio financeiro através de bolsa
+	IC para a realização deste estudo.
+	}
+}
+
+\author{%
+	\IEEEauthorblockN{João Vicente Souto}
+	\IEEEauthorblockA{%
+		\textit{UFSC}\\
+		Florianópolis, Brasil\\
+		joao.vicente.souto@grad.ufsc.br
+	}
+	\and
+	\IEEEauthorblockN{Pedro Henrique Penna}
+	\IEEEauthorblockA{%
+		\textit{UGA, PUC Minas}\\
+		Grenbole, França\\
+		pedro.penna@sga.pucminas.br
+	}
+	\and
+	\IEEEauthorblockN{Márcio Castro}
+	\IEEEauthorblockA{%
+		\textit{UFSC}\\
+		Florianópolis, Brasil\\
+		marcio.castro@ufsc.br
+	}
+	\and
+	\IEEEauthorblockN{Henrique Freitas}
+	\IEEEauthorblockA{%
+		\textit{PUC Minas}\\
+		Belo Horizonte, Brasil\\
+		cota@pucminas.br
+	}
+}
+
+\maketitle
+
+	\input{text/0-resumo.tex}
+	\input{text/1-introducao.tex}
+	\input{text/2-fundamentacao.tex}
+	\input{text/3-mecanismos.tex}
+	\input{text/4-resultados.tex}
+	\input{text/5-trabalhos-correlatos.tex}
+	\input{text/6-conclusoes.tex}
+
+	\bibliography{aux/references.bib}
+
+\end{document}

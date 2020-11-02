@@ -1,0 +1,60 @@
+\section{Mecanismos de Comunicação entre \textit{Clusters}}
+\label{sec:mecanismos}
+
+	Os mecanismos de comunicação entre \clusters propostos sintetizam três
+	comportamentos regulares em sistemas distribuídos, \ie sincronização,
+	trocas de pequenas mensagens de controle e grandes transferência de dados.
+	Denominadas, \sync, \mailbox e \portal, eles
+	exportam uma visão abstrata e padronizada dos recursos existentes em \lws.
+	Esta seção aborda detalhes semânticos e de implementação de cada das
+	abstrações mencionadas.
+
+	A abstração \textit{Sync} provê a criação de barreiras distribuídas.
+	Similar ao \posix \textit{Signals}, um \cluster pode emitir uma notificação
+	a um outro \cluster. Entretanto, as notificações não transmitem valores,
+	servem apenas para sincronização.
+	A Figura \ref{fig:sync} ilustra os modos de operação de um ponto de
+	sincronização. O modo \texttt{ALL\_TO\_ONE} define que um
+	\cluster mestre (\texttt{ONE}) deve aguardar bloqueado $N$ sinais de $N$
+	\clusters escravos. Contrariamente, o modo \texttt{ONE\_TO\_ALL}
+	é responsabilidade do mestre sinalizar os $N$ escravos, liberando-os do
+	bloqueio. 
+	A criação de um \sync requer apenas três parâmetros, \ie a lista de
+	\clusters envolvidos, o identificador do \cluster mestre e qual o modo de
+	operação. Desta forma, é possível exportar um comportamento padronização
+	sem requisitar detalhes do hardware.
+	Por exemplo, a implementação no \mppa utilizou apenas recursos da \cnoc que
+	são alocados relativos aos parâmetros mas é invisível para a aplicação
+	cliente.
+
+	A abstração \textit{Mailbox} permite a troca de mensagens de tamanho fixo.
+	Similar ao \poix \textit{Message Queue}, o \cluster receptor aloca espaço
+	suficiente para receber pelo menos uma mensagem de cada possível emissor.
+	Para simplificar a implementação do lado do receptor, o emissor
+	é responsável por emitir a mensagem para um local pré-determinado.
+	Para garantir que o emissor não sobrecarregue o receptor, ou sobrescreva
+	mensagens não lidas, o algoritmo da \mailbox implementa um controle de fluxo
+	onde o repector deve notificar o emissor depois de cada mensagem consumida.
+	O emissor, por sua vez, aguardará uma notificação caso tenha uma mensagem
+	prévia pendente. A implementação no \mppa utiliza a \dnoc para emitir
+	a mensagem e a \cnoc para emitir as notificações de controle.
+	Como no \sync, a \mailbox relativisa os recursos utilizados nos conforme
+	nos identificadores dos receptores e emissores.
+
+	A abstração \textit{Portal} habilita a transferência de quantidades
+	arbitrárias de dados. Definindo uma comunicação unidirecional entre dois
+	\clusters, o \portal implementa um comportamento similar ao \posix
+	\textit{Pipe}. Para garantir que o emissor não envie os dados antes que
+	o receptor esteja apto a receber, o \portal define um controle de fluxo
+	que força o emissor esperar um sinal de permissão do receptor.
+	O \portal utiliza recursos da \dnoc para enviar os dados e \cnoc para
+	emitir as permissões. A configuração desses recursos é relativa a quais
+	\clusters estão se comunicando.
+
+	Todas os mecanismos propostos exportam uma interface de baixo nível que
+	abstream todos os detalhes de hardware dos \lws. A natureza distribuída
+	é sintetizada através de identificadores parâmetros lógicos que simplificam
+	a interface. Eles baseiam-se fortemente em soluções largamente utilizadas nos
+	sistemas operacionais modernos trazendo conceitos familiares a desenvolvedores
+	de forma geral.
+

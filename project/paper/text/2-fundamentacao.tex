@@ -1,0 +1,115 @@
+\section{Fundamentação Teórica}
+\label{sec:fundamentacao}
+
+	% Section Overview
+	Esta seção apresenta uma breve introdução aos conceitos e objetos de estudo
+	utilizados neste trabalho. Primeiro, abordamos o \os base para
+	implementação dos mecanismos propostos. E por fim, detalhamos a arquitetura
+	do \lw utilizado nos experimentos.
+
+%==============================================================================
+% Lightweight Manycores
+%==============================================================================
+
+\subsection{Processadores \textit{Lightweight Manycore}}
+\label{subsec:mppa}
+
+	A classe de \lws é constituído de processadores que buscam prover um alto
+	nível de paralelismo e baixo consumo energético. Eles se diferem de outras
+	arquiteturas em diversos pontos como:
+	%
+	\begin{enumerate}[label=\roman*.]
+		\item integram centanas de núcleos de baixo potência em um único chip
+			organizados em clusters;
+		\item são projetados para lidar com workloads \mimd;
+		\item dependem de uma \noc para uma comunicação através de troca de
+			mensagens rápida e confiável;
+		\item possuem sistemas de memória restritivos; e
+		\item integram componentes heterogêneos.
+	\end{enumerate}
+
+	Junto de uma escalabilidade superior, \lws trouxeram um novo conjunto de
+	desafios no desenvolvimento de software proveniente de suas
+	particularidades arquiteturais. Precisamente, eles introduziram as
+	seguintes dificuldades:
+
+	\begin{description}
+		\item[Modelo de Programação Híbrida] advém da natureza paralela
+			e distribuída da arquitetura. Requer frequentemente que seja
+			adotado o padrão de troca de mensagens para comunicação entre
+			\clusters e um modelo de memória compartilhada dentro do \cluster
+			\cite{kelly2013}.
+
+		\item[Falta de suporte em hardware para coerência de cache] é utilizada
+			para reduzir o consumo de energia. Sem essa obrigatoriedade, os
+			programadores precisam lidar explicitamente com a coerência
+			e frequentemente precisam reprojetar suas aplicações
+			\cite{francesquini2015}.
+
+		\item[Sistema de memória restritivo] apresentam multiplos espaços de
+			endereçamento e pequenas memórias locais, requisitando
+			o particionamento e \textit{prefetching} dos dados para
+			manipulação~\cite{Castro2016}.
+
+		\item[Configuração heterogênea] requer a programação de componentes
+			distintos tornando o \textit{deploy} de aplicações mais
+			complexa~\cite{barbalace2015}.
+	\end{description}
+
+	O MPPA-256 é um \lw projetado pela empresa francesa Kalray. A Figura
+	\ref{fig:mppa} ilustra a versão \textit{Bostan} utilizada neste trabalho.
+	Esta versão integra 288 núcleos agrupados em 16 \cclusters e 4 \ioclusters.
+	De um lado, os \cclusters possuem 16 \pe, 1 \rm, 2~MB de \sram e 1 interface
+	\noc e são dedicados a carga de trabalho do usuário. Por outro lado, os
+	\ioclusters possuem 4 \rms, 4~MB de \sram e 4 interfaces \noc destinados
+	para comunicação com periféricos. O espaço de endereçamento de cada
+	\cluster é privado, forçando a comunicação de trocas de mensagens por
+	duas diferentes 2-D Torus \nocs. De um lado, a \cnoc é destinada a troca de
+	pequenas mensagens de controle. Do outro lado, a \dnoc permite a troca de
+	quantidades arbitrárias de dados. Adicionalmente, todos os \clusters
+	possuem uma \dma habilitando a comunicação assíncrona.
+
+\subsection{Sistemas Operacionais para \textit{Lightweight Manycores}}
+\label{subsec:nanvix}
+
+	% Overview: SOs 
+	Um \os é uma peça fundamental na constituição de um sistema computacional
+	moderno. Sua principal função é prover serviços que abstraem a arquitetura
+	física a baixo deles. Isto aumenta significativamente a programabilidade,
+	produtividade e confiabilidade no desenvolvimento de aplicações
+	computacionais. Além disso, existem padrões que permitem a compatibilidade
+	entre \oses, permitindo o \textit{deploy} de aplicações instâncias de \oses
+	distintas. Um exemplo de padrão é o \posix.
+
+	Apesar da grande facilidade a programação de sistemas trazida pelos \oses,
+	a grande maioria deles não se adequa as novas arquiteturas que andam
+	surgindo atualmente. Por exemplo, os \oses mais comuns são monolíticos
+	e projetados para trabalhar em um sistema com memória compartilhada e com
+	uma quantidade pequenas de núcleos de processamento. Este fato levou
+	a pesquisa de projetos alternativos para esta nova era de processadores
+	(\cite{abc}). Entretanto, tais alternativas são focadas em extrair o melhor
+	desempenho destas plataformas, deixando uma lacuna para uma solução que
+	equilibre custos de desenvolvimento com desempenho, principalmente para
+	\lws.
+
+	Neste contexto, Nanvix OS nasce com o foco nos desafios de portabilidade
+	e programabilidade surgidos juntos com os \lws (\cite{CHRISTGAU, ABC}).
+	A proposta do Nanvix é repensar o design do \os a partir de seus principios
+	básicos sem perder a compatibilidade com outros \oses (\cite{PENNA, ABC}).
+	Para isso, o Nanvix adaptará o conceito de um \multikernel que seja
+	compatível com o padrão \posix. Ao todo, o Nanvix é constituído de três
+	camadas, \multikernel, \microkernel e \hal.
+
+	A Figura \ref{fig:multikernel} ilustra o funcionamento do
+	\multikernel. Sobre a pespectiva do \os, os \clusters são
+	nós que troca mensagens entre si para solicitar ou prover serviços. Neste
+	ponto, é possível notar que os serviços do \os agora são processos ativos
+	e ficam isolados dos processos do usuário.
+	Dentro de cada \cluster, temos um \microkernel assimétrico. A Figura
+	\ref{fig:microkernel} apresenta a estrutura do \microkernel e da \hal.
+	O \microkernel isola a manipulação e controle das estruturas internas do
+	\kernel em um único núcleo, eliminando os problemas de coerência de
+	cache os \lws. Por fim, a \hal agrupa os \lws sobre uma perspectiva comum
+	abstraindo as arquiteturas em seus principais componentes.
+	Este trabalho está localizado no \microkernel e na \hal.
+
