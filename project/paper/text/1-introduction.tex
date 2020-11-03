@@ -2,14 +2,121 @@
 \label{sec:introduction}
 
 	% Context
+	A classe de processadores Lightweight Manycore destaca-se pela seu alto
+	nível de paralelismo com baíxo consumo energético~\cite{francesquini2015}. As
+	aplicações projetadas para executar nesses processadores tem a sua disposição
+	centenas de núcleos agrupados e distribuídos em um único chip. Para endereçar
+	a escalabilidade do sistema e prover a eficiência energética, LWs exibem
+	características arquiteturais próprias que os diferem dos demais Manycores.
+	Especificamente, eles integram:
+	\begin{enumerate*}[label=(\roman*)]
+		\item thousands of low-power cores with \mimd capability~\cite{Rossi2017};
+
+		\item distributed memory architecture and small local memories shared by
+			tightly-coupled groups of cores (aka \textit{clusters})~\cite{Bohnenstiehl2017};
+
+		\item reliable and fast \nocs for message-passing~\cite{Bohnenstiehl2017}; and
+
+		\item heterogeneous processing capabilities~\cite{Davidson2018}.
+	\end{enumerate*}
+	Alguns exemplos de LWs são A, B e C.
+
+\iffalse
+	%
+	Esses processadores introduziram junto de suas vantagens, um conjunto de
+	desafios no projeto e desenvolvimento de aplicações de baíxo e alto nível
+	inserido pelas suas características arquiteturais. Algumas desses desafios
+	são:
+	\begin{itemize}
+		\item Modelo de Programação Híbrida: uso do modelo de memória
+			compartilhada para explorar o paralelismo dentro dos clusters e
+			aplicação do modelo de troca de mensagens para lidar com
+			comunicação entre clusters através da NoC~\cite{kelly2013};
+
+		\item Falta de suporte em hardware para coerência de cache: para
+			reduzir o consumo de energia requirindo o controle explícito da
+			memória~\cite{francesquini2015};.
+
+		\item Sistem de memória restritivo: a presença de múltiplos espaços de
+			endereçamento e pequenas memórias locais requer o Data Tiling
+			e Prefetching seja manipulado em software~\cite{Castro2016};
+
+		\item Configurações heterogeneas: requer a programação de componentes
+			distintos, dificultando o deploy de aplicações no
+			LWs~\cite{Barbalace2015}.
+	\end{itemize}
+\fi
 
 	% Motivation
+	Tais características introduzem diversos desafios no desenvolvimento de
+	aplicações de baíxo e alto nível. Por exemplo, 
+	\begin{enumerate*}[label=(\roman*)]
+		\item programação híbrida entre os modelos de memória compartilhada
+			e troca de mensagens devido a natureza dos LWs~\cite{kelly2013};
+
+		\item falta de suporte em hardware para coerência de
+			cache\cite{francesquini2015};
+
+		\item sistema de memória distribuído e restritivo~\cite{Castro2016}; e 
+
+		\item programação de componentes heterogêneos~\cite{Barbalace2015}.
+	\end{enumerate*}
+	Neste contexto, diversos trabalhos propõem soluções em diversos níveis de
+	abstração para amenizar as dificuldades e prover ao usuário final
+	alternativas para o desenvolvimento dessas arquiteturas.
+	%
+	Soluções em nível do kernel, como PENNA-NANVIX, endereçam uma gama de
+	problemas de baíxo nível para prover uma visão padronizada e facilitar
+	a programabilidade e portabilidade para LWs.
+	%
+	Por outro lado, soluções como XXX, buscam em explorar um tipo específico de
+	abstração e modelaam um esqueleto de solução que pode ser adaptado pra
+	família de problemas endereçado.
 
 	% Problem Definition
-
+	Dentre todas as soluções, uma das principais dificuldades é como lidar
+	com a quantidade reduzida de memória local dentro de um cluster. Vale
+	ressaltar que essa memória muitas vezes não é exclusiva para o usuário.
+	A memória local precisa armazenar códigos e estruturas de  dados da
+	aplicação e de suas dependências, e.g., OS e/ou bibliotecas.
+	Algo que consome uma quantidade considerável de memória é o suporte
+	a múltiplos fluxos de programação. Por exemplo, alocação de páginas de
+	memória para armazenar o contexto e pilha de execução de uma rotina.
+	%
 	% Goals and Contributions
+	Neste contexto, o presente trabalho propõe uma abstração de task em nível
+	de kernel para definir uma unidade genérica de execução. Similar a uma
+	piscina de threads, uma thread do sistema aguarda receber essas unidades
+	para executar.
+	Com este mecanismo, buscamos atingir os seguintes objetivos
+	e contribuíções:
+	\begin{itemize}
+		\item Projetar um mecanismo de task no nível do kernel para uso interno
+			do OS e para a aplicação cliente.
 
-	% Goal and Contributions
+		\item Diminuir a alocação de memória do sistema de threads ao
+			reutilizar o contexto e pilha de execução de uma única thread;
+
+		\item Melhorar a utilização de núcleos ociosos;
+
+		\item Explorar a localidade dos dados na cache de um único núcleo;
+
+		\item Habilitar a execução assíncrona de chamadas de sistemas, e.g.,
+			envio assíncrono em LWs que não possuem DMA.
+
+		\item Facilitar a modelagem de funcionalidades internas do kernel.
+	\end{itemize}
+	Este trabalho faz parte do desenvolvimento do Nanvix, um sistema operacional
+	distribuído projetado para endereçar as características dos LWs. O escopo
+	do trabalho se limita ao aperfeiçoamento do um microkernel assimétrico que
+	gerencia os recursos locais de um cluster.
 
 	% Work Organization
-	ABC.
+	The remainder of this work is organized as follows.
+	In Section~\ref{sec:related-work}, we discuss related work.
+	In Section~\ref{sec:problem} we cover the problem definition.
+	In Section~\ref{sec:solution}, we present our proposal.
+	In Section~\ref{sec:platform}, we detail the experimental environment.
+	In Section~\ref{sec:results}, we discuss our experimental results.
+	In Section~\ref{sec:related-work} we discuss related works.
+	In Section~\ref{sec:conclusions}, we draw our conclusions.

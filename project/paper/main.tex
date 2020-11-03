@@ -1,8 +1,6 @@
 \documentclass[conference]{IEEEtran}
 \IEEEoverridecommandlockouts
 
-\usepackage[portuges]{babel}
-
 % The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
 \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
@@ -10,6 +8,7 @@
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{lipsum}
 
 \usepackage[]{siunitx}
 
@@ -69,28 +68,34 @@
 \begin{document}
 
 \title{
-	OS-Level Task-Based Engine for Lightweight Manycore Processors
+	OS-Level Task-Based Mechanism for Lightweight Manycore Processors
+\thanks{%
+		We thank CNRS, CNPq, FAPESC, FAPEMIG for supporting this
+		research. This study was financed in part by the Coordenação de
+		Aperfeicoamento de Pessoal de Nıvel Superior - Brasil (CAPES) -
+		Finance Code 001.
+	}
 }
 
 \author{%
 	\IEEEauthorblockN{João Vicente Souto}
 	\IEEEauthorblockA{%
 		\textit{UFSC}\\
-		Florianópolis, Brasil\\
+		Florianópolis, Brazil\\
 		joao.vicente.souto@grad.ufsc.br
 	}
 	\and
 	\IEEEauthorblockN{Pedro Henrique Penna}
 	\IEEEauthorblockA{%
 		\textit{UGA, PUC Minas}\\
-		Grenbole, França\\
+		Grenbole, France\\
 		pedro.penna@sga.pucminas.br
 	}
 	\and
 	\IEEEauthorblockN{Márcio Castro}
 	\IEEEauthorblockA{%
 		\textit{UFSC}\\
-		Florianópolis, Brasil\\
+		Florianópolis, Brazil\\
 		marcio.castro@ufsc.br
 	}
 }
@@ -99,9 +104,9 @@
 
 	\input{text/0-abstract.tex}
 	\input{text/1-introduction.tex}
-	\input{text/2-related-works.tex}
+	\input{text/2-related-work.tex}
 	\input{text/3-problem.tex}
-	\input{text/4-paralelism.tex}
+	\input{text/4-solution.tex}
 	\input{text/5-platform.tex}
 	\input{text/6-results.tex}
 	\input{text/7-conclusions.tex}
