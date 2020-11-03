@@ -21,37 +21,38 @@
 	busca atacar algumas das desvantagens do microkernel e do sistema de
 	comunicação. As descrições a seguir sumarizam os principais problemas que nossa
 	solução se propõe endereçar:
-	
-	% Problems 
+
+	% Problems
 	\begin{description}
+
+		\item[Memory Utilization:] Para cada novo fluxo de execução (thread),
+			o sistema de memória deve reservar dois espaços de memória, um
+			para a pilha de execução do usuário e outra reservada para
+			o kernel. Geralmente, cada pilha possúi o tamanho de uma página de
+			memória, crescendo rapidamente a quantidade de memória necessária
+			para criar novas threads no sistema.
+
+		\item[Data Locality:] Por causa da falta de suporte em hardware para
+			coerência de cache, a disputa por uma região de memória
+			compartilhada é custosa. Para entrar em uma região crítica, as
+			threads precisam garantir que os endereços na cache estejam
+			invalidados, forçando o acesso ao banco de memória local. Ao sair
+			de uma região crítica, as threads precisam forçar a escrita dos
+			dados modificados para que os outros possam ver a atualização.
+			Por isso, o isolamento dos dados em um único núcleo para explorar
+			a localidade dos dados na cache é tão importante.
 
 		\item[Core Utilization:] Pela necessidade de ter um núcleo reservado
 			para a thread de sistema, o microkernel assimétrico perde poder
 			de processamento ao deixar o núcleo mestre ocioso entre
 			solicitações de syscalls.
 
-		\item[Memory Utilization:] Para cada novo fluxo de execução (thread),
-			o sistema de memória deve reservar dois espaços de memória, um
-			para a pilha de execução do usuário e outra reservada para
-			o kernel. Geralmente, cada pilha possúi o tamanho de uma página de
-			memória.
-	
-		\item[Data Locality:] Por causa da falta de suporte em hardware para
-			coerência de cache, a disputa por uma região de memória
-			compartilhada é custosa. Para entrar em uma região crítica, as
-			threads precisam garantir que os endereços na cache estejam
-			invalidados, forçando o acesso ao banco de memória local. Ao sair
-			de uma região crítica, as threads precisam forçar flush dos
-			dados modificados para que os outros possam ver a atualização.
-			Por isso, o isolamento dos dados em um único núcleo para explorar
-			a localidade dos dados na cache é tão importante.
-
 		\item[Asynchronous Operations:] Pela simplificidade e redução de
 			energia, LWs podem não possuir uma DMA dedicada para executar
 			comunicação assíncrona. Deste modo, é responsabilidade da thread
 			realizar pooling dos dados na NoC manualmente. Todas as chamadas de
 			sistemas dentro do microkernel também bloqueiam as threads, mesmo que
-			a mesma pudesse realizar operações independentes enquanto a syscall,
+			a mesma pudesse realizar operações independentes enquanto uma syscall,
 			que não é critica, é realizada.
 
 		\item[Periodic Operations:] Para permitir a uma cluster seja monitorado
@@ -63,3 +64,4 @@
 			compartilhada e distribuída, e execução de procedimentos remotos.
 
 	\end{description}
+

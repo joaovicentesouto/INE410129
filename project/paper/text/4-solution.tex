@@ -1,4 +1,96 @@
-\section{OS-Level Task-Based Engine}
+\section{OS-Level Task-Based Mechanism for Lightweight Manycore Processors}
 \label{sec:solution}
 
-	\lipsum[2-4]
+	% Overview
+	Tarefas são um caso especial de corotinas que encapsulam uma subrotina que
+	pode ser executada independemente de quem as criou.  Diferentemente das
+	corotinas, que possuem sua própria pilha de execução e contexto, a definição de
+	tarefas proposta é desaclopada da necessidade de ter uma thread dedicada por
+	tarefa. Neste ponto, introduzimos uma thread especial, nomeada de Dispatcher,
+	que é um executor genérico de tarefas.  Seguindo o modelo Produtor-Consumidor,
+	o Dispatcher consome tarefas de uma fila global de tarefas, onde solicitantes
+	inserem atomicamente tarefas a serem realizadas.
+
+	Uma Tarefa uma estrutura padronizada que guarda informações
+	semânticas e de controle. Conforme exposto na Tabela X, as variáveis
+	semânticas armazenam a função a ser executada, seus arguments, e um slot para
+	guardar o retorno, caso desejado. Além disso, variáveis de controle,
+	referentes a semântica do Dispatcher, são compostas pelo estado da tarefa,
+	uma lista de tarefas dependêntes, quantidade de tarefas ativas das quais
+	a tarefa atual depende, e um controle de sincronização com o solicitante.
+	A Figura 3 ilustra diferentes conjuntos de tarefas que compõem um gráfico
+	de dependência. Essa dependência nos permite introduzir comportamentos mais
+	sofisticados e assíncronos, onde uma tarefa só estará pronta para executar
+	quando todas as tarefas pais tiverem concluído suas execuções.
+
+	O Pesudocódigo A sumariza o comportamento de um Dispatcher. Bloqueado em um
+	semáforo, o Dispatcher aguardará novas solicitações de tarefas surgirem.
+	Ao consumir uma tarefa, o Dispatcher atualiza seu estado e entra no escopo
+	da tarefa. Neste ponto é possível notar a reutilização das pilhas de um
+	Dispatcher por inúmeras tarefas independentes, pois quando o mesmo retornar
+	do escopo da tarefa, o mesmo estará em seu estado inicial e apto a iniciar
+	outra tarefa.
+	A tarefa pode ainda sinalizar entre três valores, o estado de conclusão ao
+	Dispatcher. Especificamente:
+
+	\begin{description}
+		\item[TASK\_RET\_SUCCESS] O Dispatcher concluirá a tarefa, sinalizando
+			sua conclusão as tarefas dependentes e liberando o solicitante.
+
+		\item[TASK\_RET\_AGAIN] A tarefa retornou com um erro mas é recuperável
+			e a tarefa será reescalonada.
+
+		\item[TASK\_RET\_STOP] A tarefa retornou com um erro, mas apesar de ser
+			recuperável, ela precisa aguardar outra operação ser concluída.
+
+		\item[TASK\_RET\_ERROR] A tarefa retornou um erro e é irrecuperável,
+			o Dispatcher sinalizará o erro ao solicitante e propagará o erro
+			para todas as tarefas dependêntes.
+	\end{description}
+
+	Para a implementação de novos Dispatchers para aumentar o paralelismo
+	e diminuir o tempo de espera para execução de uma tarefa, basta criar novas
+	threads que executem a função proposta que ela já suporta por definição
+	multiplos Dispatchers.
+
+	% Problem address
+	A proposta do mecanismo baseado em tarefas no nível do OS endereça os
+	problemas descritos na seção anterior da seguinte forma:
+	% Solutions
+	\begin{description}
+
+		\item[Memory Utilization] A definição de múltiplos fluxos de execução
+			em tarefas isoladas, ou em um grafo de dependência, reduz
+			a utilização de páginas de memória pra threads baseado na quantidade
+			de Dispatchers existentes. Se o kernel e a aplicação conseguirem
+			isolar comportamentos simples sem a necessidade da criação de uma thread
+			dedicada, mais memória estará disponível para armazenar dados úteis.
+
+		\item[Data Locality] Configurando um Dispatcher a ficar sempre em
+			apenas um núcleo, o mesmo poderá executar tarefas que compartilham as
+			mesma estruturas de dados explorando a localidade dos dados.
+
+		\item[Core Utilization] Neste ponto entra a importância de se definir
+			o Dispatcher em nível do OS para que seja possível movê-lo para o
+			núcleo mestre e ele compartilhe o tempo de execução com a thread mestre.
+			Em um extremo, poderíamos até definir a própria thread que realiza
+			chamadas de sistema em um Dispatcher.
+
+		\item[Asynchronous Operations] É possível modelar tarefas para
+			introduzir essa noção de envio assíncrono, deixando a
+			responsabilidade de enviar os dados manualmente para o Dispatcher
+			enquanto as threads continuam sua execução normalmente.
+			A mesma ideia se aplica para as syscalls, onde operações que não são
+			críticas podem ser realizadas de forma assíncrona, liberando as
+			threads solicitantes.
+
+		\item[Periodic Operations] É possível modelar tarefas que possuam um
+			período ao qual elas são desbloqueadas e executam. Desta forma,
+			eliminamos a necessidade de ter uma thread dedicada que fica
+			esperando alguma condição para relizar operações específicas.
+			Por exemplo, a leitura de uma comunicação da NoC que criará uma
+			nova tarefa para execução de um procedimento remoto.
+
+	\end{description}
+
+
