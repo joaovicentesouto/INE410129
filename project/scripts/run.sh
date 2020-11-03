@@ -166,42 +166,39 @@ function run_tasks
 {
 	changeRepository benchmarks
 
-	for exp in task thread;
+	for exp in task;
 	do
 		IMG=mppa256-$exp-time.img
 
 		cp $DIR_SOURCE/img/$IMG $DIR_SOURCE/img/mppa256.img
 
-		for (( it=0; it<$NITERATIONS; it++ ));
+		addons_old=""
+
+		for ntasks in {1..29};
 		do
-			addons_old=""
+			addons_new=" -D__NTASKS=$ntasks -D__NITERATIONS=50 -D__NSKIP=10"
+			switchAddons $DIR_SOURCE "$addons_new" "$addons_old"
 
-			for ntasks in {1..29};
-			do
-				addons_new=" -D__NTASKS=$ntasks -D__NITERATIONS=50 -D__NSKIP=10"
-				switchAddons $DIR_SOURCE "$addons_new" "$addons_old"
+			outdir=$OUTDIR-$exp-$ntasks
 
-				outdir=$OUTDIR-$exp-$ntasks
+			mkdir -p $outdir
 
-				mkdir -p $outdir
+			run               \
+				$PLATFORM     \
+				$DIR_REMOTE   \
+				$DIR_SOURCE   \
+				$COMMIT       \
+				$IMG          \
+				$exp          \
+				5             \
+				$outdir       \
+				$FILE_RUNLOG
 
-				run               \
-					$PLATFORM     \
-					$DIR_REMOTE   \
-					$DIR_SOURCE   \
-					$COMMIT       \
-					$IMG          \
-					$exp          \
-					$it           \
-					$outdir       \
-					$FILE_RUNLOG
-
-				addons_old=$addons_new
-			done
-
-			# Rollback changes.
-			switchAddons $DIR_SOURCE "" "$addons_old"
+			addons_old=$addons_new
 		done
+
+		# Rollback changes.
+		switchAddons $DIR_SOURCE "" "$addons_old"
 	done
 }
 
