@@ -1,20 +1,65 @@
 \section{Problem Definition}
 \label{sec:problem}
 
-	% Problem Definition
-	Dentre todas as soluções, uma das principais dificuldades é como lidar
-	com a quantidade reduzida de memória local dentro de um cluster. Vale
-	ressaltar que essa memória muitas vezes não é exclusiva para o usuário.
-	A memória local precisa armazenar códigos e estruturas de  dados da
-	aplicação e de suas dependências, e.g., OS e/ou bibliotecas.
-	Algo que consome uma quantidade considerável de memória é o suporte
-	a múltiplos fluxos de programação. Por exemplo, alocação de páginas de
-	memória para armazenar o contexto e pilha de execução de uma rotina.
-
 	% Overview
-	A limitação de memória interna de um cluster afeta todos os níveis de abstração no contexto dos LWs. 
+	O gerenciamento de memória interna de um cluster afeta todos os níveis de
+	abstração no contexto dos LWs. Por exemplos, OSs precisam ser pequenos
+	e leves para deixar a maior quantidade de memória disponível pra aplicação.
+	Por outro lado, aplicações extremamente paralelas e concorrentes têm
+	a necessidade de gerenciar manualmente a coerência dos dados manipulados.
 
-	% Memory utilization
-	% Core utilization
-	% Data locatily
-	% Async operation/communication
+	Para amenizar os problemas de coerência de
+	cache existente nessas arquiteturas, Penna ETAL propôs um microkernel
+	assímetrico para concentrar o gerenciamento e manipulação das estruturas do
+	OS em um único núcleo. A Figura X ilustra a execução de uma chamada de
+	sistema dentro do Nanvix. Quando um núcleo escravo deseja realizar uma operação
+	privilegiada, este envia uma solicitação ao núcleo mestre, que por sua vez,
+	realiza e retorna o resultado ao solicitante. Os problemas explorados neste
+	trabalho estão contidos no escopo deste nível de OS.
+
+	Além das dificuldades impostas pelo sistema de memória, nossa proposta
+	busca atacar algumas das desvantagens do microkernel e do sistema de
+	comunicação. As descrições a seguir sumarizam os principais problemas que nossa
+	solução se propõe endereçar:
+	
+	% Problems 
+	\begin{description}
+
+		\item[Core Utilization:] Pela necessidade de ter um núcleo reservado
+			para a thread de sistema, o microkernel assimétrico perde poder
+			de processamento ao deixar o núcleo mestre ocioso entre
+			solicitações de syscalls.
+
+		\item[Memory Utilization:] Para cada novo fluxo de execução (thread),
+			o sistema de memória deve reservar dois espaços de memória, um
+			para a pilha de execução do usuário e outra reservada para
+			o kernel. Geralmente, cada pilha possúi o tamanho de uma página de
+			memória.
+	
+		\item[Data Locality:] Por causa da falta de suporte em hardware para
+			coerência de cache, a disputa por uma região de memória
+			compartilhada é custosa. Para entrar em uma região crítica, as
+			threads precisam garantir que os endereços na cache estejam
+			invalidados, forçando o acesso ao banco de memória local. Ao sair
+			de uma região crítica, as threads precisam forçar flush dos
+			dados modificados para que os outros possam ver a atualização.
+			Por isso, o isolamento dos dados em um único núcleo para explorar
+			a localidade dos dados na cache é tão importante.
+
+		\item[Asynchronous Operations:] Pela simplificidade e redução de
+			energia, LWs podem não possuir uma DMA dedicada para executar
+			comunicação assíncrona. Deste modo, é responsabilidade da thread
+			realizar pooling dos dados na NoC manualmente. Todas as chamadas de
+			sistemas dentro do microkernel também bloqueiam as threads, mesmo que
+			a mesma pudesse realizar operações independentes enquanto a syscall,
+			que não é critica, é realizada.
+
+		\item[Periodic Operations:] Para permitir a uma cluster seja monitorado
+			ou receba comandos externos, é necessário que uma thread exista para
+			solicitando verificações e aguardando mensagens externa, aumentando
+			a necessidade de memória do OS. Entretanto, a existência dessas
+			operações são essenciais para desenvolver serviços mais complexos,
+			e.g., gerenciamento e migração de processos, invalidação de memória
+			compartilhada e distribuída, e execução de procedimentos remotos.
+
+	\end{description}
