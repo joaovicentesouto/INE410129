@@ -28,7 +28,7 @@ plot.linespoint <- function(
 	geom_point(
 		aes(shape = get(param)),
 		fill = "black",
-		size = 2.5
+		size = 3.25
 	) +
 	labs(
 		title = title,
@@ -39,7 +39,7 @@ plot.linespoint <- function(
 	scale_shape_manual(
 		name = legend.title,
 		labels = legend.labels,
-	values = c(21, 22, 23, 24, 25)
+		values = c(21, 22, 23, 24, 25)
 	) +
 	scale_x_continuous(
 		breaks = axis.x.breaks,

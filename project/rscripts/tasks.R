@@ -106,7 +106,7 @@ memory.df.cooked <- ddply(
 	cv = sd(value)/mean(value)
 )
 
-print(head(time.df.cooked))
+print(time.df.cooked)
 print(head(memory.df.cooked))
 
 #===============================================================================
@@ -132,7 +132,7 @@ plot.axis.x.title <- "Number of Tasks"
 plot.axis.x.breaks <- seq(from = 1, to = 29, by = 1)
 
 # Y Axis
-plot.axis.y.title <- "Time (ms)"
+plot.axis.y.title <- expression(paste("Time (", mu, "s)"))
 plot.axis.ymin <- 2^8
 plot.axis.ymax <- 2^14
 plot.axis.y.limits <- c(plot.axis.ymin, plot.axis.ymax)

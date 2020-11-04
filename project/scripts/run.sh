@@ -174,7 +174,42 @@ function run_tasks
 
 		addons_old=""
 
-		for ntasks in {1..29};
+		for ntasks in 15;
+		do
+			addons_new=" -D__NTASKS=$ntasks -D__NITERATIONS=50 -D__NSKIP=10"
+			switchAddons $DIR_SOURCE "$addons_new" "$addons_old"
+
+			outdir=$OUTDIR-$exp-$ntasks
+
+			mkdir -p $outdir
+
+			run               \
+				$PLATFORM     \
+				$DIR_REMOTE   \
+				$DIR_SOURCE   \
+				$COMMIT       \
+				$IMG          \
+				$exp          \
+				5             \
+				$outdir       \
+				$FILE_RUNLOG
+
+			addons_old=$addons_new
+		done
+
+		# Rollback changes.
+		switchAddons $DIR_SOURCE "" "$addons_old"
+	done
+
+	for exp in thread;
+	do
+		IMG=mppa256-$exp-time.img
+
+		cp $DIR_SOURCE/img/$IMG $DIR_SOURCE/img/mppa256.img
+
+		addons_old=""
+
+		for ntasks in 11 18;
 		do
 			addons_new=" -D__NTASKS=$ntasks -D__NITERATIONS=50 -D__NSKIP=10"
 			switchAddons $DIR_SOURCE "$addons_new" "$addons_old"

@@ -95,18 +95,18 @@ IODDR1@0.0: RM 0: [hal][core] booting up core...
 IODDR1@0.0: RM 0: [hal] exception stack at 0x0009b000
 IODDR1@0.0: RM 0: [hal][core] initializing interrupts...
 IODDR1@0.0: RM 0: [hal][core] interrupt handler registered for irq 7
-IODDR1@0.0: RM 0: [hal][core] interrupt handler registered for irq 3
 IODDR1@0.0: RM 1: [core 1][hal] initializing tlb
 IODDR1@0.0: RM 2: [core 2][hal] initializing tlb
 IODDR1@0.0: RM 3: [core 3][hal] initializing tlb
-IODDR1@0.0: RM 0: [hal][core] interrupt handler registered for irq 4
+IODDR1@0.0: RM 0: [hal][core] interrupt handler registered for irq 3
 IODDR1@0.0: RM 1: [hal][core] booting up core...
 IODDR1@0.0: RM 2: [hal][core] booting up core...
 IODDR1@0.0: RM 3: [hal][core] booting up core...
-IODDR1@0.0: RM 0: [hal][sync] Sync Initialization.
+IODDR1@0.0: RM 0: [hal][core] interrupt handler registered for irq 4
 IODDR1@0.0: RM 1: [hal] exception stack at 0x0009c000
 IODDR1@0.0: RM 2: [hal] exception stack at 0x0009d000
 IODDR1@0.0: RM 3: [hal] exception stack at 0x0009e000
+IODDR1@0.0: RM 0: [hal][sync] Sync Initialization.
 IODDR1@0.0: RM 0: [hal][mailbox] Mailbox Initialization.
 IODDR1@0.0: RM 0: [hal][portal] Portal Initialization.
 IODDR1@0.0: RM 0: [hal][core] interrupt handler registered for irq 0
@@ -851,7 +851,7 @@ Cluster15@0.0: PE 0: cluster 17: [nanvix][zombie] server alive
 Cluster15@0.0: PE 0: [hal][core] halting...
 Cluster0@0.0: PE 0: [hal] booting up cluster...
 Cluster0@0.0: PE 0: [hal][cluster] initializing memory layout...
-Cluster0@0.0: PE 0: [hal][cluster] text = 336 KB data = 19 KB bss = 898 KB
+Cluster0@0.0: PE 0: [hal][cluster] text = 333 KB data = 19 KB bss = 898 KB
 Cluster0@0.0: PE 0: [hal][cluster] hyper_low_base=0x00000000 hyper_low_end=0x00008000
 Cluster0@0.0: PE 0: [hal][cluster] hyper_high_base=0x001f8000 hyper_high_end=0x00200000
 Cluster0@0.0: PE 0: [hal][cluster] kernel_base=0x00008000 kernel_end=0x00180000
@@ -860,7 +860,7 @@ Cluster0@0.0: PE 0: [hal][cluster] user_base=0x80000000   user_end=0xf0000000
 Cluster0@0.0: PE 0: [hal][cluster] memsize=2 MB kmem=1504 KB kpool=160 KB umem=512 KB
 Cluster0@0.0: PE 0: [core 0][hal] initializing tlb
 Cluster0@0.0: PE 0: [hal][core] booting up core...
-Cluster0@0.0: PE 0: [hal] exception stack at 0x00099000
+Cluster0@0.0: PE 0: [hal] exception stack at 0x00098000
 Cluster0@0.0: PE 0: [hal][core] initializing interrupts...
 Cluster0@0.0: PE 0: [hal][core] interrupt handler registered for irq 7
 Cluster0@0.0: PE 1: [core 1][hal] initializing tlb
@@ -895,21 +895,21 @@ Cluster0@0.0: PE 13: [hal][core] booting up core...
 Cluster0@0.0: PE 14: [hal][core] booting up core...
 Cluster0@0.0: PE 15: [hal][core] booting up core...
 Cluster0@0.0: PE 0: [hal][core] interrupt handler registered for irq 4
-Cluster0@0.0: PE 1: [hal] exception stack at 0x0009a000
-Cluster0@0.0: PE 2: [hal] exception stack at 0x0009b000
-Cluster0@0.0: PE 3: [hal] exception stack at 0x0009c000
-Cluster0@0.0: PE 4: [hal] exception stack at 0x0009d000
-Cluster0@0.0: PE 5: [hal] exception stack at 0x0009e000
-Cluster0@0.0: PE 6: [hal] exception stack at 0x0009f000
-Cluster0@0.0: PE 7: [hal] exception stack at 0x000a0000
-Cluster0@0.0: PE 8: [hal] exception stack at 0x000a1000
-Cluster0@0.0: PE 9: [hal] exception stack at 0x000a2000
-Cluster0@0.0: PE 10: [hal] exception stack at 0x000a3000
-Cluster0@0.0: PE 11: [hal] exception stack at 0x000a4000
-Cluster0@0.0: PE 12: [hal] exception stack at 0x000a5000
-Cluster0@0.0: PE 13: [hal] exception stack at 0x000a6000
-Cluster0@0.0: PE 14: [hal] exception stack at 0x000a7000
-Cluster0@0.0: PE 15: [hal] exception stack at 0x000a8000
+Cluster0@0.0: PE 1: [hal] exception stack at 0x00099000
+Cluster0@0.0: PE 2: [hal] exception stack at 0x0009a000
+Cluster0@0.0: PE 3: [hal] exception stack at 0x0009b000
+Cluster0@0.0: PE 4: [hal] exception stack at 0x0009c000
+Cluster0@0.0: PE 5: [hal] exception stack at 0x0009d000
+Cluster0@0.0: PE 6: [hal] exception stack at 0x0009e000
+Cluster0@0.0: PE 7: [hal] exception stack at 0x0009f000
+Cluster0@0.0: PE 8: [hal] exception stack at 0x000a0000
+Cluster0@0.0: PE 9: [hal] exception stack at 0x000a1000
+Cluster0@0.0: PE 10: [hal] exception stack at 0x000a2000
+Cluster0@0.0: PE 11: [hal] exception stack at 0x000a3000
+Cluster0@0.0: PE 12: [hal] exception stack at 0x000a4000
+Cluster0@0.0: PE 13: [hal] exception stack at 0x000a5000
+Cluster0@0.0: PE 14: [hal] exception stack at 0x000a6000
+Cluster0@0.0: PE 15: [hal] exception stack at 0x000a7000
 Cluster0@0.0: PE 0: [hal][sync] Sync Initialization.
 Cluster0@0.0: PE 0: [hal][mailbox] Mailbox Initialization.
 Cluster0@0.0: PE 0: [hal][portal] Portal Initialization.
@@ -918,10 +918,10 @@ Cluster0@0.0: PE 0: [kernel][mm] initializing the memory system
 Cluster0@0.0: PE 0: [kernel][mm] initializing the page frame allocator
 Cluster0@0.0: PE 0: [kernel][mm] initializing the kernel page allocator
 Cluster0@0.0: PE 0: [kernel][mm] initializing the user page allocator
-Cluster0@0.0: PE 0: [hal][core] exception handler 0x00032ef8 registered for tlb fault
-Cluster0@0.0: PE 0: [hal][core] overwriting handler 0x00032ef8 for tlb fault
-Cluster0@0.0: PE 0: [hal][core] exception handler 0x00032ef8 registered for tlb fault
-Cluster0@0.0: PE 0: [hal][core] exception handler 0x00033008 registered for page fault
+Cluster0@0.0: PE 0: [hal][core] exception handler 0x00032d48 registered for tlb fault
+Cluster0@0.0: PE 0: [hal][core] overwriting handler 0x00032d48 for tlb fault
+Cluster0@0.0: PE 0: [hal][core] exception handler 0x00032d48 registered for tlb fault
+Cluster0@0.0: PE 0: [hal][core] exception handler 0x00032e58 registered for page fault
 Cluster0@0.0: PE 0: [kernel][noc] initializing the noc system
 Cluster0@0.0: PE 0: [kernel][noc] initializing the kmailbox facility
 Cluster0@0.0: PE 0: [kernel][noc] initializing the kportal facility
@@ -942,56 +942,56 @@ Cluster0@0.0: PE 0: cluster 2: [nanvix][thread 0] initalizing ring 4
 Cluster0@0.0: PE 0: cluster 2: [nanvix][shm] connection with server established
 Cluster0@0.0: PE 0: cluster 2: [nanvix][sysv] connection with server established
 Cluster0@0.0: PE 0: cluster 2: [nanvix][thread 0] initalizing ring 5
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127414 881255
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127451 875400
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127369 876725
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127402 875756
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127411 876472
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127422 875210
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127500 876148
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127491 877571
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127431 875927
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127422 875975
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127357 876116
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127385 876074
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127331 875571
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127373 876024
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127391 877616
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127397 875112
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127290 876862
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127502 876251
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127399 877083
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127440 876850
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127330 877146
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127413 876696
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127425 876933
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127455 876735
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127391 877737
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127335 876101
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127396 876125
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127245 875580
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127422 872857
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 128804 894982
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127270 876727
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127333 876885
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127402 876074
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127365 876052
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127425 874882
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127514 877537
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127399 875552
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127399 877061
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127357 873556
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 128866 894740
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127434 876897
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127386 875480
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127382 875392
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127380 875953
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127435 875935
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127363 875901
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127391 876564
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127333 877743
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127388 875964
-Cluster0@0.0: PE 0: cluster 2: [benchmarks][task] 15 8192 127397 877574
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2026383 367856
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2018068 365826
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2021005 365634
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 1980218 388622
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2011033 352909
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2017925 369090
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 1991759 368914
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2023018 385580
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2001529 388473
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2003039 364011
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2020802 388841
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2000476 366322
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2019842 367868
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2006452 379396
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 1973158 378359
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 1991588 363880
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2027586 365707
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2011738 363706
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2020791 365046
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2023000 390086
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2032064 363823
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2062099 364049
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2005832 366580
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 1988366 379031
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 1963758 363728
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2047332 377054
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2005628 370167
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2005627 365858
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2018121 365806
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2019332 368474
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2019387 365710
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 1999522 383209
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2028140 352143
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2026976 352566
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2054073 385774
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2000579 365521
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2017765 366287
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2019091 366249
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2003660 378153
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2018064 365966
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2025165 386578
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2021953 386573
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 1971491 389770
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 1973533 384830
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2000882 365138
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2022325 366246
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 1982708 373527
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2023293 388507
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2033374 367932
+Cluster0@0.0: PE 0: cluster 2: [benchmarks][thread] 11 90112 2018072 388687
 Cluster0@0.0: PE 0: cluster 2: [nanvix][2] shutting down NOW
 Cluster0@0.0: PE 0: cluster 2: [nanvix][thread 0] shutting down ring 5
 Cluster0@0.0: PE 0: cluster 2: [nanvix][thread 0] shutting down ring 4
@@ -1012,7 +1012,6 @@ Cluster1@0.0: PE 0: [core 0][hal] initializing tlb
 Cluster1@0.0: PE 0: [hal][core] booting up core...
 Cluster1@0.0: PE 0: [hal] exception stack at 0x00096000
 Cluster1@0.0: PE 0: [hal][core] initializing interrupts...
-Cluster1@0.0: PE 0: [hal][core] interrupt handler registered for irq 7
 Cluster1@0.0: PE 1: [core 1][hal] initializing tlb
 Cluster1@0.0: PE 2: [core 2][hal] initializing tlb
 Cluster1@0.0: PE 3: [core 3][hal] initializing tlb
@@ -1028,7 +1027,7 @@ Cluster1@0.0: PE 12: [core 12][hal] initializing tlb
 Cluster1@0.0: PE 13: [core 13][hal] initializing tlb
 Cluster1@0.0: PE 14: [core 14][hal] initializing tlb
 Cluster1@0.0: PE 15: [core 15][hal] initializing tlb
-Cluster1@0.0: PE 0: [hal][core] interrupt handler registered for irq 3
+Cluster1@0.0: PE 0: [hal][core] interrupt handler registered for irq 7
 Cluster1@0.0: PE 1: [hal][core] booting up core...
 Cluster1@0.0: PE 2: [hal][core] booting up core...
 Cluster1@0.0: PE 3: [hal][core] booting up core...
@@ -1044,7 +1043,7 @@ Cluster1@0.0: PE 12: [hal][core] booting up core...
 Cluster1@0.0: PE 13: [hal][core] booting up core...
 Cluster1@0.0: PE 14: [hal][core] booting up core...
 Cluster1@0.0: PE 15: [hal][core] booting up core...
-Cluster1@0.0: PE 0: [hal][core] interrupt handler registered for irq 4
+Cluster1@0.0: PE 0: [hal][core] interrupt handler registered for irq 3
 Cluster1@0.0: PE 1: [hal] exception stack at 0x00097000
 Cluster1@0.0: PE 2: [hal] exception stack at 0x00098000
 Cluster1@0.0: PE 3: [hal] exception stack at 0x00099000
@@ -1060,6 +1059,7 @@ Cluster1@0.0: PE 12: [hal] exception stack at 0x000a2000
 Cluster1@0.0: PE 13: [hal] exception stack at 0x000a3000
 Cluster1@0.0: PE 14: [hal] exception stack at 0x000a4000
 Cluster1@0.0: PE 15: [hal] exception stack at 0x000a5000
+Cluster1@0.0: PE 0: [hal][core] interrupt handler registered for irq 4
 Cluster1@0.0: PE 0: [hal][sync] Sync Initialization.
 Cluster1@0.0: PE 0: [hal][mailbox] Mailbox Initialization.
 Cluster1@0.0: PE 0: [hal][portal] Portal Initialization.
@@ -1186,6 +1186,7 @@ Cluster3@0.0: PE 0: [core 0][hal] initializing tlb
 Cluster3@0.0: PE 0: [hal][core] booting up core...
 Cluster3@0.0: PE 0: [hal] exception stack at 0x00096000
 Cluster3@0.0: PE 0: [hal][core] initializing interrupts...
+Cluster3@0.0: PE 0: [hal][core] interrupt handler registered for irq 7
 Cluster3@0.0: PE 1: [core 1][hal] initializing tlb
 Cluster3@0.0: PE 2: [core 2][hal] initializing tlb
 Cluster3@0.0: PE 3: [core 3][hal] initializing tlb
@@ -1201,7 +1202,7 @@ Cluster3@0.0: PE 12: [core 12][hal] initializing tlb
 Cluster3@0.0: PE 13: [core 13][hal] initializing tlb
 Cluster3@0.0: PE 14: [core 14][hal] initializing tlb
 Cluster3@0.0: PE 15: [core 15][hal] initializing tlb
-Cluster3@0.0: PE 0: [hal][core] interrupt handler registered for irq 7
+Cluster3@0.0: PE 0: [hal][core] interrupt handler registered for irq 3
 Cluster3@0.0: PE 1: [hal][core] booting up core...
 Cluster3@0.0: PE 2: [hal][core] booting up core...
 Cluster3@0.0: PE 3: [hal][core] booting up core...
@@ -1217,7 +1218,7 @@ Cluster3@0.0: PE 12: [hal][core] booting up core...
 Cluster3@0.0: PE 13: [hal][core] booting up core...
 Cluster3@0.0: PE 14: [hal][core] booting up core...
 Cluster3@0.0: PE 15: [hal][core] booting up core...
-Cluster3@0.0: PE 0: [hal][core] interrupt handler registered for irq 3
+Cluster3@0.0: PE 0: [hal][core] interrupt handler registered for irq 4
 Cluster3@0.0: PE 1: [hal] exception stack at 0x00097000
 Cluster3@0.0: PE 2: [hal] exception stack at 0x00098000
 Cluster3@0.0: PE 3: [hal] exception stack at 0x00099000
@@ -1233,7 +1234,6 @@ Cluster3@0.0: PE 12: [hal] exception stack at 0x000a2000
 Cluster3@0.0: PE 13: [hal] exception stack at 0x000a3000
 Cluster3@0.0: PE 14: [hal] exception stack at 0x000a4000
 Cluster3@0.0: PE 15: [hal] exception stack at 0x000a5000
-Cluster3@0.0: PE 0: [hal][core] interrupt handler registered for irq 4
 Cluster3@0.0: PE 0: [hal][sync] Sync Initialization.
 Cluster3@0.0: PE 0: [hal][mailbox] Mailbox Initialization.
 Cluster3@0.0: PE 0: [hal][portal] Portal Initialization.

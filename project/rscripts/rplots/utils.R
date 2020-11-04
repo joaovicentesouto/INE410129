@@ -10,7 +10,7 @@ library("ggplot2")
 plot.save <- function(
 	directory = getwd(),
 	filename = "plot.pdf",
-	plot, width = 7, height = 4
+	plot, width = 9, height = 4
 ) {
 	filename <- paste(directory, filename, sep = "/")
 	filename <- paste(filename, "pdf", sep = ".")

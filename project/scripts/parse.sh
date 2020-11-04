@@ -94,15 +94,12 @@ done
 hash=48ebff6
 for ntasks in {1..29};
 do
-	if [[ $ntasks != 11 ]];
-	then
-		cat $DIR_RESULTS_RAW/$hash-thread-$ntasks/thread-nanvix-cluster-* | \
-			grep "\[benchmarks\]\[thread\]"                               | \
-			$SED -E "s/[[:space:]]+/ /g"                                  | \
-			cut -d " " -f 7,8,9,10                                        | \
-			$SED -E "s/^/thread;/g"                                       | \
-			$SED -E "s/ /;/g"                                               \
-		>> $csvfile
-	fi
+	cat $DIR_RESULTS_RAW/$hash-thread-$ntasks/thread-nanvix-cluster-* | \
+		grep "\[benchmarks\]\[thread\]"                               | \
+		$SED -E "s/[[:space:]]+/ /g"                                  | \
+		cut -d " " -f 7,8,9,10                                        | \
+		$SED -E "s/^/thread;/g"                                       | \
+		$SED -E "s/ /;/g"                                               \
+	>> $csvfile
 done
 
