@@ -30,6 +30,7 @@ library(plyr)
 library(tidyverse)
 
 # My Utilities
+source(file = "rscripts/rplots/bars.R")
 source(file = "rscripts/rplots/lines.R")
 source(file = "rscripts/rplots/theme.R")
 source(file = "rscripts/rplots/utils.R")
@@ -46,9 +47,9 @@ if (length(args) >= 3) {
 	experiment.outdir <- args[2]
 	experiment.outfile <- args[3]
 } else {
-	experiment.infile <- "./results/cooked/gf.csv"
+	experiment.infile <- "./results/cooked/tasks.csv"
 	experiment.outdir <- "./img/results"
-	experiment.outfile <- "gf"
+	experiment.outfile <- "tasks"
 }
 
 #===============================================================================
@@ -62,144 +63,80 @@ experiment.df <- read_delim(
 )
 
 #===============================================================================
-# Filter 
+# Filter
 #===============================================================================
 
-# Changes number procs to worker procs 
-experiment.df["nprocs"] <- (experiment.df["nprocs"] - 1)
+# Update memory used by multiple dispatcher.
+experiment.df <- experiment.df %>%
+	mutate(memory = ifelse(exp == "multiple", 114688, memory))
+
+# Sum dispatch and wait times
+experiment.df$time <- (experiment.df$dispatch + experiment.df$wait)/MPPA.FREQ/MICRO
+experiment.df$memory <- experiment.df$memory/KB
 
 #===============================================================================
 # Pre-Processing
 #===============================================================================
 
-nanvix.df <- subset(
-	x = experiment.df,
-	subset = (api == "nanvix")
-)
-nanvix.df.melted <- melt(
-	data = nanvix.df,
-	id.vars = c("api",  "nprocs"),
+time.df.melted <- melt(
+	data = experiment.df,
+	id.vars = c("exp",  "ntasks"),
 	measure.vars = c("time"),
 )
-nanvix.df.cooked <- ddply(
-	nanvix.df.melted,
-	c("api",  "nprocs", "variable"),
+time.df.cooked <- ddply(
+	time.df.melted,
+	c("exp",  "ntasks", "variable"),
 	summarise,
 	mean = mean(value),
 	sd = sd(value),
 	cv = sd(value)/mean(value)
 )
-nanvix.df.cooked$speedup <- nanvix.df.cooked$mean[1]/nanvix.df.cooked$mean
-nanvix.df.cooked$mean <- nanvix.df.cooked$mean / MPPA.FREQ
 
-baseline.df <- subset(
-	x = experiment.df,
-	subset = (api == "baseline")
+memory.df.melted <- melt(
+	data = experiment.df,
+	id.vars = c("exp",  "ntasks"),
+	measure.vars = c("memory"),
 )
-baseline.df.melted <- melt(
-	data = baseline.df,
-	id.vars = c("api",  "nprocs"),
-	measure.vars = c("time"),
-)
-baseline.df.cooked <- ddply(
-	baseline.df.melted,
-	c("api",  "nprocs", "variable"),
+memory.df.cooked <- ddply(
+	memory.df.melted,
+	c("exp",  "ntasks", "variable"),
 	summarise,
 	mean = mean(value),
 	sd = sd(value),
 	cv = sd(value)/mean(value)
 )
-baseline.df.cooked$speedup <- baseline.df.cooked$mean[1]/baseline.df.cooked$mean
 
-#===============================================================================
-# Speedup Plot
-#===============================================================================
-
-plot.df <- rbind(nanvix.df.cooked, baseline.df.cooked)
-
-plot.var.x <- "nprocs"
-plot.var.y <- "speedup"
-plot.factor <- "api"
-
-# Titles
-plot.title <- NULL
-plot.subtitle <- NULL
-
-# Legend
-plot.legend.title <- "API Solution"
-plot.legend.labels <- c("Kalray Runtime", "Nanvix LWMPI")
-
-# X Axis
-plot.axis.x.title <- "Number of Workers"
-plot.axis.x.breaks <- seq(from = 1, to = 15, by = 1) 
-
-# Y Axis
-plot.axis.y.title <- "Speedup"
-plot.axis.ymax <- 16
-plot.axis.y.limits <- c(0, plot.axis.ymax)
-plot.axis.y.breaks <- seq(from = 0, to = plot.axis.ymax, by = 2)
-
-# Data Labels
-plot.data.labels.digits <- 0
-
-plot <- plot.linespoint(
-	df = plot.df,
-	factor = plot.var.x,
-	respvar = plot.var.y,
-	param = plot.factor,
-	title = plot.title,
-	subtitle = plot.subtitle,
-	legend.title = plot.legend.title,
-	legend.labels = plot.legend.labels,
-	axis.x.title = plot.axis.x.title,
-	axis.x.breaks = plot.axis.x.breaks,
-	axis.y.title = plot.axis.y.title,
-	axis.y.limits = plot.axis.y.limits,
-	axis.y.breaks = plot.axis.y.breaks
-) + plot.theme.title +
-	plot.theme.legend.top.left +
-	plot.theme.axis.x +
-	plot.theme.axis.y +
-	plot.theme.grid.wall +
-	plot.theme.grid.major
-
-if (length(args) >= 1) {
-	plot.save(
-		plot,
-		directory = experiment.outdir,
-		filename = paste(experiment.outfile, "speedup", sep = "-")
-	)
-} else {
-	plot
-}
+print(head(time.df.cooked))
+print(head(memory.df.cooked))
 
 #===============================================================================
 # Time Plot
 #===============================================================================
 
-plot.df <-rbind(nanvix.df.cooked, baseline.df.cooked)
+plot.df <- time.df.cooked
 
-plot.var.x <- "nprocs"
+plot.var.x <- "ntasks"
 plot.var.y <- "mean"
-plot.factor <- "api"
+plot.factor <- "exp"
 
 # Titles
 plot.title <- NULL
 plot.subtitle <- NULL
 
 # Legend
-plot.legend.title <- "API Solution"
-plot.legend.labels <- c("Kalray Runtime", "Nanvix LWMPI")
+plot.legend.title <- "Type of Execution Flow"
+plot.legend.labels <- c("Multiple Dispathers", "Single Dispatcher", "Threads")
 
 # X Axis
-plot.axis.x.title <- "Number of Worders"
-plot.axis.x.breaks <- seq(from = 1, to = 15, by = 1) 
+plot.axis.x.title <- "Number of Tasks"
+plot.axis.x.breaks <- seq(from = 1, to = 29, by = 1)
 
 # Y Axis
-plot.axis.y.title <- "Time (s)"
-plot.axis.ymax <- 1000
-plot.axis.y.limits <- c(0.1, plot.axis.ymax)
-plot.axis.y.breaks <- 10^c(-1:3)
+plot.axis.y.title <- "Time (ms)"
+plot.axis.ymin <- 2^8
+plot.axis.ymax <- 2^14
+plot.axis.y.limits <- c(plot.axis.ymin, plot.axis.ymax)
+plot.axis.y.breaks <- 2^c(-1:14)
 
 # Data Labels
 plot.data.labels.digits <- 0
@@ -218,32 +155,76 @@ plot <- plot.linespoint(
 	axis.y.title = plot.axis.y.title,
 	axis.y.limits = plot.axis.y.limits,
 	axis.y.breaks = plot.axis.y.breaks,
-	axis.y.trans = "log10",
-	axis.y.trans.format = math_format(expr = 10^.x)
+	axis.y.trans = "log2",
+	axis.y.trans.format = math_format(expr = 2^.x)
 ) + plot.theme.title +
-	(
-	 if (experiment.outfile == "gf") plot.theme.legend.top.right
-	 else                            plot.theme.legend.bottom.left
-	) +
+	plot.theme.legend.bottom.right +
 	plot.theme.axis.x +
 	plot.theme.axis.y +
 	plot.theme.grid.wall +
 	plot.theme.grid.major
 
-if (length(args) >= 1) {
-	plot.save(
-		plot,
-		directory = experiment.outdir,
-		filename = paste(experiment.outfile, "time", sep = "-")
-	)
-} else {
-	plot
-}
+plot.save(
+	plot,
+	directory = experiment.outdir,
+	filename = paste(experiment.outfile, "time", sep = "-")
+)
 
 #===============================================================================
-# Statistics
+# Memory Plot
 #===============================================================================
 
-# Max CoVs
-print(max(nanvix.df.cooked$cv))
-print(max(baseline.df.cooked$cv))
+plot.df <- memory.df.cooked
+
+plot.var.x <- "ntasks"
+plot.var.y <- "mean"
+plot.factor <- "exp"
+
+# Titles
+plot.title <- NULL
+plot.subtitle <- NULL
+
+# Legend
+plot.legend.title <- "Execution Flow"
+plot.legend.labels <- c("Multiple Dispathers", "Single Dispatcher", "Threads")
+
+# X Axis
+plot.axis.x.title <- "Number of Tasks"
+plot.axis.x.breaks <- seq(from = 1, to = 29, by = 1)
+
+# Y Axis
+plot.axis.y.title <- "Memory (KB)"
+plot.axis.ymin <- 8 
+plot.axis.ymax <- 232 
+plot.axis.y.limits <- c(plot.axis.ymin, plot.axis.ymax)
+plot.axis.y.breaks <- seq(from = plot.axis.ymin, to = plot.axis.ymax, by = 28)
+
+# Data Labels
+plot.data.labels.digits <- 0
+
+plot <- plot.linespoint(
+	df = plot.df,
+	factor = plot.var.x,
+	respvar = plot.var.y,
+	param = plot.factor,
+	title = plot.title,
+	subtitle = plot.subtitle,
+	legend.title = plot.legend.title,
+	legend.labels = plot.legend.labels,
+	axis.x.title = plot.axis.x.title,
+	axis.x.breaks = plot.axis.x.breaks,
+	axis.y.title = plot.axis.y.title,
+	axis.y.limits = plot.axis.y.limits,
+	axis.y.breaks = plot.axis.y.breaks,
+) + plot.theme.title +
+	plot.theme.legend.bottom.right +
+	plot.theme.axis.x +
+	plot.theme.axis.y +
+	plot.theme.grid.wall +
+	plot.theme.grid.major
+
+plot.save(
+	plot,
+	directory = experiment.outdir,
+	filename = paste(experiment.outfile, "memory", sep = "-")
+)

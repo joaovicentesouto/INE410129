@@ -59,29 +59,50 @@ function format {
 
 hash=$BENCHMARKS_HASH
 
-for exp in fn gf km;
+csvfile=$DIR_RESULTS_COOKED/tasks.csv
+
+# Write header.
+echo "exp;ntasks;memory;dispatch;wait" > $csvfile
+
+# Single dispatcher
+hash=3771f3c 
+for ntasks in {1..29};
 do
-	csvfile=$DIR_RESULTS_COOKED/$exp.csv
-
-	# Write header.
-	echo "exp;api;nprocs;time" > $csvfile
-
-	for nprocs in {2..16};
-	do
-		f=$DIR_RESULTS_RAW/$exp-$(echo "$nprocs - 1" | bc).out
-
-		cat $f                                    | \
-			grep "total time"                     | \
-			sed -E "s/[[:space:]]+/ /g"           | \
-			cut -d" " -f 6                        | \
-			sed -E "s/^/$exp;baseline;$nprocs;/g"   \
-		>> $csvfile
-
-		cat $DIR_RESULTS_RAW/$hash-procs-$nprocs/$exp-nanvix-cluster-* | \
-			grep "total time"                                          | \
-			sed -E "s/[[:space:]]+/ /g"                                | \
-			cut -d" " -f 9                                             | \
-			sed -E "s/^/$exp;nanvix;$nprocs;/g"                          \
-		>> $csvfile
-	done
+	cat $DIR_RESULTS_RAW/$hash-task-$ntasks/task-nanvix-cluster-* | \
+		grep "\[benchmarks\]\[task\]"                             | \
+		$SED -E "s/[[:space:]]+/ /g"                              | \
+		cut -d " " -f 7,8,9,10                                    | \
+		$SED -E "s/^/single;/g"                                   | \
+		$SED -E "s/ /;/g"                                           \
+	>> $csvfile
 done
+
+# Single dispatcher
+hash=48ebff6
+for ntasks in {1..29};
+do
+	cat $DIR_RESULTS_RAW/$hash-task-$ntasks/task-nanvix-cluster-* | \
+		grep "\[benchmarks\]\[task\]"                             | \
+		$SED -E "s/[[:space:]]+/ /g"                              | \
+		cut -d " " -f 7,8,9,10                                    | \
+		$SED -E "s/^/multiple;/g"                                 | \
+		$SED -E "s/ /;/g"                                           \
+	>> $csvfile
+done
+
+# Single dispatcher
+hash=48ebff6
+for ntasks in {1..29};
+do
+	if [[ $ntasks != 11 ]];
+	then
+		cat $DIR_RESULTS_RAW/$hash-thread-$ntasks/thread-nanvix-cluster-* | \
+			grep "\[benchmarks\]\[thread\]"                               | \
+			$SED -E "s/[[:space:]]+/ /g"                                  | \
+			cut -d " " -f 7,8,9,10                                        | \
+			$SED -E "s/^/thread;/g"                                       | \
+			$SED -E "s/ /;/g"                                               \
+		>> $csvfile
+	fi
+done
+
