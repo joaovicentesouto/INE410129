@@ -1,4 +1,35 @@
 \section{Related Work}
 \label{sec:related-work}
 
-	\lipsum[2]
+	% Intro
+	Existem diversas soluções propostas que visam tirar proveito do alto nível
+	paralelismo e baixo consumo energético dos LWs sem introduzir um overhead
+	indesejado ao sistema.
+
+	% Specific
+	Soluções específicas, que modelam todo o ambiente de execução entorno de um
+	tipo de um paradigma de programação buscam eliminar problemas de concorrência
+	existentes em sistemas multi-processador e preemptivos.
+	Por exemplo, ambientes de execução baseados em tarefas ou corotinas exploram
+	o paralelismo de tarefas que trabalham de forma cooperativa.
+	Esses ambientes oferecem suporte a flexibilidade e um controle de grão fino
+	das tarefas. É possível também mapear pradões de programação paralela, como
+	OPENMP diretamente em conjuntos de tarefas/corotinas nesses sistemas.
+	A cooperação entre as unidades de execução é um importante ponto de
+	benefício desses sistemas, onde a troca de contexto é leve e não ocorrem
+	involuntáriamente, tornando a execução mais preditiva.
+	Entretanto, esses runtimes limitam a classe de aplicações que podem ser
+	portadas para LWs. 
+
+	% Generic
+	Outras soluções, exploram desenvolver padrões e mecanismos no nível do
+	kernel modeladas especificamente para LWs sem perder a compatibilidade com
+	outros sistemas. Entretanto, alguns serviços do SO podem a vir requerer uma
+	quantidade um footprint de memória excessivo, forçando a aplicação cliente
+	a trabalhar com uma quantidade limitada.
+	%
+	% Our propose.
+	Nós acreditamos que muitos desses serviços internos do SO podem ser
+	modelados sobre uma perspectiva de tarefas solicitadas, periódicas e/ou
+	assíncronas. Está solução é especialmente vantajosa em microkernel assímetricos
+	por poderem utilizar núcleos ociosos para executar tais tarefas.
