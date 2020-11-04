@@ -42,7 +42,7 @@
 			when it leaves the master core idle between syscall requests.
 
 		\item[Asynchronous Operations] For power consumption reduction, \lws may
-			not feature a dedicated DMA to perform asynchronous communication.
+			not feature a dedicated \dma to perform asynchronous communication.
 			Thus, a specific thread must to manually send the data through the
 			\noc. All system calls within the microkernel are also blocking,
 			even though a thread can perform independent operations in the

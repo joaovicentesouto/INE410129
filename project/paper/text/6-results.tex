@@ -3,26 +3,24 @@
 
 	% Methodology
 	To assess the costs of creating and waiting for a task, we created
-	a synthetic benchmark that write each byte of 16 memory page, e.g., 64~KB.
+	a synthetic benchmark that write each byte of 16 memory pages, e.g., 64~KB.
 	To guarantee 95\% confidence, 50 replications were performed, the first 10
 	being discarded to ignore the warm-up period.
 
-	\begin{table}[]
+	\begin{table}[t]
 	\centering
 	\caption{Benchmark parameters for experiments.}
 	\label{tab:parameters}
-	\begin{tabular}{llll}
+	\begin{tabular}{lccc}
 	\toprule
 			\textbf{Benchmark}   & \textbf{\#Tasks} & \textbf{\#Threads} & \textbf{Memory} \\
 			\midrule
 			Single Dispatcher    & 1 to 29          & 1                  & 8~KB            \\
 			Multiple Dispatchers & 1 to 29          & 14                 & 112~KB          \\
-			Threads              & 1 to 29          & 1 to 29            & [8,232]~KB      \\
+			Threads              & 1 to 29          & 1 to 29            & [8, 232]~KB     \\
 			\bottomrule
 	\end{tabular}
 	\end{table}
-
- Figura.
 
 	Table~\ref{tab:parameters} shows the application of this benchmark replicated in three
 	different scenarios:
@@ -41,11 +39,11 @@
 	memory used controlled.
 
 	% Time
-	Figure~\ref{fig:time} shows the execution time for each scenario. The times
-	collected are made up of the Dispatch/Create and Wait/Join period of
-	a Task/Thread.  Comparing the execution of a single task, the use of only
-	one dispatcher showed superior performance to the other scenarios because
-	there is no competition for the consumption of tasks, exploring the
+	Figure~\ref{fig:time} shows the execution time in $\mu$s for each scenario.
+	The times collected are made up of the dispatch/create and wait/join period
+	of a task/thread.  Comparing the execution of a single task, the use of
+	only one dispatcher showed superior performance to the other scenarios
+	because there is no competition for the consumption of tasks, exploring the
 	location of the data, and do not require the cost of the creation of a new
 	thread. Between	7 to 13 tasks, all scenarios behaved similarly performance
 	because the overhead of thread creation and concurrency were balanced by
@@ -60,9 +58,9 @@
 	cores, the proposed mechanism showed performance similar to the scenario
 	that uses specific threads per task.
 
-	\begin{figure}[]
+	\begin{figure}[t]
 			\centering
-			\includegraphics[width=0.90\linewidth]{tasks-time}
+			\includegraphics[width=0.97\linewidth]{tasks-time}
 			\caption{Runtime Results.}
 			\label{fig:time}
 	\end{figure}

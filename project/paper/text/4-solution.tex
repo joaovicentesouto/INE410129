@@ -2,33 +2,21 @@
 \label{sec:solution}
 
 	% Overview
-	The proposed Task abstraction can be seen as a special case of coroutines.
-	It encapsulates a subroutine that can be performed regardless of who
-	created them. However, unlike coroutines, the proposed task definition is
-	disconnected from the need to have a dedicated thread per task. At this
-	point, we introduce a special thread, named dispatcher, which is a generic
-	task executor. Following the Producer-Consumer model, the dispatcher
-	consumes tasks from a global task queue, where requesters atomically insert
-	tasks to be performed.
-
-	A Task is a standardized structure that holds semantic and control
-	information. On the one hand, the semantic variables store the function to
-	be performed, its arguments, and a slot to store the return value. On the
-	other hand, control variables, referring to the semantics of the
-	dispatcher, are composed of the state of the task, a list of dependent
-	tasks, the number of active parent tasks, and a synchronization control
-	with the requester. This allows the creation of dependency graphs that
-	introduce more sophisticated managements and asynchronous behaviors. These
-	dependencies guarantee that a task will only be ready to execute when all
-	the parent tasks have completed their executions.
+	The proposed \textit{task} abstraction can be seen as a special case of
+	coroutines.  It encapsulates a subroutine that can be performed regardless
+	of who created them. However, unlike coroutines, the proposed task
+	definition is disconnected from the need to have a dedicated thread per
+	task. At this point, we introduce a special thread, named
+	\textit{dispatcher}, which is a generic task executor. Following the
+	producer-consumer model, the dispatcher consumes tasks from a global task
+	queue, where requesters atomically insert tasks to be performed.
 
 	\begin{algorithm}[b]
 		\label{alg:dispatcher}
-		\While{!shutdown}{
+		\While{Not shutdown}{
 			Waits for a task\;
-			Consume from global task queue\;
 			Execute task function\;
-			\Switch{ret}{
+			\Switch{Task return}{
 				\Case{TASK\_RET\_SUCCESS}{
 					Complete the task and schedule children\;
 				}
@@ -46,14 +34,28 @@
 		\caption{How to write algorithms}
 	\end{algorithm}
 
+	A \textit{task} is a standardized structure that holds semantic and control
+	information. On the one hand, the semantic variables store the function to
+	be performed, its arguments, and a slot to store the return value. On the
+	other hand, control variables, referring to the semantics of the
+	dispatcher, are composed of the state of the task, a list of dependent
+	tasks, the number of active parent tasks, and a synchronization control
+	with the requester. This allows the creation of dependency graphs that
+	introduce more sophisticated managements and asynchronous behaviors. These
+	dependencies guarantee that a task will only be ready to execute when all
+	the parent tasks have completed their executions.
+
 	Pseudocode~\ref{alg:dispatcher} summarizes the behavior of a dispatcher.
 	Blocked at a semaphore, the dispatcher will wait for new task requests to
 	appear. When consuming a task, the dispatcher updates its state and begins
 	executing the task scope. At this point, it is possible to notice the reuse
 	of a stack of the dispatcher for numerous independent tasks. Specifically,
 	when it returns from the task scope, it will be in its initial state and
-	able to start another task. The task can also signal the completion status
-	to the dispatcher between three values. Specifically:
+	able to start another task.	This algorithm supports the spawn of more than one
+	dispatcher that will cooperate to handle the tasks. It will increase the
+	parallelism and decrease the waiting time but required more memory pages.
+	The task can also signal the completion status to the dispatcher between
+	three values. Specifically:
 
 	\begin{description}
 		\item[TASK\_RET\_SUCCESS] the dispatcher will complete the task,
@@ -68,11 +70,6 @@
 			unrecoverable, the dispatcher will signal the error to the
 			requester and propagate the error to all child tasks.
 	\end{description}
-
-	The proposed dispatcher algorithm supports the spawn of more than one
-	dispatcher that will cooperate to handle the tasks. It will increase the
-	parallelism and decrease the waiting time but required more memory pages.
-
 	% Problem address
 	The proposed task-based mechanism at the \os-level addresses the problems
 	described in the previous section as follows:
@@ -109,12 +106,19 @@
 			a remote procedure.
 	\end{description}
 
-	Figure A illustrates the interactions within the kernel after implementing
-	the task mechanism. Periodic tasks created by the kernel allowed for
-	a richer intra- and inter-cluster interaction. As the master thread
-	responsible for handling one request at a time, moving that responsibility
-	to the dispatcher will not introduce a bottleneck in the system beyond what
-	already exists. Finally, tasks requested by ordinary users can and should
-	be interleaved, which leads to the need for finer-grain management than
-	a simple insertion in a queue.
+	\begin{figure}[tb]
+			\centering
+			\includegraphics[width=0.6\linewidth]{monitoring}
+			\caption{Clusters interations using tasks.}
+			\label{fig:monitor}
+	\end{figure}
+
+	Figure~\ref{fig:monitor} illustrates the interactions within the kernel
+	after implementing the task mechanism. Periodic tasks created by the kernel
+	allowed for a richer intra- and inter-cluster interaction. As the master
+	thread responsible for handling one request at a time, moving that
+	responsibility to the dispatcher will not introduce a bottleneck in the
+	system beyond what already exists. Finally, tasks requested by ordinary
+	users can and should be interleaved, which leads to the need for
+	finer-grain management than a simple insertion in a queue.	
 
