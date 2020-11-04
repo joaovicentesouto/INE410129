@@ -2,59 +2,64 @@
 \label{sec:results}
 
 	% Methodology
-	Para realizar uma avaliação ponderada dos custos de criar, executar
-	e esperar uma tarefa, criamos um benchmark sintético que realiza a escrita
-	nos endereços de uma página de memória, e.g., 4~KB. Para garantir 95\% de
-	confiança, foram realizadas 50 replicações, descartando-se as primeiras 10
-	para ignorar o período de aquecimento.
+	To assess the costs of creating and waiting for a task, we created
+	a synthetic benchmark that write each byte of 16 memory page, e.g., 64~KB.
+	To guarantee 95\% confidence, 50 replications were performed, the first 10
+	being discarded to ignore the warm-up period.
 
-	Figura~\ref{tab:parameters}.
 	\begin{table}[]
 	\centering
 	\caption{Benchmark parameters for experiments.}
 	\label{tab:parameters}
 	\begin{tabular}{llll}
 	\toprule
-			\textbf{Benchmark}   & \textbf{\#Tasks} & \textbf{\#Threads} & \textbf{Memory}                   \\
+			\textbf{Benchmark}   & \textbf{\#Tasks} & \textbf{\#Threads} & \textbf{Memory} \\
 			\midrule
-			Single Dispatcher    & 1 to 29          & 1                  & $1 \times 8~KB = 8~KB$            \\
-			Multiple Dispatchers & 1 to 29          & 14                 & $14 \times 8~KB = 112~KB$         \\
-			Threads              & 1 to 29          & 1 to 29            & $[1,29] \times 8~KB = [8,232]~KB$ \\
+			Single Dispatcher    & 1 to 29          & 1                  & 8~KB            \\
+			Multiple Dispatchers & 1 to 29          & 14                 & 112~KB          \\
+			Threads              & 1 to 29          & 1 to 29            & [8,232]~KB      \\
 			\bottomrule
 	\end{tabular}
 	\end{table}
 
+ Figura.
 
-	A Tabela X exibe a aplicação deste benchmark replicado em três cenários
-	diferentes:
+	Table~\ref{tab:parameters} shows the application of this benchmark replicated in three
+	different scenarios:
 	\begin{enumerate*}[label=(\roman*)]
-		\item Um único dispatcher atende todas as tarefas sequencialmente;
-		\item Cada núcleo escravo que esteja livre contém um dispatcher
-			diferente atendendo tarefas paralelamente, resultando em 14
-			dispatchers;
-		\item Uma thread para cada tarefa, variando a quantidade de threads
-			entre 1 à 29 threads.
+		\item A single dispatcher handle all tasks sequentially;
+		\item Each free slave core contains a different dispatcher serving
+			tasks in parallel, resulting in 14 dispatchers;
+		\item One thread for each task, ranging from 1 to 29 threads.
 	\end{enumerate*}
-	A quantidade de Tarefas foi limitada a quantidade possível de threads
-	simultâneas dentro do microkernel para que não fosse necessário replicar
-	o comportamento de tarefas nas threads de usuário.
-	% Experiments and Parameters
-	É possível verificar também, além de exibir a quantidade the tarefas
-	e threads envolvidas, a quantidade de memória necessária para execução de
-	cada cenário.  Com base nisso, podemos perceber que muito qualquer esforço
-	extra, o usuário pode utilizar a abstração de tarefas com dispatchers
-	e manter a quantidade de memória utilizada limitada.
-	%
-	Especialmente, o cenário com um único dispatcher é a situação ideal para
-	que o mesmo possa a proveitar o tempo ocioso do núcleo mestre mas este
-	limita.
-
-	A Figura B mostra os tempos de execução de cada cenário. Os tempos
-	coletados são compostos do periodo de Dispatch/Create e Wait/Join de uma
-	Tarefa/Thread.
+	The number of tasks was limited to the possible number of simultaneous
+	threads within the microkernel not replicate the behavior of tasks in user
+	threads. The amount of tasks and threads involved defines into the amount
+	of memory required to execute each scenario, where each thread uses 8~KB
+	for the stacks. Based on this, we can discern that much no extra effort,
+	the user can use task abstraction with dispatchers and keep the amount of
+	memory used controlled.
 
 	% Time
-	Figura~\ref{fig:time}.
+	Figure~\ref{fig:time} shows the execution time for each scenario. The times
+	collected are made up of the Dispatch/Create and Wait/Join period of
+	a Task/Thread.  Comparing the execution of a single task, the use of only
+	one dispatcher showed superior performance to the other scenarios because
+	there is no competition for the consumption of tasks, exploring the
+	location of the data, and do not require the cost of the creation of a new
+	thread. Between	7 to 13 tasks, all scenarios behaved similarly performance
+	because the overhead of thread creation and concurrency were balanced by
+	the workload of the single dispatcher. After 14 tasks, it is possible to
+	notice an increase in the scenario of threads because from that moment,
+	there are more threads than cores and they start to compete for execution
+	time. In contrast, the scenario with 14 dispatchers showed a lower
+	execution time because it needs less time to dispatch and consume a task
+	than to create a thread. The single dispatcher scenario has steadily
+	increased because the tasks are of regular size. Considering that the tasks
+	are of regular size, share memory pages, and are executed in dedicated
+	cores, the proposed mechanism showed performance similar to the scenario
+	that uses specific threads per task.
+
 	\begin{figure}[]
 			\centering
 			\includegraphics[width=0.90\linewidth]{tasks-time}

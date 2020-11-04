@@ -174,7 +174,7 @@ function run_tasks
 
 		addons_old=""
 
-		for ntasks in 15;
+		for ntasks in 16 23;
 		do
 			addons_new=" -D__NTASKS=$ntasks -D__NITERATIONS=50 -D__NSKIP=10"
 			switchAddons $DIR_SOURCE "$addons_new" "$addons_old"
@@ -209,7 +209,7 @@ function run_tasks
 
 		addons_old=""
 
-		for ntasks in 11 18;
+		for ntasks in 1 14;
 		do
 			addons_new=" -D__NTASKS=$ntasks -D__NITERATIONS=50 -D__NSKIP=10"
 			switchAddons $DIR_SOURCE "$addons_new" "$addons_old"

@@ -2,24 +2,23 @@
 \label{sec:introduction}
 
 	% Context
-	A classe de processadores Lightweight Manycore destaca-se pela seu alto
-	nível de paralelismo com baíxo consumo energético~\cite{francesquini2015}. As
-	aplicações projetadas para executar nesses processadores tem a sua disposição
-	centenas de núcleos agrupados e distribuídos em um único chip. Para endereçar
-	a escalabilidade do sistema e prover a eficiência energética, LWs exibem
-	características arquiteturais próprias que os diferem dos demais Manycores.
-	Especificamente, eles integram:
+	The class of the \textit{Lightweight Manycore Processors} stands out for
+	its high level of parallelism with low energy
+	consumption~\cite{francesquini2015}. Applications designed to run on these
+	processors have available hundreds of cores distributed on a single chip.
+	To address the high scalability and provide energy efficiency, \lws exhibit
+	architectural characteristics that differ from other manycores.
+	Specifically, they integrate:
 	\begin{enumerate*}[label=(\roman*)]
 		\item thousands of low-power cores with \mimd capability~\cite{Rossi2017};
-
 		\item distributed memory architecture and small local memories shared by
 			tightly-coupled groups of cores (aka \textit{clusters})~\cite{Bohnenstiehl2017};
-
 		\item reliable and fast \nocs for message-passing~\cite{Bohnenstiehl2017}; and
-
 		\item heterogeneous processing capabilities~\cite{Davidson2018}.
 	\end{enumerate*}
-	Alguns exemplos de LWs são A, B e C.
+	Some industry-successful examples of \lws are the
+	\mppa~\cite{DeDinechin2013-2}, the \epiphany~\cite{Olofsson2016} and the
+	\taihulight~\cite{Fu2016}.
 
 \iffalse
 	%
@@ -43,69 +42,58 @@
 
 		\item Configurações heterogeneas: requer a programação de componentes
 			distintos, dificultando o deploy de aplicações no
-			LWs~\cite{Barbalace2015}.
+			\lws~\cite{Barbalace2015}.
 	\end{itemize}
 \fi
 
 	% Motivation
-	Tais características introduzem diversos desafios no desenvolvimento de
-	aplicações de baíxo e alto nível. Por exemplo,
+	These characteristics introduce several challenges from low- to high-level
+	software development. For instance,
 	%
 	\begin{enumerate*}[label=(\roman*)]
-		\item programação híbrida entre os modelos de memória compartilhada
-			e troca de mensagens devido a natureza dos LWs~\cite{kelly2013};
-
-		\item falta de suporte em hardware para coerência de
-			cache\cite{francesquini2015};
-
-		\item sistema de memória distribuído e restritivo~\cite{Castro2016}; e
-
-		\item programação de componentes heterogêneos~\cite{Barbalace2015}.
+		\item hybrid programming between shared-memory and message-passing
+			models due to the nature of the \lws~\cite{kelly2013};
+		\item lack of hardware support for cache coherence~\cite{francesquini2015};
+		\item distributed and restrictive memory system~\cite{Castro2016}; and
+		\item programming of heterogeneous components~\cite{Barbalace2015}.
 	\end{enumerate*}
 	%
-	Neste contexto, diversos trabalhos propõem soluções em diversos níveis de
-	abstração para amenizar as dificuldades e prover ao usuário final
-	alternativas para o desenvolvimento dessas arquiteturas. Deste runtimes
-	especializados em um tipo de abstração a ambientes de programação mais
-	robustos e genéricos.
+	In this context, different proposed solutions, at different abstraction
+	levels, sought to alleviate the difficulties, from runtimes specialized in
+	a programming paradigm~\cite{Zhou:coroutine, Cesarini:task} to more robust
+	and generic programming environments~\cite{Penna:Microkernel}.
 
 	% Problem Definition
-	Dentre todas as soluções, uma das principais dificuldades é como lidar
-	com a quantidade reduzida de memória local dentro de um cluster. Vale
-	ressaltar que essa memória muitas vezes não é exclusiva para o usuário.
-	A memória local precisa armazenar códigos e estruturas de  dados da
-	aplicação e de suas dependências, e.g., OS e/ou bibliotecas.
-	Algo que consome uma quantidade considerável de memória é o suporte
-	a múltiplos fluxos de programação. Por exemplo, alocação de páginas de
-	memória para armazenar o contexto e pilha de execução de uma rotina.
+	Among all the studies, one of the principal difficulties is how to deal
+	with the reduced amount of local memory within a cluster. It is worth
+	mentioning that this memory is often not exclusive to the user. The local
+	memory needs to store code and data structures of the application and its
+	dependencies, \eg \os and/or libraries. One element on an \os that consumes
+	a considerable amount of memory is the support for multiple execution
+	streams. For instance, allocating memory pages to store the context and
+	stack for executing a routine.
 	%
 	% Goals and Contributions
-	Neste contexto, o presente trabalho propõe uma abstração de task em nível
-	de kernel para definir uma unidade genérica de execução. Similar a uma
-	piscina de threads, uma thread do sistema aguarda receber essas unidades
-	para executar.
-	Com este mecanismo, buscamos atingir os seguintes objetivos
-	e contribuíções:
+	In this context, the present work proposes an \textit{\os-level Task-based
+	Mechanism} to define a generic execution unit.  Similar to a pool of
+	threads, a system thread waits to receive these units to run.
+	With this mechanism, we seek to achieve the following objectives
+	and contributions:
 	\begin{itemize}
-		\item Projetar um mecanismo de task no nível do kernel para uso interno
-			do OS e para a aplicação cliente.
-
-		\item Diminuir a alocação de memória do sistema de threads ao
-			reutilizar o contexto e pilha de execução de uma única thread;
-
-		\item Melhorar a utilização de núcleos ociosos;
-
-		\item Explorar a localidade dos dados na cache de um único núcleo;
-
-		\item Habilitar operações assíncrona e/ou periódicas, e.g.,
-			envio assíncrono em LWs que não possuem DMA.
-
-		\item Facilitar a modelagem de funcionalidades internas do kernel.
+		\item Design a kernel-level task mechanism for internal \os and client
+			application to use;
+		\item Decrease the memory allocation of the thread system by reusing
+			the execution stack of a single thread;
+		\item Improve the use of idle cores;
+		\item Explore the locality of data in a single core cache;
+		\item Enable asynchronous and/or periodic operations, \eg
+			asynchronous sending in \lws that do not feature a DMA;
+		\item Facilitate the modeling of internal kernel functionality.
 	\end{itemize}
-	Este trabalho faz parte do desenvolvimento do Nanvix, um sistema operacional
-	distribuído projetado para endereçar as características dos LWs. O escopo
-	do trabalho se limita ao aperfeiçoamento do um microkernel assimétrico que
-	gerencia os recursos locais de um cluster.
+	This work is part of the development of \textit{Nanvix}, a distributed
+	operating system designed to address the characteristics of \lws. The scope
+	of the work is limited to the improvement of an asymmetric microkernel that
+	manages the local resources of a cluster.
 
 	% Work Organization
 	The remainder of this work is organized as follows.

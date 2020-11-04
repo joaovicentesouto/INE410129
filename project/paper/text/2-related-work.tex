@@ -2,34 +2,33 @@
 \label{sec:related-work}
 
 	% Intro
-	Existem diversas soluções propostas que visam tirar proveito do alto nível
-	paralelismo e baixo consumo energético dos LWs sem introduzir um overhead
-	indesejado ao sistema.
-
+	Several proposed solutions aim to take advantage of the high level of
+	parallelism and low energy consumption of the \lws without introducing an
+	unwanted overhead to the system.
+	%
 	% Specific
-	Soluções específicas, que modelam todo o ambiente de execução entorno de um
-	tipo de um paradigma de programação buscam eliminar problemas de concorrência
-	existentes em sistemas multi-processador e preemptivos.
-	Por exemplo, ambientes de execução baseados em tarefas ou corotinas exploram
-	o paralelismo de tarefas que trabalham de forma cooperativa.
-	Esses ambientes oferecem suporte a flexibilidade e um controle de grão fino
-	das tarefas. É possível também mapear pradões de programação paralela, como
-	OPENMP diretamente em conjuntos de tarefas/corotinas nesses sistemas.
-	A cooperação entre as unidades de execução é um importante ponto de
-	benefício desses sistemas, onde a troca de contexto é leve e não ocorrem
-	involuntáriamente, tornando a execução mais preditiva.
-	Entretanto, esses runtimes limitam a classe de aplicações que podem ser
-	portadas para LWs. 
+	Specific solutions, which model the entire execution environment around
+	a type of programming paradigm, seek to eliminate existing competition problems
+	in multiprocessing and preemptive systems. For instance,
+	task-based~\cite{Zhou:coroutine} or coroutine~\cite{Cesarini:task} execution
+	runtimes exploit the task parallelism that works cooperatively. These runtimes
+	support flexibility and fine-grained job control.  It is also possible to map
+	parallel programming patterns, such as OpenMP directly into task/coroutine
+	sets. Cooperation between the execution units is an essential benefit of these
+	systems, where the context change is light and does not occur involuntarily,
+	making the execution more predictive. However, these runtimes limit the class
+	of applications that can be ported to \lws.
 
 	% Generic
-	Outras soluções, exploram desenvolver padrões e mecanismos no nível do
-	kernel modeladas especificamente para LWs sem perder a compatibilidade com
-	outros sistemas. Entretanto, alguns serviços do SO podem a vir requerer uma
-	quantidade um footprint de memória excessivo, forçando a aplicação cliente
-	a trabalhar com uma quantidade limitada.
+	Other solutions explore to develop standards and mechanisms at the
+	kernel-level~\cite{Penna:Microkernel} modeled specifically for \lws without
+	losing compatibility with other systems. However, some \os services may come to
+	require an excessive footprint of memory, forcing the client application to
+	work with a limited amount of memory.
 	%
 	% Our propose.
-	Nós acreditamos que muitos desses serviços internos do SO podem ser
-	modelados sobre uma perspectiva de tarefas solicitadas, periódicas e/ou
-	assíncronas. Está solução é especialmente vantajosa em microkernel assímetricos
-	por poderem utilizar núcleos ociosos para executar tais tarefas.
+	We believe that many of these internal \os services can be modeled from
+	a perspective of requested, periodic, and/or asynchronous tasks. This solution
+	fits especially in asymmetric microkernels using the idle time of the master
+	core and the sequential form that the syscalls are handled.
+

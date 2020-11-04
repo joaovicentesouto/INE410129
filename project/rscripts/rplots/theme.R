@@ -94,12 +94,12 @@ plot.theme.grid.minor <- theme(
 
 # Y Axis
 plot.theme.axis.y <- theme(
-	axis.title.y = element_text(size = 18, color = 'black', margin = margin(t = 0, r = 5, b = 0, l = 0)),
-	axis.text.y = element_text(size = 16, color = 'black')
+	axis.title.y = element_text(size = 22, color = 'black', margin = margin(t = 0, r = 5, b = 0, l = 0)),
+	axis.text.y = element_text(size = 19, color = 'black')
 )
 
 # X Axis
 plot.theme.axis.x <- theme(
-	axis.title.x = element_text(size = 18, color = 'black', margin = margin(t = 10, r = 0, b = 0, l = 0)),
-	axis.text.x = element_text(size = 16, color = 'black', angle=45)
+	axis.title.x = element_text(size = 22, color = 'black', margin = margin(t = 10, r = 0, b = 0, l = 0)),
+	axis.text.x = element_text(size = 19, color = 'black', angle=75)
 )

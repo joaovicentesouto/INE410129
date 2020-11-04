@@ -1,21 +1,20 @@
 \section{Experimental Environment}
 \label{sec:platform}
 
-	O MPPA é um LW processor desenvolvido pela empresa francesa Kalray. Ele
-	é uma das arquiteturas suportadas pelo Nanvix e será utilizado como caso de
-	estudo neste trabalho. Conforme a Figura X ilustra, o MPPA integra 288
-	núcleos de propósito geral, agrupados em 16 clusters de computação, destinados
-	a computação útil, e 4 cluster de IO responsáveis pela comunicação com
-	periféricos.  De um lado, cada CC integra 16 PEs, 1 RM, 2~MB de SRAM local,
-	duas interfaces NoC e não suportam coerência de cache pelo hardware.  Por outro
-	lado, cada IO intergra 4 RMs, 4~MB de SRAM e 8 intefaces NoC. Dois desses IO
-	são conectados a um controlador DDR com acesso a 4~GB de DRAM, e os outros dois
-	são conectos a controladores Ethernet.  O MPPA também possui duas NoC distintas
-	em uma topologia 2-D Torus interpolada, a CNoC e a DNoC. A CNOC é destinada
-	a trocas de pequenas mensagens de controle e sincronização e a DNOC é destinada
-	a troca de quantidades arbritrárias de dados.
+	\mppa processor is one of the architectures supported by Nanvix and will be
+	used as a case study in this work. As Figure~\ref{fig:mppa} pictures,
+	\mppa integrates 288 general-purpose cores, grouped into 16 \cclusters,
+	intended for useful computing, and 4 \ioclusters responsible for
+	communicating with peripherals. On the one hand, each \ccluster integrates
+	16~\pes, 1~\rman, 2~MB of local \sram, two \noc interfaces, and does not
+	have hardware support for cache coherence. On the other hand, each
+	\iocluster features 4\rmans, 4~MB of \sram, and 8 \noc interfaces. Two of
+	these \ioclusters have access to a 4~GB of \dram, and the other two are
+	connected to Ethernet controllers. Two distinct 2-D Torus \nocs handle
+	inter-cluster communication. Specifically, \cnoc allows the exchanging of
+	small control messages, and \dnoc supports the transferring of arbitrary
+	amounts of data.
 
-	Figura~\ref{fig:mppa}.
 	\begin{figure}[b]
 			\centering
 			\includegraphics[width=0.90\linewidth]{arch-mppa}

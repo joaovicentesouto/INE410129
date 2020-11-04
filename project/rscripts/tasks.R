@@ -67,12 +67,13 @@ experiment.df <- read_delim(
 #===============================================================================
 
 # Update memory used by multiple dispatcher.
-experiment.df <- experiment.df %>%
-	mutate(memory = ifelse(exp == "multiple", 114688, memory))
+#experiment.df <- experiment.df %>%
+#	mutate(memory = ifelse(exp == "multiple", 114688, memory))
 
 # Sum dispatch and wait times
 experiment.df$time <- (experiment.df$dispatch + experiment.df$wait)/MPPA.FREQ/MICRO
 experiment.df$memory <- experiment.df$memory/KB
+experiment.df$relation <- experiment.df$memory/experiment.df$time
 
 #===============================================================================
 # Pre-Processing
@@ -106,8 +107,23 @@ memory.df.cooked <- ddply(
 	cv = sd(value)/mean(value)
 )
 
+relation.df.melted <- melt(
+	data = experiment.df,
+	id.vars = c("exp",  "ntasks"),
+	measure.vars = c("relation"),
+)
+relation.df.cooked <- ddply(
+	relation.df.melted,
+	c("exp",  "ntasks", "variable"),
+	summarise,
+	mean = mean(value),
+	sd = sd(value),
+	cv = sd(value)/mean(value)
+)
+
 print(time.df.cooked)
 print(head(memory.df.cooked))
+print(head(relation.df.cooked))
 
 #===============================================================================
 # Time Plot
@@ -133,10 +149,10 @@ plot.axis.x.breaks <- seq(from = 1, to = 29, by = 1)
 
 # Y Axis
 plot.axis.y.title <- expression(paste("Time (", mu, "s)"))
-plot.axis.ymin <- 2^8
-plot.axis.ymax <- 2^14
+plot.axis.ymin <- 2^11
+plot.axis.ymax <- 2^(16.3)
 plot.axis.y.limits <- c(plot.axis.ymin, plot.axis.ymax)
-plot.axis.y.breaks <- 2^c(-1:14)
+plot.axis.y.breaks <- 2^c(11:17)
 
 # Data Labels
 plot.data.labels.digits <- 0
@@ -169,6 +185,66 @@ plot.save(
 	directory = experiment.outdir,
 	filename = paste(experiment.outfile, "time", sep = "-")
 )
+
+#===============================================================================
+# Relation Plot
+#===============================================================================
+
+plot.df <- relation.df.cooked
+
+plot.var.x <- "ntasks"
+plot.var.y <- "mean"
+plot.factor <- "exp"
+
+# Titles
+plot.title <- NULL
+plot.subtitle <- NULL
+
+# Legend
+plot.legend.title <- "Type of Execution Flow"
+plot.legend.labels <- c("Multiple Dispathers", "Single Dispatcher", "Threads")
+
+# X Axis
+plot.axis.x.title <- "Number of Tasks"
+plot.axis.x.breaks <- seq(from = 1, to = 29, by = 1)
+
+# Y Axis
+plot.axis.y.title <- expression(paste("Relation between Memory and #Tasks (KB/", mu, "s)"))
+plot.axis.ymin <- 0
+plot.axis.ymax <- 0.35
+plot.axis.y.limits <- c(plot.axis.ymin, plot.axis.ymax)
+plot.axis.y.breaks <- seq(from = plot.axis.ymin, to = plot.axis.ymax, by = 0.05)
+
+# Data Labels
+plot.data.labels.digits <- 0
+
+plot <- plot.linespoint(
+	df = plot.df,
+	factor = plot.var.x,
+	respvar = plot.var.y,
+	param = plot.factor,
+	title = plot.title,
+	subtitle = plot.subtitle,
+	legend.title = plot.legend.title,
+	legend.labels = plot.legend.labels,
+	axis.x.title = plot.axis.x.title,
+	axis.x.breaks = plot.axis.x.breaks,
+	axis.y.title = plot.axis.y.title,
+	axis.y.limits = plot.axis.y.limits,
+	axis.y.breaks = plot.axis.y.breaks,
+) + plot.theme.title +
+	plot.theme.legend.top.right +
+	plot.theme.axis.x +
+	plot.theme.axis.y +
+	plot.theme.grid.wall +
+	plot.theme.grid.major
+
+plot.save(
+	plot,
+	directory = experiment.outdir,
+	filename = paste(experiment.outfile, "relation", sep = "-")
+)
+
 
 #===============================================================================
 # Memory Plot

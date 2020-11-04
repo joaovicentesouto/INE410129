@@ -2,66 +2,57 @@
 \label{sec:problem}
 
 	% Overview
-	O gerenciamento de memória interna de um cluster afeta todos os níveis de
-	abstração no contexto dos LWs. Por exemplos, OSs precisam ser pequenos
-	e leves para deixar a maior quantidade de memória disponível pra aplicação.
-	Por outro lado, aplicações extremamente paralelas e concorrentes têm
-	a necessidade de gerenciar manualmente a coerência dos dados manipulados.
+	The internal memory management of a cluster influences all abstraction
+	levels in the context of \lws. For instance, \oses need to be small and
+	lightweight to make the most memory available to the application. On the
+	other hand, concurrent and parallel applications need to manually manage
+	the consistency of the manipulated data.
 
-	Para amenizar os problemas de coerência de
-	cache existente nessas arquiteturas, Penna ETAL propôs um microkernel
-	assímetrico para concentrar o gerenciamento e manipulação das estruturas do
-	OS em um único núcleo. A Figura X ilustra a execução de uma chamada de
-	sistema dentro do Nanvix. Quando um núcleo escravo deseja realizar uma operação
-	privilegiada, este envia uma solicitação ao núcleo mestre, que por sua vez,
-	realiza e retorna o resultado ao solicitante. Os problemas explorados neste
-	trabalho estão contidos no escopo deste nível de OS.
+	To alleviate the cache coherence problems existing in these architectures,
+	Penna ETAL proposed an asymmetric microkernel to concentrate the management
+	and manipulation of the \os structures in a single core. Figure
+	X illustrates the execution of a system call within Nanvix. When a slave
+	core wants to perform a privileged operation, it sends a request to the
+	master core, which in turn, performs and returns the result to the
+	requester. The problems explored in this work are contained within the
+	scope of this level of the Nanvix.
 
-	Além das dificuldades impostas pelo sistema de memória, nossa proposta
-	busca atacar algumas das desvantagens do microkernel e do sistema de
-	comunicação. As descrições a seguir sumarizam os principais problemas que nossa
-	solução se propõe endereçar:
+	In addition to the difficulties imposed by the memory system, our proposal
+	seeks to address some of the disadvantages of the microkernel and the
+	communication system. The following descriptions summarize the main
+	problems that our solution aims to address:
 
 	% Problems
 	\begin{description}
+		\item[Memory Utilization] For each new thread, the memory
+			system must reserve two memory spaces, for user and kernel stacks.
+			Generally, each stack is the size of a memory page. Therefore,
+			rapidly increasing the amount of memory needed to create new
+			threads in the system.
 
-		\item[Memory Utilizationg] Para cada novo fluxo de execução (thread),
-			o sistema de memória deve reservar dois espaços de memória, um
-			para a pilha de execução do usuário e outra reservada para
-			o kernel. Geralmente, cada pilha possúi o tamanho de uma página de
-			memória, crescendo rapidamente a quantidade de memória necessária
-			para criar novas threads no sistema.
+		\item[Data Locality] Because of the lack of hardware support for cache
+			coherence, competition for a shared memory region is costly. For
+			instance, a thread must invalidate their memory cache to access the
+			local memory bank before entering a critical region. When leaving
+			it, the thread must force the written of the modified data to keep
+			the coherence.
 
-		\item[Data Localityg] Por causa da falta de suporte em hardware para
-			coerência de cache, a disputa por uma região de memória
-			compartilhada é custosa. Para entrar em uma região crítica, as
-			threads precisam garantir que os endereços na cache estejam
-			invalidados, forçando o acesso ao banco de memória local. Ao sair
-			de uma região crítica, as threads precisam forçar a escrita dos
-			dados modificados para que os outros possam ver a atualização.
-			Por isso, o isolamento dos dados em um único núcleo para explorar
-			a localidade dos dados na cache é tão importante.
+		\item[Core Utilization] Due to the need to have a core reserved for the
+			master thread, the asymmetric microkernel loses processing power
+			when it leaves the master core idle between syscall requests.
 
-		\item[Core Utilizationg] Pela necessidade de ter um núcleo reservado
-			para a thread de sistema, o microkernel assimétrico perde poder
-			de processamento ao deixar o núcleo mestre ocioso entre
-			solicitações de syscalls.
+		\item[Asynchronous Operations] For power consumption reduction, \lws may
+			not feature a dedicated DMA to perform asynchronous communication.
+			Thus, a specific thread must to manually send the data through the
+			\noc. All system calls within the microkernel are also blocking,
+			even though a thread can perform independent operations in the
+			meantime.
 
-		\item[Asynchronous Operationsg] Pela simplificidade e redução de
-			energia, LWs podem não possuir uma DMA dedicada para executar
-			comunicação assíncrona. Deste modo, é responsabilidade da thread
-			realizar pooling dos dados na NoC manualmente. Todas as chamadas de
-			sistemas dentro do microkernel também bloqueiam as threads, mesmo que
-			a mesma pudesse realizar operações independentes enquanto uma syscall,
-			que não é critica, é realizada.
-
-		\item[Periodic Operationsg] Para permitir a uma cluster seja monitorado
-			ou receba comandos externos, é necessário que uma thread exista para
-			solicitando verificações e aguardando mensagens externa, aumentando
-			a necessidade de memória do OS. Entretanto, a existência dessas
-			operações são essenciais para desenvolver serviços mais complexos,
-			e.g., gerenciamento e migração de processos, invalidação de memória
-			compartilhada e distribuída, e execução de procedimentos remotos.
-
+		\item[Periodic Operations] To allow a cluster to be monitored or
+			receive external commands, a specific thread must request
+			communication checks constantly. The existence of these operations
+			is essential to develop more complex services, \eg process
+			management and migration, invalidation of shared and distributed
+			memory, and execution of remote procedures.
 	\end{description}
 

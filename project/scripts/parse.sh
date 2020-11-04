@@ -65,7 +65,7 @@ csvfile=$DIR_RESULTS_COOKED/tasks.csv
 echo "exp;ntasks;memory;dispatch;wait" > $csvfile
 
 # Single dispatcher
-hash=3771f3c 
+hash=958b4b9
 for ntasks in {1..29};
 do
 	cat $DIR_RESULTS_RAW/$hash-task-$ntasks/task-nanvix-cluster-* | \
@@ -78,7 +78,7 @@ do
 done
 
 # Single dispatcher
-hash=48ebff6
+hash=d86105b
 for ntasks in {1..29};
 do
 	cat $DIR_RESULTS_RAW/$hash-task-$ntasks/task-nanvix-cluster-* | \
@@ -91,7 +91,7 @@ do
 done
 
 # Single dispatcher
-hash=48ebff6
+hash=958b4b9
 for ntasks in {1..29};
 do
 	cat $DIR_RESULTS_RAW/$hash-thread-$ntasks/thread-nanvix-cluster-* | \

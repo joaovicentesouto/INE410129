@@ -1,29 +1,29 @@
-\section{OS-Level Task-Based Mechanism for Lightweight Manycore Processors}
+\section{\os-Level Task-Based Mechanism for Lightweight Manycore Processors}
 \label{sec:solution}
 
 	% Overview
-	A abstração de Tarefa proposta podem ser vista como um caso especial de
-	corotinas que encapsulam uma subrotina e pode ser executada independemente
-	de quem as criou. Entretanto, diferentemente das corotinas, que possuem sua
-	própria pilha de execução e contexto, a definição de tarefas proposta
-	é desaclopada da necessidade de ter uma thread dedicada por tarefa. Neste
-	ponto, introduzimos uma thread especial, nomeada de Dispatcher, que é um
-	executor genérico de tarefas.  Seguindo o modelo Produtor-Consumidor,
-	o Dispatcher consome tarefas de uma fila global de tarefas, onde
-	solicitantes inserem atomicamente tarefas a serem realizadas.
+	The proposed Task abstraction can be seen as a special case of coroutines.
+	It encapsulates a subroutine that can be performed regardless of who
+	created them. However, unlike coroutines, the proposed task definition is
+	disconnected from the need to have a dedicated thread per task. At this
+	point, we introduce a special thread, named dispatcher, which is a generic
+	task executor. Following the Producer-Consumer model, the dispatcher
+	consumes tasks from a global task queue, where requesters atomically insert
+	tasks to be performed.
 
-	Uma Tarefa é uma estrutura padronizada que guarda informações semânticas
-	e de controle. De um lado, as variáveis semânticas armazenam a função a ser
-	executada, seus argumentos, e um slot para guardar o retorno, caso
-	desejado. Por outro lado, variáveis de controle, referentes a semântica do
-	Dispatcher, são compostas pelo estado da tarefa, uma lista de tarefas
-	dependêntes, quantidade de tarefas pais ativas, e um controle de
-	sincronização com o solicitante.  Os grafos de dependência permitem
-	introduzir comportamentos e gerenciamentos mais sofisticados assíncronos,
-	onde uma tarefa só estará pronta para executar quando todas as tarefas pais
-	tiverem concluído suas execuções.
+	A Task is a standardized structure that holds semantic and control
+	information. On the one hand, the semantic variables store the function to
+	be performed, its arguments, and a slot to store the return value. On the
+	other hand, control variables, referring to the semantics of the
+	dispatcher, are composed of the state of the task, a list of dependent
+	tasks, the number of active parent tasks, and a synchronization control
+	with the requester. This allows the creation of dependency graphs that
+	introduce more sophisticated managements and asynchronous behaviors. These
+	dependencies guarantee that a task will only be ready to execute when all
+	the parent tasks have completed their executions.
 
 	\begin{algorithm}[b]
+		\label{alg:dispatcher}
 		\While{!shutdown}{
 			Waits for a task\;
 			Consume from global task queue\;
@@ -46,82 +46,75 @@
 		\caption{How to write algorithms}
 	\end{algorithm}
 
-	O Pesudocódigo A sumariza o comportamento de um Dispatcher. Bloqueado em um
-	semáforo, o Dispatcher aguardará novas solicitações de tarefas surgirem.
-	Ao consumir uma tarefa, o Dispatcher atualiza seu estado e entra no escopo
-	da tarefa. Neste ponto é possível notar a reutilização das pilhas de um
-	Dispatcher por inúmeras tarefas independentes, pois quando o mesmo retornar
-	do escopo da tarefa, o mesmo estará em seu estado inicial e apto a iniciar
-	outra tarefa.  A tarefa pode ainda sinalizar entre três valores, o estado
-	de conclusão ao Dispatcher. Especificamente:
+	Pseudocode~\ref{alg:dispatcher} summarizes the behavior of a dispatcher.
+	Blocked at a semaphore, the dispatcher will wait for new task requests to
+	appear. When consuming a task, the dispatcher updates its state and begins
+	executing the task scope. At this point, it is possible to notice the reuse
+	of a stack of the dispatcher for numerous independent tasks. Specifically,
+	when it returns from the task scope, it will be in its initial state and
+	able to start another task. The task can also signal the completion status
+	to the dispatcher between three values. Specifically:
 
 	\begin{description}
-		\item[TASK\_RET\_SUCCESS] O Dispatcher concluirá a tarefa, sinalizando
-			sua conclusão as tarefas dependentes e liberando o solicitante.
-
-		\item[TASK\_RET\_AGAIN] A tarefa retornou com um erro mas é recuperável
-			e a tarefa será reescalonada.
-
-		\item[TASK\_RET\_STOP] A tarefa retornou com um erro, mas apesar de ser
-			recuperável, ela precisa aguardar outra operação ser concluída.
-
-		\item[TASK\_RET\_ERROR] A tarefa retornou um erro e é irrecuperável,
-			o Dispatcher sinalizará o erro ao solicitante e propagará o erro
-			para todas as tarefas dependêntes.
+		\item[TASK\_RET\_SUCCESS] the dispatcher will complete the task,
+			signaling its completion to child tasks and releasing the
+			requester.
+		\item[TASK\_RET\_AGAIN] The task returned with an error but is
+			recoverable and the task will be rescheduled.
+		\item[TASK\_RET\_STOP] The task returned with an error, but despite
+			being recoverable, it needs to wait for another operation to
+			resume.
+		\item[TASK\_RET\_ERROR] The task returned an error and is
+			unrecoverable, the dispatcher will signal the error to the
+			requester and propagate the error to all child tasks.
 	\end{description}
 
-	Para a implementação de novos Dispatchers para aumentar o paralelismo
-	e diminuir o tempo de espera para execução de uma tarefa, basta criar novas
-	threads que executem a função proposta que ela já suporta por definição
-	multiplos Dispatchers.
+	The proposed dispatcher algorithm supports the spawn of more than one
+	dispatcher that will cooperate to handle the tasks. It will increase the
+	parallelism and decrease the waiting time but required more memory pages.
 
 	% Problem address
-	A proposta do mecanismo baseado em tarefas no nível do OS endereça os
-	problemas descritos na seção anterior da seguinte forma:
-	% Solutions
+	The proposed task-based mechanism at the \os-level addresses the problems
+	described in the previous section as follows:
+	%
 	\begin{description}
+		\item[Memory Utilization] The definition of multiple execution streams
+			in isolated tasks, or in a dependency graph, reduces the use of
+			memory pages for threads based on the number of existing
+			dispatchers. If the kernel and the application are able to isolate
+			simple behaviors without the need to create a dedicated thread,
+			more memory will be available to store useful data.
 
-		\item[Memory Utilization] A definição de múltiplos fluxos de execução
-			em tarefas isoladas, ou em um grafo de dependência, reduz
-			a utilização de páginas de memória pra threads baseado na
-			quantidade de Dispatchers existentes. Se o kernel e a aplicação
-			conseguirem isolar comportamentos simples sem a necessidade da
-			criação de uma thread dedicada, mais memória estará disponível para
-			armazenar dados úteis.
+		\item[Data Locality] Configuring a dispatcher to always be in only the
+			same core, it can perform tasks that share the same data structures
+			by exploring the location of the data cache.
 
-		\item[Data Locality] Configurando um Dispatcher a ficar sempre em
-			apenas um núcleo, o mesmo poderá executar tarefas que compartilham
-			as mesma estruturas de dados explorando a localidade dos dados.
+		\item[Core Utilization] This a significant point to define the
+			dispatcher at the \os-level that makes it possible to move it to the
+			master core. Therefore, it will share the execution time with the
+			master thread. At one extreme, we could even define the master
+			thread itself has a dedicated dispatcher.
 
-		\item[Core Utilization] Neste ponto entra a importância de se definir
-			o Dispatcher em nível do OS para que seja possível movê-lo para
-			o núcleo mestre e ele compartilhe o tempo de execução com a thread
-			mestre.  Em um extremo, poderíamos até definir a própria thread que
-			realiza chamadas de sistema em um Dispatcher.
+		\item[Asynchronous Operations] Modeling tasks to move the
+			responsibility to send the data to the dispatcher, introduce this
+			notion of asynchronous send/read. The same idea applies to
+			syscalls, where non-critical operations can be performed
+			asynchronously.
 
-		\item[Asynchronous Operations] É possível modelar tarefas para
-			introduzir essa noção de envio assíncrono, deixando
-			a responsabilidade de enviar os dados manualmente para o Dispatcher
-			enquanto as threads continuam sua execução normalmente.  A mesma
-			ideia se aplica para as syscalls, onde operações que não são
-			críticas podem ser realizadas de forma assíncrona, liberando as
-			threads solicitantes.
-
-		\item[Periodic Operations] É possível modelar tarefas que possuam um
-			período ao qual elas são desbloqueadas e executam. Desta forma,
-			eliminamos a necessidade de ter uma thread dedicada que fica
-			esperando alguma condição para relizar operações específicas.  Por
-			exemplo, a leitura de uma comunicação da NoC que criará uma nova
-			tarefa para execução de um procedimento remoto.
-
+		\item[Periodic Operations] Tasks can be modeled to have a period to
+			which they are unblocked and operate. In this way, we eliminate the
+			need to have a dedicated thread that is waiting for some condition
+			to carry out specific operations. For example, reading
+			a communication from the \noc that will create a new task to execute
+			a remote procedure.
 	\end{description}
 
-	A Figura A exemplifica interações dentro do Nanvix após a implementação
-	do mecanismo de tarefas. Tarefas pediódicas e criadas pelo próprio kernel
-	permitiram uma interação mais rica intra e inter-clusters. Como a thread
-	mestre responsável por atender uma solicitação de cada vez, mover tal
-	responsabilidade pro Dispatcher não introduzirá um gargalo no sistema além
-	do que já existe. Por fim, tarefas solicitadas por usuários comuns podem
-	e devem se intercalar entre si, o que nos leva a necessidade de um
-	gerenciamento mais fino do que a ordem de inserção numa fila.
+	Figure A illustrates the interactions within the kernel after implementing
+	the task mechanism. Periodic tasks created by the kernel allowed for
+	a richer intra- and inter-cluster interaction. As the master thread
+	responsible for handling one request at a time, moving that responsibility
+	to the dispatcher will not introduce a bottleneck in the system beyond what
+	already exists. Finally, tasks requested by ordinary users can and should
+	be interleaved, which leads to the need for finer-grain management than
+	a simple insertion in a queue.
 
