@@ -9,13 +9,12 @@
 	the consistency of the manipulated data.
 
 	To alleviate the cache coherence problems existing in these architectures,
-	Penna ETAL proposed an asymmetric microkernel to concentrate the management
-	and manipulation of the \os structures in a single core. Figure
-	X illustrates the execution of a system call within Nanvix. When a slave
-	core wants to perform a privileged operation, it sends a request to the
-	master core, which in turn, performs and returns the result to the
-	requester. The problems explored in this work are contained within the
-	scope of this level of the Nanvix.
+	Penna \etal~\cite{Penna:Microkernel} proposed an asymmetric microkernel to
+	concentrate the management and manipulation of the \os structures in
+	a single core. When a slave core wants to perform a privileged operation,
+	it sends a request to the master core, which in turn, performs and returns
+	the result to the requester. The problems explored in this work are
+	contained within the scope of this level of the Nanvix.
 
 	In addition to the difficulties imposed by the memory system, our proposal
 	seeks to address some of the disadvantages of the microkernel and the
