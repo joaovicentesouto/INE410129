@@ -1,0 +1,105 @@
+\section{Introduction}
+\label{sec:introduction}
+
+	% Context
+	The class of the \textit{lightweight manycore processors} stands out for
+	its high level of parallelism with low energy
+	consumption~\cite{francesquini2015}. Applications designed to run on these
+	processors have available hundreds of cores distributed on a single chip.
+	To address the high scalability and provide energy efficiency, \lws exhibit
+	architectural characteristics that differ from other manycores.
+	Specifically, they integrate:
+	\begin{enumerate*}[label=(\roman*)]
+		\item thousands of low-power cores with \mimd capability~\cite{Rossi2017};
+		\item distributed memory architecture and small local memories shared by
+			tightly-coupled groups of cores (aka \textit{clusters})~\cite{Bohnenstiehl2017};
+		\item reliable and fast \nocs for message-passing~\cite{Bohnenstiehl2017}; and
+		\item heterogeneous processing capabilities~\cite{Davidson2018}.
+	\end{enumerate*}
+	Some industry-successful examples of lightweight manycore processors are
+	the \mppa~\cite{DeDinechin2013-2} and the \epiphany~\cite{Olofsson2016}.
+
+\iffalse
+	%
+	Esses processadores introduziram junto de suas vantagens, um conjunto de
+	desafios no projeto e desenvolvimento de aplicações de baíxo e alto nível
+	inserido pelas suas características arquiteturais. Algumas desses desafios
+	são:
+	\begin{itemize}
+		\item Modelo de Programação Híbrida: uso do modelo de memória
+			compartilhada para explorar o paralelismo dentro dos clusters e
+			aplicação do modelo de troca de mensagens para lidar com
+			comunicação entre clusters através da NoC~\cite{kelly2013};
+
+		\item Falta de suporte em hardware para coerência de cache: para
+			reduzir o consumo de energia requirindo o controle explícito da
+			memória~\cite{francesquini2015};.
+
+		\item Sistem de memória restritivo: a presença de múltiplos espaços de
+			endereçamento e pequenas memórias locais requer o Data Tiling
+			e Prefetching seja manipulado em software~\cite{Castro2016};
+
+		\item Configurações heterogeneas: requer a programação de componentes
+			distintos, dificultando o deploy de aplicações no
+			\lws~\cite{Barbalace2015}.
+	\end{itemize}
+\fi
+
+	% Motivation
+	These characteristics introduce several challenges from low- to high-level
+	software development. For instance,
+	%
+	\begin{enumerate*}[label=(\roman*)]
+		\item hybrid programming between shared-memory and message-passing
+			models due to the nature of the \lws~\cite{kelly2013};
+		\item lack of hardware support for cache coherence~\cite{francesquini2015};
+		\item distributed and restrictive memory system~\cite{Castro2016}; and
+		\item programming of heterogeneous components~\cite{Barbalace2015}.
+	\end{enumerate*}
+	%
+	In this context, different proposed solutions, at different abstraction
+	levels, sought to alleviate the difficulties, from runtimes specialized in
+	a programming paradigm~\cite{Zhou:coroutine, Cesarini:task} to more robust
+	and generic programming environments~\cite{Penna:Microkernel}.
+
+	% Problem Definition
+	Among all the studies, one of the principal difficulties is how to deal
+	with the reduced amount of local memory within a cluster. It is worth
+	mentioning that this memory is often not exclusive to the user. The local
+	memory needs to store code and data structures of the application and its
+	dependencies, \eg \os and/or libraries. One element on an \os that consumes
+	a considerable amount of memory is the support for multiple execution
+	streams. For instance, allocating memory pages to store the context and
+	stack for executing a routine.
+	%
+	% Goals and Contributions
+	In this context, the present work proposes an \textit{\os-level Task-based
+	Mechanism} to define a generic execution unit.  Similar to a pool of
+	threads, a system thread waits to receive these units to run.
+	With this mechanism, we seek to achieve the following goals
+	and contributions:
+	\begin{itemize}
+		\item Design a kernel-level task mechanism for internal \os and client
+			application to use;
+		\item Decrease the memory allocation of the thread system by reusing
+			the execution stack of a single thread;
+		\item Improve the use of idle cores;
+		\item Explore the locality of data in a single core cache;
+		\item Enable asynchronous and/or periodic operations, \eg
+			asynchronous sending in \lws that do not feature a \dma;
+		\item Facilitate the modeling of internal kernel functionality.
+	\end{itemize}
+	This work is part of the development of \textit{Nanvix}, a distributed
+	operating system designed to address the characteristics of \lws. The scope
+	of the work is limited to the improvement of an asymmetric microkernel that
+	manages the local resources of a cluster.
+
+	% Work Organization
+	The remainder of this work is organized as follows.
+	In Section~\ref{sec:related-work}, we discuss related work.
+	In Section~\ref{sec:problem} we cover the problem definition.
+	In Section~\ref{sec:solution}, we present our proposal.
+	In Section~\ref{sec:platform}, we detail the experimental environment.
+	In Section~\ref{sec:results}, we discuss our experimental results.
+	In Section~\ref{sec:related-work} we discuss related works.
+	In Section~\ref{sec:conclusions}, we draw our conclusions.

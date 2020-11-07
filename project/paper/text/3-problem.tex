@@ -1,0 +1,57 @@
+\section{Problem Definition}
+\label{sec:problem}
+
+	% Overview
+	The internal memory management of a cluster influences all abstraction
+	levels in the context of \lws. For instance, \oses need to be small and
+	lightweight to make the most memory available to the application. On the
+	other hand, concurrent and parallel applications need to manually manage
+	the consistency of the manipulated data.
+
+	To alleviate the cache coherence problems existing in these architectures,
+	Penna \etal~\cite{Penna:Microkernel} proposed an asymmetric microkernel to
+	concentrate the management and manipulation of the \os structures in
+	a single core. When a slave core wants to perform a privileged operation,
+	it sends a request to the master core, which in turn, performs and returns
+	the result to the requester. The problems explored in this work are
+	contained within the scope of this level of the Nanvix.
+
+	In addition to the difficulties imposed by the memory system, our proposal
+	seeks to address some of the disadvantages of the microkernel and the
+	communication system. The following descriptions summarize the main
+	problems that our solution aims to address:
+
+	% Problems
+	\begin{description}
+		\item[Memory Utilization] For each new thread, the memory
+			system must reserve two memory spaces, for user and kernel stacks.
+			Generally, each stack is the size of a memory page. Therefore,
+			rapidly increasing the amount of memory needed to create new
+			threads in the system.
+
+		\item[Data Locality] Because of the lack of hardware support for cache
+			coherence, competition for a shared memory region is costly. For
+			instance, a thread must invalidate their memory cache to access the
+			local memory bank before entering a critical region. When leaving
+			it, the thread must force the written of the modified data to keep
+			the coherence.
+
+		\item[Core Utilization] Due to the need to have a core reserved for the
+			master thread, the asymmetric microkernel loses processing power
+			when it leaves the master core idle between syscall requests.
+
+		\item[Asynchronous Operations] For power consumption reduction, \lws may
+			not feature a dedicated \dma to perform asynchronous communication.
+			Thus, a specific thread must to manually send the data through the
+			\noc. All system calls within the microkernel are also blocking,
+			even though a thread can perform independent operations in the
+			meantime.
+
+		\item[Periodic Operations] To allow a cluster to be monitored or
+			receive external commands, a specific thread must request
+			communication checks constantly. The existence of these operations
+			is essential to develop more complex services, \eg process
+			management and migration, invalidation of shared and distributed
+			memory, and execution of remote procedures.
+	\end{description}
+

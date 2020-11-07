@@ -1,0 +1,119 @@
+diff --git a/lines.R b/lines.R
+index 0e77b9c..f6b8b48 100644
+--- a/lines.R
++++ b/lines.R
+@@ -28,7 +28,7 @@ plot.linespoint <- function(
+ 	geom_point(
+ 		aes(shape = get(param)),
+ 		fill = "black",
+-		size = 2.5
++		size = 3.8
+ 	) +
+ 	labs(
+ 		title = title,
+@@ -39,7 +39,7 @@ plot.linespoint <- function(
+ 	scale_shape_manual(
+ 		name = legend.title,
+ 		labels = legend.labels,
+-	values = c(21, 22, 23, 24, 25)
++	values = c(21, 24, 23, 22, 25)
+ 	) +
+ 	scale_x_continuous(
+ 		breaks = axis.x.breaks,
+diff --git a/theme.R b/theme.R
+index e5e10a1..eaf6342 100644
+--- a/theme.R
++++ b/theme.R
+@@ -22,47 +22,47 @@ plot.theme.title <- theme(
+ 
+ # Bottom Right
+ plot.theme.legend.bottom.right <- theme(
+-	legend.title = element_text(size = 15, color = 'black'),
+-	legend.text = element_text(size = 14, color = 'black'),
++	legend.title = element_text(size = 20, color = 'black'),
++	legend.text = element_text(size = 19, color = 'black'),
+ 	legend.justification = c(1.0, 0.0),
+ 	legend.position = c(0.98, 0.02),
+-	legend.background = element_rect(fill="white", size=0.5, linetype="solid", colour ="black")
++	legend.background = element_rect(fill="white", size=0.8, linetype="solid", colour ="black")
+ )
+ 
+ # Bottom Right
+ plot.theme.legend.bottom.right2 <- theme(
+-	legend.title = element_text(size = 15, color = 'black'),
+-	legend.text = element_text(size = 14, color = 'black'),
++	legend.title = element_text(size = 20, color = 'black'),
++	legend.text = element_text(size = 19, color = 'black'),
+ 	legend.justification = c(1.0, 0.0),
+ 	legend.position = c(0.98, 0.1),
+-	legend.background = element_rect(fill="white", size=0.5, linetype="solid", colour ="black")
++	legend.background = element_rect(fill="white", size=0.8, linetype="solid", colour ="black")
+ )
+ 
+ # Top Right
+ plot.theme.legend.top.right <- theme(
+-	legend.title = element_text(size = 15, color = 'black'),
+-	legend.text = element_text(size = 14, color = 'black'),
++	legend.title = element_text(size = 20, color = 'black'),
++	legend.text = element_text(size = 19, color = 'black'),
+ 	legend.justification = c(1.0, 1.0),
+ 	legend.position = c(0.98, 0.98),
+-	legend.background = element_rect(fill="white", size=0.5, linetype="solid", colour ="black")
++	legend.background = element_rect(fill="white", size=0.8, linetype="solid", colour ="black")
+ )
+ 
+ # Bottom Left
+ plot.theme.legend.bottom.left <- theme(
+-	legend.title = element_text(size = 15, color = 'black'),
+-	legend.text = element_text(size = 14, color = 'black'),
++	legend.title = element_text(size = 20, color = 'black'),
++	legend.text = element_text(size = 19, color = 'black'),
+ 	legend.justification = c(0.0, 0.0),
+ 	legend.position = c(0.02, 0.02),
+-	legend.background = element_rect(fill="white", size=0.5, linetype="solid", colour ="black")
++	legend.background = element_rect(fill="white", size=0.8, linetype="solid", colour ="black")
+ )
+ 
+ # Top Left
+ plot.theme.legend.top.left <- theme(
+-	legend.title = element_text(size = 15, color = 'black'),
+-	legend.text = element_text(size = 14, color = 'black'),
++	legend.title = element_text(size = 20, color = 'black'),
++	legend.text = element_text(size = 19, color = 'black'),
+ 	legend.justification = c(0.0, 1.0),
+ 	legend.position = c(0.02, 0.98),
+-	legend.background = element_rect(fill="white", size=0.5, linetype="solid", colour ="black")
++	legend.background = element_rect(fill="white", size=0.8, linetype="solid", colour ="black")
+ )
+ 
+ # None
+@@ -94,12 +94,12 @@ plot.theme.grid.minor <- theme(
+ 
+ # Y Axis
+ plot.theme.axis.y <- theme(
+-	axis.title.y = element_text(size = 18, color = 'black', margin = margin(t = 0, r = 5, b = 0, l = 0)),
+-	axis.text.y = element_text(size = 16, color = 'black')
++	axis.title.y = element_text(size = 26, color = 'black', margin = margin(t = 0, r = 5, b = 0, l = 0)),
++	axis.text.y = element_text(size = 21, color = 'black')
+ )
+ 
+ # X Axis
+ plot.theme.axis.x <- theme(
+-	axis.title.x = element_text(size = 18, color = 'black', margin = margin(t = 10, r = 0, b = 0, l = 0)),
+-	axis.text.x = element_text(size = 16, color = 'black')
++	axis.title.x = element_text(size = 26, color = 'black', margin = margin(t = 10, r = 0, b = 0, l = 0)),
++	axis.text.x = element_text(size = 21, color = 'black')
+ )
+diff --git a/utils.R b/utils.R
+index db8aef7..01f0e9d 100644
+--- a/utils.R
++++ b/utils.R
+@@ -10,7 +10,7 @@ library("ggplot2")
+ plot.save <- function(
+ 	directory = getwd(),
+ 	filename = "plot.pdf",
+-	plot, width = 7, height = 4
++	plot, width = 6.7, height = 4
+ ) {
+ 	filename <- paste(directory, filename, sep = "/")
+ 	filename <- paste(filename, "pdf", sep = ".")

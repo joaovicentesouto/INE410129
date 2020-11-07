@@ -1,0 +1,34 @@
+\section{Related Work}
+\label{sec:related-work}
+
+	% Intro
+	Several proposed solutions aim to take advantage of the high level of
+	parallelism and low energy consumption of the \lws without introducing an
+	unwanted overhead to the system.
+	%
+	% Specific
+	Specific solutions, which model the entire execution environment around
+	a type of programming paradigm, seek to eliminate existing competition problems
+	in multiprocessing and preemptive systems. For instance,
+	task-based~\cite{Zhou:coroutine} or coroutine execution~\cite{Cesarini:task}
+	runtimes exploit the task parallelism that works cooperatively. These runtimes
+	support flexibility and fine-grained job control.  It is also possible to map
+	parallel programming patterns, such as OpenMP directly into task/coroutine
+	sets. Cooperation between the execution units is an essential benefit of these
+	systems, where the context change is light and does not occur involuntarily,
+	making the execution more predictive. However, these runtimes limit the class
+	of applications that can be ported to \lws.
+
+	% Generic
+	Other solutions explore to develop standards and mechanisms at the
+	kernel-level~\cite{Penna:Microkernel} modeled specifically for \lws without
+	losing compatibility with other systems. However, some \os services may come to
+	require an excessive footprint of memory, forcing the client application to
+	work with a limited amount of memory.
+	%
+	% Our propose.
+	We believe that many of these internal \os services can be modeled from
+	a perspective of requested, periodic, and/or asynchronous tasks. This solution
+	fits especially in asymmetric microkernels using the idle time of the master
+	core and the sequential form that the syscalls are handled.
+
