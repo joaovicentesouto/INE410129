@@ -1,0 +1,127 @@
+\section{LW Processors}
+
+	\begin{frame}[fragile, t]{Lightweight Manycores Processors}
+			\only<1>{
+				\addfig[\small{Overview of a Manycore}][width=.75\linewidth]{lightweight-manycore.pdf}
+
+				\vspace{-0.25cm}
+
+				\begin{itemize}
+					\item \textbf{Hundreds of Lightweight Cores}
+					\begin{itemize}
+						\item Expose Massive thread-level parallelism
+						\item Feature low-power consumption
+						\item Target MIMD workloads
+					\end{itemize}
+					\item Distributed Memory Architecture
+					\item On-Chip Heterogeneity
+				\end{itemize}
+			}
+			\only<2>{
+				\addfig[\small{Overview of a Manycore}][width=.75\linewidth]{lightweight-manycore.pdf}
+
+				\vspace{-0.25cm}
+
+				\begin{itemize}
+					\item Hundreds of Lightweight Cores
+					\item \textbf{Distributed Memory Architecture}
+					\begin{itemize}
+						\item Grants scalability
+						\item Relies on a Network-on-Chip (NoC)
+						\item Has constrained memory systems
+					\end{itemize}
+					\item On-Chip Heterogeneity
+				\end{itemize}
+			}
+			\only<3>{
+				\addfig[\small{Overview of a Manycore}][width=.75\linewidth]{lightweight-manycore.pdf}
+
+				\vspace{-0.25cm}
+
+				\begin{itemize}
+					\item Hundreds of Lightweight Cores
+					\item Distributed Memory Architecture
+					\item \textbf{On-Chip Heterogeneity}
+					\begin{itemize}
+						\item Features different components
+					\end{itemize}
+				\end{itemize}
+			}
+
+		% Lightweight Manycores diferem dos multicores e manycores tradicionais em vários pontos.
+		% Eles integram centenas de núcleos de baixa potência agrupados em clusters;
+		% Trabalham com cargas de trabalho com múltiplos fluxos de instrução e dados;
+		% Dependem de uma rede-em-chip para comunicação entre cluster, o que força o uso de um modelo de programação híbrido, ou seja, memória compartilhada e troca de mensagens;
+		% Apresentam sistemas de memória restritívos, com pequenos e multiplos espaços de endereçamento sem coerência de cache;
+		% E possuem geralmente componentes heterogêneos.
+
+	\end{frame}
+
+	\subsection{Kalray MPPA-256}
+
+		\begin{frame}[fragile]{Kalray MPPA-256}{A Lightweight Manycore Processor}
+
+
+			\begin{columns}[totalwidth=\linewidth]
+				\column{0.55\linewidth}
+
+					% \begin{itemize}
+					% 	\item \textbf{High-Performance and Low-Power Consunption}
+					% \end{itemize}
+
+					\begin{itemize}
+						\item \textbf{288 processing cores}
+						\begin{itemize}
+							\item {16 Compute Cluster (CC)}
+							\item {4 I/O Cluster (IO)}
+						\end{itemize}
+					\end{itemize}
+
+					\vspace{0.5cm}
+
+					\begin{itemize}
+						\item \textbf{Data NoC (D-NoC)}
+						\begin{itemize}
+							\item 256 RX slots
+							\item 8 TX channels
+							\item 8 $\mu$threads for async TX
+						\end{itemize}
+					\end{itemize}
+
+					\vspace{0.5cm}
+
+					\begin{itemize}
+						\item \textbf{Control NoC (C-NoC)}
+						\begin{itemize}
+							\item 128 RX slots
+							\item 4 TX channels
+						\end{itemize}
+					\end{itemize}
+
+				\column{0.45\linewidth}
+					\addfig[][width=.63\linewidth]{arch-mppa-2.pdf}
+			\end{columns}
+
+			% O processador MPPA-256 é um Lightweight Manycore de alto desempenho e baixo consumo energético.
+			% Ele possui 288 núcleos de propósito geral agrupados em 16 clusters de computação e 4 clusters de entrada e saída.
+		\end{frame}
+
+		% \begin{frame}[fragile]{Kalray MPPA-256 Communication Resources}
+
+		% 	% A comunicação é realizada através de duas NoCs distintas, uma para dados e outra para comandos.
+		% 	% Cada NoC apresenta um conjunto de recursos para envio ou recebimento.
+		% 	% Entretanto, a CNoC permite apenas a troca de mensagens de 64 bits.
+		% \end{frame}
+
+
+% LocalWords:  template cls standalone GitHub Overleaf bugfixes SVGs
+% LocalWords:  Re-empacotamento fontsize Makefile pdflatex imgs PDFs
+% LocalWords:  shell-escape frames SVG brazil english lapesd-slides
+% LocalWords:  disabletodonotes todonotes TODO's backup showbackup
+% LocalWords:  hidebackup abntexcite abntex natbib nobib titleframe
+% LocalWords:  frame showsections sidebar stopcountingframes default
+% LocalWords:  thanksframe Thank You Questions referencesframe titulo
+% LocalWords:  bibfiles pholder todonote placeholder inline addfig
+% LocalWords:  opts graphicx addfiglw width Citations dijkstra Direct
+% LocalWords:  Closure Parallel dynamic scheduling DoImportantStuff
+% LocalWords:  lccp merged cell svg pdf
