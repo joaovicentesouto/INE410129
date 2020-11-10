@@ -1,0 +1,72 @@
+% Desse ponto em diante serão inseridos slides de pausa a cada \section
+% \showsections
+
+\section{Experiments}
+
+	\begin{frame}[fragile]{Experimental Environment}{Lightweight Manycore Kalray MPPA-256}
+		\begin{columns}[totalwidth=\linewidth]
+			\column{0.55\linewidth}
+
+				\begin{itemize}
+					\setlength\itemsep{4mm}
+					\item \textbf{288 processing cores}
+					\begin{itemize}
+						\item 16 Compute Cluster (CC)
+						\item 4 I/O Cluster (IO)
+					\end{itemize}
+					\item \textbf{Local Memory}
+					\begin{itemize}
+						\item CC: 2~MB of SRAM
+						\item IO: 4~MB of SRAM
+					\end{itemize}
+					\item \textbf{Network-on-Chip (NoC)}
+					\begin{itemize}
+						\item Data NoC (D-NoC)
+						\item Control NoC (C-NoC)
+					\end{itemize}
+				\end{itemize}
+
+			\column{0.45\linewidth}
+				\addfig[][width=.47\linewidth]{arch-mppa-2.pdf}
+		\end{columns}
+
+		% O processador MPPA-256 é um Lightweight Manycore de alto desempenho e baixo consumo energético.
+		% Ele possui 288 núcleos de propósito geral agrupados em 16 clusters de computação e 4 clusters de entrada e saída.
+	\end{frame}
+
+	\begin{frame}[fragile, t]{Experiments}
+		\begin{itemize}
+			\setlength\itemsep{4mm}
+			\item \textbf{Synthetic benchmark:} write each byte of 16 memory pages (64~KB)
+			\item Ensure \textbf{95\% of confidence}
+			\item 50 replications, discarding the first 10 (warm-up period)
+		\end{itemize}
+		
+		\vspace{4mm}
+
+		\begin{table}
+		\centering
+			\begin{tabular}{lccc}
+			\toprule
+					\textbf{Benchmark}   & \textbf{\#Tasks} & \textbf{\#Threads} & \textbf{Memory} \\
+					\midrule
+					Single Dispatcher    & [1, 29]          & 1                  & 8~KB            \\
+					Multiple Dispatchers & [1, 29]          & 14                 & 112~KB          \\
+					Threads              & [1, 29]          & [1, 29]            & [8, 232]~KB     \\
+					\bottomrule
+			\end{tabular}
+			\caption{Benchmark parameters}
+		\end{table}
+	\end{frame}
+
+% LocalWords:  template cls standalone GitHub Overleaf bugfixes SVGs
+% LocalWords:  Re-empacotamento fontsize Makefile pdflatex imgs PDFs
+% LocalWords:  shell-escape frames SVG brazil english lapesd-slides
+% LocalWords:  disabletodonotes todonotes TODO's backup showbackup
+% LocalWords:  hidebackup abntexcite abntex natbib nobib titleframe
+% LocalWords:  frame showsections sidebar stopcountingframes default
+% LocalWords:  thanksframe Thank You Questions referencesframe titulo
+% LocalWords:  bibfiles pholder todonote placeholder inline addfig
+% LocalWords:  opts graphicx addfiglw width Citations dijkstra Direct
+% LocalWords:  Closure Parallel dynamic scheduling DoImportantStuff
+% LocalWords:  lccp merged cell svg pdf

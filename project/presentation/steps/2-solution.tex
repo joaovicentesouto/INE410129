@@ -1,0 +1,119 @@
+% Desse ponto em diante serão inseridos slides de pausa a cada \section
+% \showsections
+\section{Solution}
+
+	\begin{frame}{OS-Level Task-Based Mechanism}{for Lightweight Manycores Processors}
+		\begin{itemize}
+			\setlength\itemsep{5mm}
+			\item \textbf{Support for multiple simple execution streams}
+				decoupled from threads
+			\item \textit{Task abstraction} is a special case of coroutines
+			\item A \textbf{Task encapsulates a subroutine} that can be performed regardless
+				of who created it
+			\item Introduce a \textbf{dispatcher}, a generic task executor
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{Task State}
+		\addfig[][width=.85\linewidth]{task-states.pdf}
+	\end{frame}
+
+	\begin{frame}{Dispatcher Algorithm}
+		\addfig[][width=.45\linewidth]{dispatcher-alg.png}
+	\end{frame}
+
+	\begin{frame}{Asynchronous/Periodic Tasks}
+		\addfig[][width=.45\linewidth]{task-monitoring.pdf}
+	\end{frame}
+
+	\begin{frame}{Problems}
+		\begin{overprint}
+			\only<1>{
+				\begin{itemize}
+					\setlength\itemsep{4mm}
+					\item \textbf{Memory utilization:} multiple execution streams define into
+						task, reduced to a limited number of dispatchers, \ie less
+						memory used
+					\item Data locality: dispatcher explore cache locality
+					\item Core utilization: dispatcher can cooperate with the master
+						thread and use the idle time of master core
+					\item Asynchronous operations: dedicated task to perform
+						asynchronous tasks instead of a thread
+					\item Periodic operations: periodic tasks can be created to perform
+						this kind of operations
+				\end{itemize}
+			}
+			\only<2>{
+				\begin{itemize}
+					\setlength\itemsep{4mm}
+					\item Memory utilization: multiple execution streams define into
+						task, reduced to a limited number of dispatchers, \ie less
+						memory used
+					\item \textbf{Data locality:} dispatcher explore cache locality
+					\item Core utilization: dispatcher can cooperate with the master
+						thread and use the idle time of master core
+					\item Asynchronous operations: dedicated task to perform
+						asynchronous tasks instead of a thread
+					\item Periodic operations: periodic tasks can be created to perform
+						this kind of operations
+				\end{itemize}
+			}
+			\only<3>{
+				\begin{itemize}
+					\setlength\itemsep{4mm}
+					\item Memory utilization: multiple execution streams define into
+						task, reduced to a limited number of dispatchers, \ie less
+						memory used
+					\item Data locality: dispatcher explore cache locality
+					\item \textbf{Core utilization:} dispatcher can cooperate with the master
+						thread and use the idle time of master core
+					\item Asynchronous operations: dedicated task to perform
+						asynchronous tasks instead of a thread
+					\item Periodic operations: periodic tasks can be created to perform
+						this kind of operations
+				\end{itemize}
+			}
+			\only<4>{
+				\begin{itemize}
+					\setlength\itemsep{4mm}
+					\item Memory utilization: multiple execution streams define into
+						task, reduced to a limited number of dispatchers, \ie less
+						memory used
+					\item Data locality: dispatcher explore cache locality
+					\item Core utilization: dispatcher can cooperate with the master
+						thread and use the idle time of master core
+					\item \textbf{Asynchronous operations:} dedicated task to perform
+						asynchronous tasks instead of a thread
+					\item Periodic operations: periodic tasks can be created to perform
+						this kind of operations
+				\end{itemize}
+			}
+			\only<5>{
+				\begin{itemize}
+					\setlength\itemsep{4mm}
+					\item Memory utilization: multiple execution streams define into
+						task, reduced to a limited number of dispatchers, \ie less
+						memory used
+					\item Data locality: dispatcher explore cache locality
+					\item Core utilization: dispatcher can cooperate with the master
+						thread and use the idle time of master core
+					\item Asynchronous operations: dedicated task to perform
+						asynchronous tasks instead of a thread
+					\item \textbf{Periodic operations:} periodic tasks can be
+						created to perform this kind of operations
+				\end{itemize}
+			}
+		\end{overprint}
+	\end{frame}
+
+% LocalWords:  template cls standalone GitHub Overleaf bugfixes SVGs
+% LocalWords:  Re-empacotamento fontsize Makefile pdflatex imgs PDFs
+% LocalWords:  shell-escape frames SVG brazil english lapesd-slides
+% LocalWords:  disabletodonotes todonotes TODO's backup showbackup
+% LocalWords:  hidebackup abntexcite abntex natbib nobib titleframe
+% LocalWords:  frame showsections sidebar stopcountingframes default
+% LocalWords:  thanksframe Thank You Questions referencesframe titulo
+% LocalWords:  bibfiles pholder todonote placeholder inline addfig
+% LocalWords:  opts graphicx addfiglw width Citations dijkstra Direct
+% LocalWords:  Closure Parallel dynamic scheduling DoImportantStuff
+% LocalWords:  lccp merged cell svg pdf

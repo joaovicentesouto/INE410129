@@ -1,0 +1,128 @@
+% Desse ponto em diante serão inseridos slides de pausa a cada \section
+% \showsections
+\section{Introduction}
+
+	\begin{frame}{Introduction}
+		\begin{overprint}
+			\only<1>{
+				\begin{itemize}
+					\setlength\itemsep{5mm}
+					\item \textbf{Processing power vs Power consumption}
+					\item Massive thread-level parallelism with low-power
+						consumption
+					\item Lightweight manycores exhibit distinct architectural
+						characteristics
+				\end{itemize}
+			}
+			\only<2>{
+				\begin{itemize}
+					\setlength\itemsep{5mm}
+					\item Processing power vs Power consumption
+					\item \textbf{Massive thread-level parallelism with low-power
+						consumption}
+					\item Lightweight manycores exhibit distinct architectural
+						characteristics
+				\end{itemize}
+			}
+			\only<3>{
+				\begin{itemize}
+					\setlength\itemsep{5mm}
+					\item Processing power vs Power consumption
+					\item Massive thread-level parallelism with low-power
+						consumption
+					\item \textbf{Lightweight manycores exhibit distinct architectural
+						characteristics}
+				\end{itemize}
+			}
+		\end{overprint}
+	\end{frame}
+
+	\begin{frame}[fragile, t]{Lightweight Manycores Particularities}
+		\begin{overprint}
+			\only<1>{
+				\addfig[\small{Overview of a Manycore}][width=.75\linewidth]{lightweight-manycore.pdf}
+
+				\vspace{-0.25cm}
+
+				\begin{itemize}
+					\item \textbf{Hundreds of Lightweight Cores}
+					\begin{itemize}
+						\item Expose Massive thread-level parallelism
+						\item Feature low-power consumption
+						\item Target MIMD workloads
+					\end{itemize}
+					\item Distributed Memory Architecture
+					\item On-Chip Heterogeneity
+				\end{itemize}
+			}
+			\only<2>{
+				\addfig[\small{Overview of a Manycore}][width=.75\linewidth]{lightweight-manycore.pdf}
+
+				\vspace{-0.25cm}
+
+				\begin{itemize}
+					\item Hundreds of Lightweight Cores
+					\item \textbf{Distributed Memory Architecture}
+					\begin{itemize}
+						\item Grants scalability
+						\item Relies on a Network-on-Chip (NoC)
+						\item Has constrained memory systems
+					\end{itemize}
+					\item On-Chip Heterogeneity
+				\end{itemize}
+			}
+			\only<3>{
+				\addfig[\small{Overview of a Manycore}][width=.75\linewidth]{lightweight-manycore.pdf}
+
+				\vspace{-0.25cm}
+
+				\begin{itemize}
+					\item Hundreds of Lightweight Cores
+					\item Distributed Memory Architecture
+					\item \textbf{On-Chip Heterogeneity}
+					\begin{itemize}
+						\item Features different components
+					\end{itemize}
+				\end{itemize}
+			}
+		\end{overprint}
+	\end{frame}
+
+	\begin{frame}{Motivation}
+		\begin{itemize}
+			\setlength\itemsep{5mm}
+			\item \textit{How to deal with} the \textbf{reduced amount of local
+				memory} of a cluster?
+			\item Local memory is \textbf{not exclusive} to the user
+			\begin{itemize}
+				\item OS code and data
+				\item User code and data
+				\item Libraries
+			\end{itemize}
+			\item Support for \textbf{multiple execution streams consume
+				a considerable amount of memory}
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{Goals and Contributions}
+		\begin{itemize}
+			\setlength\itemsep{5mm}
+			\item Design an \textbf{OS-level task-based mechanism}
+			\item Enhancement \textbf{memory use}
+			\item Improve \textbf{core utilization}
+			\item Facilitate the \textit{modeling of internal kernel
+				functionalities}
+		\end{itemize}
+	\end{frame}
+
+% LocalWords:  template cls standalone GitHub Overleaf bugfixes SVGs
+% LocalWords:  Re-empacotamento fontsize Makefile pdflatex imgs PDFs
+% LocalWords:  shell-escape frames SVG brazil english lapesd-slides
+% LocalWords:  disabletodonotes todonotes TODO's backup showbackup
+% LocalWords:  hidebackup abntexcite abntex natbib nobib titleframe
+% LocalWords:  frame showsections sidebar stopcountingframes default
+% LocalWords:  thanksframe Thank You Questions referencesframe titulo
+% LocalWords:  bibfiles pholder todonote placeholder inline addfig
+% LocalWords:  opts graphicx addfiglw width Citations dijkstra Direct
+% LocalWords:  Closure Parallel dynamic scheduling DoImportantStuff
+% LocalWords:  lccp merged cell svg pdf
