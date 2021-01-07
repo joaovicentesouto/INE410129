@@ -19,32 +19,6 @@
 	Some industry-successful examples of lightweight manycore processors are
 	the \mppa~\cite{DeDinechin2013-2} and the \epiphany~\cite{Olofsson2016}.
 
-\iffalse
-	%
-	Esses processadores introduziram junto de suas vantagens, um conjunto de
-	desafios no projeto e desenvolvimento de aplicações de baíxo e alto nível
-	inserido pelas suas características arquiteturais. Algumas desses desafios
-	são:
-	\begin{itemize}
-		\item Modelo de Programação Híbrida: uso do modelo de memória
-			compartilhada para explorar o paralelismo dentro dos clusters e
-			aplicação do modelo de troca de mensagens para lidar com
-			comunicação entre clusters através da NoC~\cite{kelly2013};
-
-		\item Falta de suporte em hardware para coerência de cache: para
-			reduzir o consumo de energia requirindo o controle explícito da
-			memória~\cite{francesquini2015};.
-
-		\item Sistem de memória restritivo: a presença de múltiplos espaços de
-			endereçamento e pequenas memórias locais requer o Data Tiling
-			e Prefetching seja manipulado em software~\cite{Castro2016};
-
-		\item Configurações heterogeneas: requer a programação de componentes
-			distintos, dificultando o deploy de aplicações no
-			\lws~\cite{Barbalace2015}.
-	\end{itemize}
-\fi
-
 	% Motivation
 	These characteristics introduce several challenges from low- to high-level
 	software development. For instance,
