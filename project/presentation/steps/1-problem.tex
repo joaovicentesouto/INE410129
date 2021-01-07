@@ -1,0 +1,100 @@
+% Desse ponto em diante serão inseridos slides de pausa a cada \section
+% \showsections
+\section{Problem}
+
+	\begin{frame}{Problem Definition}
+		\begin{itemize}
+			\setlength\itemsep{5mm}
+			\item \textbf{Memory management} influences all abstraction levels
+			\item \textbf{OSes must be lightweight} to make the most memory
+				available to the application
+			\item \textbf{Asymmetric microkernel} alleviate cache coherence problems
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{Problems}
+		\begin{overprint}
+			\only<1>{
+				\begin{itemize}
+					\setlength\itemsep{4mm}
+					\item \textbf{Memory utilization:} each new thread requires memory pages
+					\item Data locality: shared-memory region competition and no
+						hardware support for cache coherence
+					\item Core utilization: asymmetric microkernel does not use master
+						core between syscall resquests
+					\item Asynchronous operations: \lws may not feature a DMA, thus,
+						a thread must polling data into the NoC
+					\item Periodic operations: receive external commands and data
+						requires that a thread exists to request a communication check
+				\end{itemize}
+			}
+			\only<2>{
+				\begin{itemize}
+					\setlength\itemsep{4mm}
+					\item Memory utilization: each new thread requires memory pages
+					\item \textbf{Data locality:} shared-memory region competition and no
+						hardware support for cache coherence
+					\item Core utilization: asymmetric microkernel does not use master
+						core between syscall resquests
+					\item Asynchronous operations: \lws may not feature a DMA, thus,
+						a thread must polling data into the NoC
+					\item Periodic operations: receive external commands and data
+						requires that a thread exists to request a communication check
+				\end{itemize}
+			}
+			\only<3>{
+				\begin{itemize}
+					\setlength\itemsep{4mm}
+					\item Memory utilization: each new thread requires memory pages
+					\item Data locality: shared-memory region competition and no
+						hardware support for cache coherence
+					\item \textbf{Core utilization:} asymmetric microkernel does not use master
+						core between syscall resquests
+					\item Asynchronous operations: \lws may not feature a DMA, thus,
+						a thread must polling data into the NoC
+					\item Periodic operations: receive external commands and data
+						requires that a thread exists to request a communication check
+				\end{itemize}
+			}
+			\only<4>{
+				\begin{itemize}
+					\setlength\itemsep{4mm}
+					\item Memory utilization: each new thread requires memory pages
+					\item Data locality: shared-memory region competition and no
+						hardware support for cache coherence
+					\item Core utilization: asymmetric microkernel does not use master
+						core between syscall resquests
+					\item \textbf{Asynchronous operations:} \lws may not feature a DMA, thus,
+						a thread must polling data into the NoC
+					\item Periodic operations: receive external commands and data
+						requires that a thread exists to request a communication check
+				\end{itemize}
+			}
+			\only<5>{
+				\begin{itemize}
+					\setlength\itemsep{4mm}
+					\item Memory utilization: each new thread requires memory pages
+					\item Data locality: shared-memory region competition and no
+						hardware support for cache coherence
+					\item Core utilization: asymmetric microkernel does not use master
+						core between syscall resquests
+					\item Asynchronous operations: \lws may not feature a DMA, thus,
+						a thread must polling data into the NoC
+					\item \textbf{Periodic operations:} receive external commands and data
+						requires that a thread exists to request a communication check
+				\end{itemize}
+			}
+		\end{overprint}
+	\end{frame}
+
+% LocalWords:  template cls standalone GitHub Overleaf bugfixes SVGs
+% LocalWords:  Re-empacotamento fontsize Makefile pdflatex imgs PDFs
+% LocalWords:  shell-escape frames SVG brazil english lapesd-slides
+% LocalWords:  disabletodonotes todonotes TODO's backup showbackup
+% LocalWords:  hidebackup abntexcite abntex natbib nobib titleframe
+% LocalWords:  frame showsections sidebar stopcountingframes default
+% LocalWords:  thanksframe Thank You Questions referencesframe titulo
+% LocalWords:  bibfiles pholder todonote placeholder inline addfig
+% LocalWords:  opts graphicx addfiglw width Citations dijkstra Direct
+% LocalWords:  Closure Parallel dynamic scheduling DoImportantStuff
+% LocalWords:  lccp merged cell svg pdf
